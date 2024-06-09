@@ -1,12 +1,13 @@
-package osiride.vitt;
+package osiride.vitt_be;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class VittApplication {
+public class VittBeApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(VittApplication.class, args);
+		SpringApplication.run(VittBeApplication.class, args);
 	}
+
 }

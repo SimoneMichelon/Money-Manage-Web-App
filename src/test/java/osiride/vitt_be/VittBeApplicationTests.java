@@ -1,10 +1,10 @@
-package osiride.vitt;
+package osiride.vitt_be;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class VittApplicationTests {
+class VittBeApplicationTests {
 
 	@Test
 	void contextLoads() {
