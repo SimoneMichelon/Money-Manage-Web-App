@@ -1,0 +1,1 @@
+Create database if not exists vitt_db;
