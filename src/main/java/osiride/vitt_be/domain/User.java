@@ -16,7 +16,6 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    // Getters e Setters
     public Long getId() {
         return id;
     }
