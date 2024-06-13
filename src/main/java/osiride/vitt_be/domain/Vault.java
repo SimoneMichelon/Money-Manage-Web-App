@@ -3,6 +3,8 @@ package osiride.vitt_be.domain;
 import java.math.BigDecimal;
 
 import org.antlr.v4.runtime.misc.NotNull;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,6 +31,7 @@ public class Vault extends AbstractAuditingEntity {
 
     @ManyToOne
     @JoinColumn(name = "vlt_usr_id", referencedColumnName = "usr_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private User user;
 
     @Column(name = "vlt_cpt", scale = 2, precision = 10, nullable = false)
