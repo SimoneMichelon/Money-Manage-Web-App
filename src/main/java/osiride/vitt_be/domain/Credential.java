@@ -14,7 +14,7 @@ public class Credential extends AbstractAuditingEntity {
     @Column(name = "crd_id")
     private Long id;
 
-    @Column(name = "crd_email")
+    @Column(name = "crd_email", unique = true)
     private String email;
 
     @Column(name = "crd_psw")
