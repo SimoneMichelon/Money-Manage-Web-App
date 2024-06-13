@@ -21,6 +21,7 @@ public class Vault extends AbstractAuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "vlt_id")
     private Long id;
 
     @Column(name = "vlt_name")
