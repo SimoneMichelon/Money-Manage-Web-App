@@ -11,8 +11,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
+import lombok.Getter;
+import lombok.Setter;
 
-@Entity( name = "user")
+@Entity(name = "user")
+@Getter
+@Setter
 public class User extends AbstractAuditingEntity {
 
     @Id
@@ -21,7 +25,7 @@ public class User extends AbstractAuditingEntity {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "usr_crd_id", referencedColumnName = "crd_id", nullable = false)
+    @JoinColumn(name = "crd_usr_id", referencedColumnName = "crd_id", nullable = false)
     private Credential credential;
 
     @Column(name = "usr_frt_name")
