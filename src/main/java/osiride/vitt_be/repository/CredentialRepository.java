@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import osiride.vitt_be.domain.Credential;
 
 @Repository
-public interface CredentialRepo extends JpaRepository<Credential, Long> {
+public interface CredentialRepository extends JpaRepository<Credential,Long>{
 
 }
