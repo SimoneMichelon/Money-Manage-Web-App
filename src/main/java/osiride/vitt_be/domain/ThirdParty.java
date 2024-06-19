@@ -11,14 +11,14 @@ import lombok.Setter;
 @Entity(name = "firm")
 @Getter
 @Setter
-public class Firm {
+public class ThirdParty {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "frm_id")
+    @Column(name = "thp_id")
     private Long id;
 
-    @Column(name = "frm_name")
-    private String firmName;
+    @Column(name = "thp_name")
+    private String thirdPartyName;
 
 }

@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,4 +37,16 @@ public abstract class Operation extends AbstractAuditingEntity{
 	
 	@Column(name = "opr_end")
 	private LocalDate endDate;
+	
+	@ManyToOne
+	@JoinColumn(name = "opr_vlt_id", referencedColumnName = "vlt_id")
+	private Vault vault;
+	
+	@ManyToOne
+	@JoinColumn(name = "opr_ctg_id", referencedColumnName = "ctg_id")
+	private Category category;
+	
+	@ManyToOne
+	@JoinColumn(name = "opr_thp_id", referencedColumnName = "thp_id")
+	private ThirdParty thirdPartys;
 }
