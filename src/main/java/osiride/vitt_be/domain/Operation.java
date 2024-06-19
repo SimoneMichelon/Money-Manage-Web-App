@@ -3,25 +3,26 @@ package osiride.vitt_be.domain;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity(name = "operation")
+
 @Getter
 @Setter
+@MappedSuperclass
+@EntityListeners(Operation.class)
 public abstract class Operation extends AbstractAuditingEntity{
-
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "opr_id")
-	private Long id;
 	
 	@Column(name = "opr_causal")
 	private String causal;
