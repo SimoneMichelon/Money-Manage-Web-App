@@ -11,7 +11,6 @@ import lombok.Setter;
 @Entity(name = "credential")
 @Getter
 @Setter
-
 public class Credential extends AbstractAuditingEntity {
 
     @Id
