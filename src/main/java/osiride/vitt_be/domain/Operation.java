@@ -17,11 +17,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class Operation extends AbstractAuditingEntity{
-
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "opr_id")
-	private Long id;
 	
 	@Column(name = "opr_causal")
 	private String causal;
