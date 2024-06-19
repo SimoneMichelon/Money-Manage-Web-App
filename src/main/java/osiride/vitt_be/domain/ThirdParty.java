@@ -8,16 +8,17 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity(name = "op_category")
+@Entity(name = "third_party")
 @Getter
 @Setter
-public class Category extends AbstractAuditingEntity{
-
+public class ThirdParty {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ctg_id")
+    @Column(name = "thp_id")
     private Long id;
 
-    @Column(name = "ctg_name")
-    private String categoryName;
+    @Column(name = "thp_name")
+    private String thirdPartyName;
+
 }

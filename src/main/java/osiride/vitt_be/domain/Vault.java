@@ -2,7 +2,6 @@ package osiride.vitt_be.domain;
 
 import java.math.BigDecimal;
 
-import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -16,7 +15,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity(name = "vault")
+@Entity(name = "vault_account")
 @Getter
 @Setter
 public class Vault extends AbstractAuditingEntity {
