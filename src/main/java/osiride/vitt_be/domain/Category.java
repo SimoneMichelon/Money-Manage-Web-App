@@ -9,7 +9,7 @@ import lombok.Setter;
 @Entity(name = "op_category")
 @Getter
 @Setter
-public class Category {
+public class Category extends AbstractAuditingEntity{
 
     @Id
     @Column(name = "ctg_id")
