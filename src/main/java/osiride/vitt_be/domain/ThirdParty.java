@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity(name = "firm")
+@Entity(name = "third_party")
 @Getter
 @Setter
 public class ThirdParty {
