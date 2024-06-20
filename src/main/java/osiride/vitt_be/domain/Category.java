@@ -8,20 +8,16 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity(name = "credential")
+@Entity(name = "op_category")
 @Getter
 @Setter
-public class Credential extends AbstractAuditingEntity {
+public class Category extends AbstractAuditingEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "crd_id")
+    @Column(name = "ctg_id")
     private Long id;
 
-    @Column(name = "crd_email", unique = true)
-    private String email;
-
-    @Column(name = "crd_psw")
-    private String password;
-
+    @Column(name = "ctg_name")
+    private String categoryName;
 }
