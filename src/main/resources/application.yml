@@ -3,7 +3,7 @@ spring:
     name: Vitt
 
   datasource:
-    url: jdbc:mysql://localhost:3306/vitt_db?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/vitt_db_dev?createDatabaseIfNotExist=true
  
     username: root
     password: root
