@@ -1,8 +1,25 @@
-.container{
+.dash-container{
     width: 230px;
     height: 98vh;
-    background-color: rgb(52, 47, 69);
+    background-color: #f5f2fb;
     border-radius: 20px;
     margin-left: 10px;
     box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.551);
+}
+
+.item-container{
+    width: 100%;
+    padding: 10% 0 0 10%;
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+}
+
+.img-container{
+    width: 25%;
+}
+
+.img-logo{
+    height: auto;
+    width:100%;
 }
