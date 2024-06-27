@@ -13,12 +13,14 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity(name = "user")
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class User extends AbstractAuditingEntity {
 
     @Id
