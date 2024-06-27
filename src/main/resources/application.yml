@@ -17,3 +17,9 @@ spring:
     properties:
       hibernate: 
         dialect: org.hibernate.dialect.MySQL8Dialect
+
+logging:
+  level:
+    root: INFO
+    osiride.vitt-be: DEBUG
+    org.springframework.web: ERROR
