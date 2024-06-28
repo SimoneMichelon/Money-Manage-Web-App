@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import osiride.vitt_be.domain.User;
 import osiride.vitt_be.dto.UserDTO;
+import osiride.vitt_be.error.BadRequestException;
 import osiride.vitt_be.error.InternalServerException;
+import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.mapper.UserMapper;
 import osiride.vitt_be.repository.UserRepository;
 
@@ -19,10 +21,10 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private UserMapper userMapper;
-	
+
 	/**
 	 * getAllUsers
 	 * @return List<User>
@@ -30,84 +32,111 @@ public class UserService {
 	public List<UserDTO> getAllUsers(){
 		return userRepository.findAll().stream().map(user -> userMapper.toDto(user)).toList();
 	}
-	
-	
+
+
 	/**
+	 * 
 	 * Find a User by Id, if not found, return empty optional
 	 * @param id
 	 * @return Optional<UserDTO> or Optional.empty()
-	 *
+	 * @throws NotFoundException
+	 * @throws BadRequestException
 	 */
-	public Optional<UserDTO> findById(Long id){
+	public UserDTO findById(Long id) throws NotFoundException, BadRequestException {
+		if(id == null) {
+			throw new BadRequestException();
+		}
+		
 		Optional<User> maybeUser = userRepository.findById(id);
 		if(maybeUser.isPresent()) {
-			return Optional.of(userMapper.toDto(maybeUser.get()));
+			return userMapper.toDto(maybeUser.get());
 		}
 		else {
-			return Optional.empty();
+			throw new NotFoundException();
 		}
 	}
-	
-	public Optional<UserDTO> updateUser(UserDTO user) {
-		/*
-		 * controllo se esiste già  (ricerca tramite id)
-		 * se non esiste - Exception 
-		 * se esiste :
-		 * 		controllo i dati -> se il fato è null, non lo modifico, altrimenti si
-			   	firstName 
-			    lastName;
-			   	dob;
-			   	imgProfile;
-		 */
-		return null;
-	}
-	
+
 	/**
-	 * Create user by a userDTO given
+	 * Update user by a userDTO given
+	 * @param userDTO
+	 * @return
+	 * @throws NotFoundException
+	 * @throws BadRequestException
+	 */
+	public UserDTO updateUser(UserDTO userDTO) throws NotFoundException, BadRequestException {
+		if (userDTO == null || userDTO.getId() == null) {
+			throw new BadRequestException();
+		}
+		
+		if(!isDataValid(userDTO)) 
+		{	
+			log.error("SERVICE - At least one UserDTO propertie is null | BadRequestException thrown !");
+			throw new BadRequestException();
+		}
+
+		Optional<User> maybeUser = userRepository.findById(userDTO.getId());
+		if(maybeUser.isEmpty()) {
+			throw new NotFoundException();
+		}
+
+		User newUser = userMapper.toEntity(userDTO);
+		newUser = userRepository.save(newUser);
+		return userMapper.toDto(newUser);
+	}
+
+	/**
+	 * Create user by a userDTO given, doesn't case about userDTO.id
 	 * @param userDTO
 	 * @return UserDTO
-	 * @throws IllegalArgumentException
+	 * @throws BadRequestException
 	 */
-	public UserDTO createUser(UserDTO userDTO){
+	public UserDTO createUser(UserDTO userDTO) throws BadRequestException{
 		if(userDTO == null) {
-			log.error("SERVICE - UserDTO is null | IllegalArgumentException thrown !");
-			throw new IllegalArgumentException();
+			log.error("SERVICE - UserDTO is null | BadRequestException thrown !");
+			throw new BadRequestException();
 		}
-		
-		if(userDTO.getFirstName() == null || 
-				userDTO.getLastName() == null || 
-				userDTO.getDob() == null || 
-				userDTO.getImgProfile() == null) 
+
+		if(!isDataValid(userDTO)) 
 		{	
-			log.error("SERVICE - At least one UserDTO propertie is null | IllegalArgumentException thrown !");
-			throw new IllegalArgumentException();
+			log.error("SERVICE - At least one UserDTO propertie is null | BadRequestException thrown !");
+			throw new BadRequestException();
 		}
-		
 		User user = userMapper.toEntity(userDTO);
+		user.setId(null);
 		return userMapper.toDto(userRepository.save(user));
 	}
-	
+
 	/**
 	 * Delete User By Id 
 	 * @param id
 	 * @return Optional<UserDTO> or Optional.empty()
 	 */
-	public Optional<UserDTO> deleteUserById(Long id) {
+	public UserDTO deleteUserById(Long id) {
 		Optional<User> maybeUser = userRepository.findById(id);
-		
+
 		if(maybeUser.isPresent()) {
 			User user = maybeUser.get();
 			userRepository.delete(user);
-			
+
 			if(!userRepository.existsById(id)) {
-				return Optional.of(userMapper.toDto(user));
+				return userMapper.toDto(user);
 			}
 			else {
 				throw new InternalServerException();
 			}
 		}
 		else {
-			return Optional.empty();
+			throw new NotFoundException();
 		}
+	}
+
+	public boolean isDataValid(UserDTO userDTO) {
+		return (userDTO.getFirstName() == null || 
+				userDTO.getLastName() == null || 
+				userDTO.getDob() == null || 
+				userDTO.getImgProfile() == null) 
+				? false 
+						: true;
+
 	}
 }
