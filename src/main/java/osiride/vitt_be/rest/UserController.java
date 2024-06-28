@@ -55,7 +55,6 @@ public class UserController {
 			log.error("REST - User has not been found - READ ONE");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-
 	}	
 
 	@Operation(summary = "Create user", description = "Create a user")
