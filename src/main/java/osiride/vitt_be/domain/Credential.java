@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,5 +25,9 @@ public class Credential extends AbstractAuditingEntity {
 
     @Column(name = "crd_psw")
     private String password;
+    
+    @OneToOne
+    @JoinColumn(name = "crd_usr_id", referencedColumnName = "usr_id", nullable = false)
+    private User user;
 
 }
