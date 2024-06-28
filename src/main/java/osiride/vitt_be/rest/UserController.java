@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import osiride.vitt_be.dto.UserDTO;
 import osiride.vitt_be.error.BadRequestException;
@@ -34,9 +35,9 @@ public class UserController {
 	@Operation(summary = "Get all Users", description = "Returns all Users")
 	@GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<List<UserDTO>> getAllUsers(){
-		List<UserDTO> users = userService.getAllUsers();
-		log.info("REST - Users's list size : {}", users.size());
-		return ResponseEntity.status(HttpStatus.OK).body(users);
+		List<UserDTO> result = userService.getAll();
+		log.info("REST - Users's list size : {} - READ ALL", result.size());
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}	
 
 	@Operation(summary = "Get user by Id", description = "Get user by Id")
@@ -46,21 +47,26 @@ public class UserController {
 			UserDTO result = userService.findById(id);
 			log.info("REST - Users returned");
 			return ResponseEntity.status(HttpStatus.OK).body(result);
-		} catch(NotFoundException e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
 		} catch(BadRequestException e) {
+			log.error("REST - BadRequest Error, ");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch(NotFoundException e) {
+			log.error("REST - User has not been found - READ ONE");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
 	}	
 
 	@Operation(summary = "Create user", description = "Create a user")
 	@PostMapping(value = "/users", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO){
+	public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO){
 		try {
-			UserDTO result = userService.createUser(userDTO);
+			UserDTO result = userService.create(userDTO);
+			log.info("REST - User created, id : {}, First Name : {}, Last Name : {} - READ ALL", result.getId() ,result.getFirstName(), result.getLastName());
 			return ResponseEntity.status(HttpStatus.CREATED).body(result);
 		} catch (BadRequestException e) {
+			log.error("REST - Bad Request, Data given is invalid - CREATE");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -68,13 +74,16 @@ public class UserController {
 
 	@Operation(summary = "Update user", description = "Update a user")
 	@PutMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE) 
-	public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO){
+	public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserDTO userDTO){
 		try {
-			UserDTO result = userService.updateUser(userDTO);
+			UserDTO result = userService.update(userDTO);
+			log.info("REST - User updated, id : {}, First Name : {}, Last Name : {} - READ ALL", result.getId() ,result.getFirstName(), result.getLastName());
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch(NotFoundException e) {
+			log.error("REST - User has not been found - UPDATE");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch(BadRequestException e) {
+			log.error("REST - Bad Request, Data given is invalid - UPDATE");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -83,12 +92,14 @@ public class UserController {
 	@DeleteMapping( value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserDTO> deleteUserById(@PathVariable Long id){
 		try {
-			UserDTO result = userService.deleteUserById(id);
+			UserDTO result = userService.deleteById(id);
 			log.info("REST - User Deleted, Id : {}", id);
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch(InternalServerException e){
+			log.error("REST - Server Operation Error, User still present on Database - DELETE");
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		} catch(NotFoundException e) {
+			log.error("REST - User has not been found - DELETE");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}

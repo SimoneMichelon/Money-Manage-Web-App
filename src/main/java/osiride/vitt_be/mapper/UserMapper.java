@@ -34,6 +34,4 @@ public class UserMapper{
 	    entity.setImgProfile(object.getImgProfile());
 	    return entity;
 	}
-
-
 }
