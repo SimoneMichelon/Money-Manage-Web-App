@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity(name = "op_category")
+@Entity(name = "category")
 @Getter
 @Setter
 public class Category extends AbstractAuditingEntity{

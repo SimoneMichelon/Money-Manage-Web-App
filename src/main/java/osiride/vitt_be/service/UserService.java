@@ -29,11 +29,10 @@ public class UserService {
 	 * getAllUsers
 	 * @return List<User>
 	 */
-	public List<UserDTO> getAllUsers(){
+	public List<UserDTO> getAll(){
 		return userRepository.findAll().stream().map(user -> userMapper.toDto(user)).toList();
 	}
-
-
+	
 	/**
 	 * 
 	 * Find a User by Id, if not found, return empty optional
@@ -63,19 +62,15 @@ public class UserService {
 	 * @throws NotFoundException
 	 * @throws BadRequestException
 	 */
-	public UserDTO updateUser(UserDTO userDTO) throws NotFoundException, BadRequestException {
-		if (userDTO == null || userDTO.getId() == null) {
-			throw new BadRequestException();
-		}
-		
-		if(!isDataValid(userDTO)) 
-		{	
-			log.error("SERVICE - At least one UserDTO propertie is null | BadRequestException thrown !");
+	public UserDTO update(UserDTO userDTO) throws NotFoundException, BadRequestException {
+		if (userDTO == null || userDTO.getId() == null || !isDataValid(userDTO)) {
+			log.error("SERVICE - USER Data given is null - UPDATE");
 			throw new BadRequestException();
 		}
 
 		Optional<User> maybeUser = userRepository.findById(userDTO.getId());
 		if(maybeUser.isEmpty()) {
+			log.error("SERVICE - User Not Found - UPDATE");
 			throw new NotFoundException();
 		}
 
@@ -90,17 +85,12 @@ public class UserService {
 	 * @return UserDTO
 	 * @throws BadRequestException
 	 */
-	public UserDTO createUser(UserDTO userDTO) throws BadRequestException{
-		if(userDTO == null) {
-			log.error("SERVICE - UserDTO is null | BadRequestException thrown !");
+	public UserDTO create(UserDTO userDTO) throws BadRequestException{
+		if(userDTO == null || !isDataValid(userDTO)) {
+			log.error("SERVICE - USER Data given is null - CREATE");
 			throw new BadRequestException();
 		}
 
-		if(!isDataValid(userDTO)) 
-		{	
-			log.error("SERVICE - At least one UserDTO propertie is null | BadRequestException thrown !");
-			throw new BadRequestException();
-		}
 		User user = userMapper.toEntity(userDTO);
 		user.setId(null);
 		return userMapper.toDto(userRepository.save(user));
@@ -110,8 +100,15 @@ public class UserService {
 	 * Delete User By Id 
 	 * @param id
 	 * @return Optional<UserDTO> or Optional.empty()
+	 * @throws InternalServerException
+	 * @throws NotFoundException
+	 * @throws BadRequestException
 	 */
-	public UserDTO deleteUserById(Long id) {
+	public UserDTO deleteById(Long id) throws InternalServerException, NotFoundException, BadRequestException{
+		if(id == null) {
+			log.error("SERVICE - User id is null - DELETE");
+			throw new BadRequestException();
+		}
 		Optional<User> maybeUser = userRepository.findById(id);
 
 		if(maybeUser.isPresent()) {
@@ -122,10 +119,12 @@ public class UserService {
 				return userMapper.toDto(user);
 			}
 			else {
+				log.error("SERVICE - User Not Deleted cause by Unknown Error - DELETE");
 				throw new InternalServerException();
 			}
 		}
 		else {
+			log.error("SERVICE - User Not Found - DELETE");
 			throw new NotFoundException();
 		}
 	}
@@ -137,6 +136,5 @@ public class UserService {
 				userDTO.getImgProfile() == null) 
 				? false 
 						: true;
-
 	}
 }
