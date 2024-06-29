@@ -1,18 +1,21 @@
 package osiride.vitt_be.service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import osiride.vitt_be.domain.Vault;
+import osiride.vitt_be.dto.UserDTO;
 import osiride.vitt_be.dto.VaultDTO;
 import osiride.vitt_be.error.BadRequestException;
+import osiride.vitt_be.error.DuplicatedValueException;
 import osiride.vitt_be.error.InternalServerException;
 import osiride.vitt_be.error.NotFoundException;
+import osiride.vitt_be.mapper.UserMapper;
 import osiride.vitt_be.mapper.VaultMapper;
 import osiride.vitt_be.repository.VaultRepository;
 
@@ -25,6 +28,12 @@ public class VaultService {
 
 	@Autowired
 	private VaultMapper vaultMapper;
+
+	@Autowired
+	private UserMapper userMapper;
+
+	@Autowired
+	private UserService userService;
 
 	/**
 	 * Get all vaults in database
@@ -61,16 +70,24 @@ public class VaultService {
 	 * @param vaultDTO
 	 * @return VaultDTO
 	 * @throws BadRequestException
+	 * @throws NotFoundException
+	 * @throws SQLException
 	 */
-	public VaultDTO create(VaultDTO vaultDTO) throws BadRequestException {
+	public VaultDTO create(VaultDTO vaultDTO) throws BadRequestException, NotFoundException{
 		if(vaultDTO == null || !isDataValid(vaultDTO)) {
-			log.error("SERVICE - Vault Data fiven is null - CREATE");
+			log.error("SERVICE - Vault Data given is null - CREATE");
 			throw new BadRequestException();
 		}
 
 		Vault vault = vaultMapper.toEntity(vaultDTO);
+		vault.setUser(userMapper.toEntity(userService.findById(vaultDTO.getUserDTO().getId())));
 		vault.setId(null);
-		return vaultMapper.toDto(vaultRepository.save(vault));
+		try {			
+			return vaultMapper.toDto(vaultRepository.save(vault));
+		} catch (Exception e) {
+			log.error("SERVICE - Dupicated Vault Name - CREATE");
+			throw new DuplicatedValueException();
+		}
 	}
 
 	/**
@@ -82,7 +99,7 @@ public class VaultService {
 	 */
 	public VaultDTO update(VaultDTO vaultDTO) throws BadRequestException, NotFoundException{
 		if(vaultDTO == null || vaultDTO.getId() == null || !isDataValid(vaultDTO)) {
-			log.error("SERVICE - Vault Data fiven is null - UPDATE");
+			log.error("SERVICE - Vault Data given is null - UPDATE");
 			throw new BadRequestException();
 		}
 
@@ -129,15 +146,31 @@ public class VaultService {
 			throw new NotFoundException();
 		}
 	}
-	
-	//IMPLEMENTARE QUESTO METODO CON UNA  BELLISSIMA QUERY JPQL IN VAULTREPOSITORY
-	public List<VaultDTO> getAllVaultByUserId(){
-		throw new NotImplementedException();
+
+	/**
+	 * Get all vaults by User Id given by parameter
+	 * @param userId
+	 * @return
+	 * @throws BadRequestException
+	 * @throws NotFoundException
+	 */
+	public List<VaultDTO> getAllVaultByUserId(Long userId) throws BadRequestException, NotFoundException{
+		if(userId == null) {
+			throw new BadRequestException();
+		}
+		
+		UserDTO user = userService.findById(userId);
+		List<VaultDTO> vaultList = 
+				vaultRepository.getAllByUser(userMapper.toEntity(user))
+				.stream()
+				.map(vault -> vaultMapper.toDto(vault))
+				.toList();
+		return vaultList;
 	}
 
 	public boolean isDataValid(VaultDTO vaultDTO) {
 		return (vaultDTO.getName() == null || 
-				vaultDTO.getUserId() == null || 
+				vaultDTO.getUserDTO() == null || 
 				vaultDTO.getCapital() == null) 
 				? false 
 						: true;

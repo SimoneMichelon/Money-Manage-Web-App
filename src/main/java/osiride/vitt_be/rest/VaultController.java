@@ -18,6 +18,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import osiride.vitt_be.dto.VaultDTO;
 import osiride.vitt_be.error.BadRequestException;
+import osiride.vitt_be.error.DuplicatedValueException;
+import osiride.vitt_be.error.InternalServerException;
 import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.service.VaultService;
 
@@ -61,10 +63,14 @@ public class VaultController {
 			VaultDTO result = vaultService.create(vaultDTO);
 			log.info("REST - Vault created - CREATE");
 			return ResponseEntity.status(HttpStatus.OK).body(result);
-
 		} catch(BadRequestException e) {
 			log.error("REST - Bad information given - CREATE");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}	catch (NotFoundException e) {
+			log.error("REST - User for Vault NOT found - CREATE");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (DuplicatedValueException e) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 	}
 
@@ -76,16 +82,46 @@ public class VaultController {
 			log.info("REST - Vault Updated - UPDATE");
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch (BadRequestException e) {
+			log.error("REST - Bad information given - UPDATE");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
+			log.error("REST - Vault NOT found - UPDATE");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
 	}
-
-
-
-
-
-
+	
+	@Operation(summary = "Delete vault by id", description = "Delete vault by id")
+	@PostMapping(value = "/vaults/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<VaultDTO> deleteVaultById(@PathVariable Long id){
+		try {
+			VaultDTO result = vaultService.delete(id);
+			log.info("REST - Vault Deleted, ID : {} - DELETE", id);
+			return ResponseEntity.status(HttpStatus.OK).body(result);
+		} catch (BadRequestException e) {
+			log.error("REST - Bad information given - DELETE");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException e) {
+			log.error("REST - Vault NOT found - DELETE");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (InternalServerException e) {
+			log.error("REST - Error on deleting Vault - DELETE");
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@Operation(summary = "Get all vault by User Id", description = "Get all vault by User given")
+	@GetMapping(value = "/vaults/user/{id}" )
+	public ResponseEntity<List<VaultDTO>> getAllVaultsByUserId(@PathVariable Long id){
+		try {
+			List<VaultDTO> result = vaultService.getAllVaultByUserId(id);
+			log.info("REST - Vault's list size : {} - READ ALL by USER ID", result.size());
+			return ResponseEntity.status(HttpStatus.OK).body(result);
+		}catch (BadRequestException e) {
+			log.error("REST - Bad information given - READ ALL by USER ID");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException e) {
+			log.error("REST - User NOT found - READ ALL by USER ID");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 }

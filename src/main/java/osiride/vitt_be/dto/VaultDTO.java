@@ -15,6 +15,6 @@ public class VaultDTO {
 
     private Long id;
     private String name;
-    private Long userId;
+    private UserDTO userDTO;
     private BigDecimal capital;
 }

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import osiride.vitt_be.domain.User;
@@ -15,8 +16,9 @@ public interface VaultRepository extends JpaRepository<Vault, Long> {
 
 	Optional<Vault> findById(Long id);
 	
-	
-	//Esempio di query
-	//@Query(value = "SELECT * FROM Vault Where User.id == user.id")
-	//List<Vault> getAllByUser(User user);
+	@Query(value = "SELECT v "
+			+ "FROM vault v "
+			+ "WHERE v.id=:userId.id;")
+	List<Vault> getAllByUser(@Param("userId") User userId);
+
 }
