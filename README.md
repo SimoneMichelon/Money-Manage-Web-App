@@ -13,4 +13,7 @@ D:/Software/sonarqube/bin/windows-x86-64/StartSonar.bat
 "username" : "admin"
 "password" : "root"
 
+# OpenAPI Swagger 
+path "http://localhost:8080/swagger-ui/index.html#/"
+
 

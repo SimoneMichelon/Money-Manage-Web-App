@@ -15,7 +15,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity(name = "vault_account")
+@Entity(name = "vault")
 @Getter
 @Setter
 public class Vault extends AbstractAuditingEntity {
@@ -25,7 +25,7 @@ public class Vault extends AbstractAuditingEntity {
     @Column(name = "vlt_id")
     private Long id;
 
-    @Column(name = "vlt_name")
+    @Column(name = "vlt_name", unique = true)
     private String name;
 
     @ManyToOne
@@ -35,5 +35,4 @@ public class Vault extends AbstractAuditingEntity {
 
     @Column(name = "vlt_cpt", scale = 2, precision = 10, nullable = false)
     private BigDecimal capital;
-
 }
