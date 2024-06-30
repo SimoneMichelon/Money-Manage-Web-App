@@ -91,13 +91,14 @@ public class VaultService {
 	}
 
 	/**
-	 *  Update a Vault by Data given by parameter
+	 * Update a Vault by Data given by parameter
 	 * @param vaultDTO
 	 * @return VaultDTO
 	 * @throws BadRequestException
 	 * @throws NotFoundException
+	 * @throws DuplicatedValueException
 	 */
-	public VaultDTO update(VaultDTO vaultDTO) throws BadRequestException, NotFoundException{
+	public VaultDTO update(VaultDTO vaultDTO) throws BadRequestException, NotFoundException,DuplicatedValueException{
 		if(vaultDTO == null || vaultDTO.getId() == null || !isDataValid(vaultDTO)) {
 			log.error("SERVICE - Vault Data given is null - UPDATE");
 			throw new BadRequestException();
@@ -110,8 +111,16 @@ public class VaultService {
 		}
 
 		Vault newVault = vaultMapper.toEntity(vaultDTO);
-		newVault= vaultRepository.save(newVault);
+		
+		try {		
+			newVault= vaultRepository.save(newVault);
+		} catch (Exception e) {
+			log.error("SERVICE - Dupicated Vault Name - UPDATE");
+			throw new DuplicatedValueException();
+		}
+		
 		return vaultMapper.toDto(newVault);
+
 	}
 
 	/**
@@ -122,7 +131,7 @@ public class VaultService {
 	 * @throws InternalServerException
 	 * @throws NotFoundException
 	 */
-	public VaultDTO delete(Long id) throws BadRequestException, InternalServerException, NotFoundException{
+	public VaultDTO deleteById(Long id) throws BadRequestException, InternalServerException, NotFoundException{
 		if(id == null) {
 			log.error("SERVICE - Vault id is null - DELETE");
 			throw new BadRequestException();
