@@ -43,6 +43,7 @@ public class UserService {
 	 */
 	public UserDTO findById(Long id) throws NotFoundException, BadRequestException {
 		if(id == null) {
+			log.error("SERVICE - User id is null - FIND ONE");
 			throw new BadRequestException();
 		}
 		
@@ -51,6 +52,7 @@ public class UserService {
 			return userMapper.toDto(maybeUser.get());
 		}
 		else {
+			log.error("SERVICE - User not found - FIND ONE");
 			throw new NotFoundException();
 		}
 	}

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +39,22 @@ public class VaultController {
 		log.info("REST - Vault's list size : {} - READ ALL", result.size());
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
+	
+	@Operation(summary = "Get all vault by User Id", description = "Get all vault by User given")
+	@GetMapping(value = "/vaults/user/{id}" )
+	public ResponseEntity<List<VaultDTO>> getAllVaultsByUserId(@PathVariable Long id){
+		try {
+			List<VaultDTO> result = vaultService.getAllVaultByUserId(id);
+			log.info("REST - Vault's list size : {} - READ ALL by USER ID", result.size());
+			return ResponseEntity.status(HttpStatus.OK).body(result);
+		}catch (BadRequestException e) {
+			log.error("REST - Bad information given - READ ALL by USER ID");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException e) {
+			log.error("REST - User NOT found - READ ALL by USER ID");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 
 	@Operation(summary = "Find vault by id")
 	@GetMapping(value = "/vaults/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -62,7 +79,7 @@ public class VaultController {
 		try {			
 			VaultDTO result = vaultService.create(vaultDTO);
 			log.info("REST - Vault created - CREATE");
-			return ResponseEntity.status(HttpStatus.OK).body(result);
+			return ResponseEntity.status(HttpStatus.CREATED).body(result);
 		} catch(BadRequestException e) {
 			log.error("REST - Bad information given - CREATE");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -70,6 +87,7 @@ public class VaultController {
 			log.error("REST - User for Vault NOT found - CREATE");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (DuplicatedValueException e) {
+			log.error("REST - Duplicated Vault Name Error - CREATE");
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 	}
@@ -87,14 +105,17 @@ public class VaultController {
 		} catch (NotFoundException e) {
 			log.error("REST - Vault NOT found - UPDATE");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (DuplicatedValueException e) {
+			log.error("REST - Duplicated Vault Name Error - UPDATE");
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 	}
 	
 	@Operation(summary = "Delete vault by id", description = "Delete vault by id")
-	@PostMapping(value = "/vaults/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/vaults/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<VaultDTO> deleteVaultById(@PathVariable Long id){
 		try {
-			VaultDTO result = vaultService.delete(id);
+			VaultDTO result = vaultService.deleteById(id);
 			log.info("REST - Vault Deleted, ID : {} - DELETE", id);
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch (BadRequestException e) {
@@ -106,22 +127,6 @@ public class VaultController {
 		} catch (InternalServerException e) {
 			log.error("REST - Error on deleting Vault - DELETE");
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-	
-	@Operation(summary = "Get all vault by User Id", description = "Get all vault by User given")
-	@GetMapping(value = "/vaults/user/{id}" )
-	public ResponseEntity<List<VaultDTO>> getAllVaultsByUserId(@PathVariable Long id){
-		try {
-			List<VaultDTO> result = vaultService.getAllVaultByUserId(id);
-			log.info("REST - Vault's list size : {} - READ ALL by USER ID", result.size());
-			return ResponseEntity.status(HttpStatus.OK).body(result);
-		}catch (BadRequestException e) {
-			log.error("REST - Bad information given - READ ALL by USER ID");
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		} catch (NotFoundException e) {
-			log.error("REST - User NOT found - READ ALL by USER ID");
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 }

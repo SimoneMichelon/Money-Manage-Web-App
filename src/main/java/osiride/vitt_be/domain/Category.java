@@ -18,6 +18,6 @@ public class Category extends AbstractAuditingEntity{
     @Column(name = "ctg_id")
     private Long id;
 
-    @Column(name = "ctg_name")
+    @Column(name = "ctg_name", unique = true)
     private String categoryName;
 }
