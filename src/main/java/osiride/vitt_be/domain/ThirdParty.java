@@ -18,7 +18,7 @@ public class ThirdParty {
     @Column(name = "thp_id")
     private Long id;
 
-    @Column(name = "thp_name")
+    @Column(name = "thp_name", unique = true)
     private String thirdPartyName;
 
 }

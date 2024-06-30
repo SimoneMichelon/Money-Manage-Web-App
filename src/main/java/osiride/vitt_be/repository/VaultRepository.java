@@ -18,7 +18,6 @@ public interface VaultRepository extends JpaRepository<Vault, Long> {
 	
 	@Query(value = "SELECT v "
 			+ "FROM vault v "
-			+ "WHERE v.id=:userId.id;")
-	List<Vault> getAllByUser(@Param("userId") User userId);
-
+			+ "WHERE v.id=:user.id;")
+	List<Vault> getAllByUser(@Param("userId") User user);
 }

@@ -165,6 +165,7 @@ public class VaultService {
 	 */
 	public List<VaultDTO> getAllVaultByUserId(Long userId) throws BadRequestException, NotFoundException{
 		if(userId == null) {
+			log.error("SERVICE - Vault id is null - DELETE");
 			throw new BadRequestException();
 		}
 		

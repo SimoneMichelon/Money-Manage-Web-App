@@ -35,5 +35,4 @@ public class Vault extends AbstractAuditingEntity {
 
     @Column(name = "vlt_cpt", scale = 2, precision = 10, nullable = false)
     private BigDecimal capital;
-
 }
