@@ -9,5 +9,5 @@ import osiride.vitt_be.domain.ThirdParty;
 
 @Repository
 public interface ThirdPartyRepository extends JpaRepository<ThirdParty, Long> {
-    Optional<ThirdParty> findById();
+    // Optional<ThirdParty> findById();
 }
