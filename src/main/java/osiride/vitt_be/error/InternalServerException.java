@@ -1,6 +1,6 @@
 package osiride.vitt_be.error;
 
-public class InternalServerException extends RuntimeException {
+public class InternalServerException extends Exception {
 	
 	private static final long serialVersionUID = 1L;
 

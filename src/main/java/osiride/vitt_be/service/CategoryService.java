@@ -47,7 +47,7 @@ public class CategoryService {
      */
     public CategoryDTO findById(Long id) throws BadRequestException, NotFoundException {
     	if(id == null) {
-			log.error("SERVICE - Category not found - FIND ONE");
+			log.error("SERVICE - Category id is null- FIND ONE");
     		throw new BadRequestException();
     	}
     	
@@ -131,7 +131,7 @@ public class CategoryService {
      * @throws NotFoundException
      * @throws InternalServerException
      */
-    public CategoryDTO deleteById(Long id) throws BadRequestException, NotFoundException, InternalServerException{    	
+    public CategoryDTO deleteById(Long id) throws BadRequestException, NotFoundException, InternalServerException{    
     	CategoryDTO categoryDTO = findById(id);
     	categoryRepository.delete(categoryMapper.toEntity(categoryDTO));
     	if(categoryRepository.existsById(id)) {
@@ -142,7 +142,7 @@ public class CategoryService {
     	return categoryDTO;
     }
     
-	public boolean isDataValid(CategoryDTO object) {
+	private boolean isDataValid(CategoryDTO object) {
 		return (object.getCategoryName() == null) 
 				? false 
 						: true;
