@@ -1,6 +1,6 @@
 package osiride.vitt_be.error;
 
-public class NotFoundException extends RuntimeException {
+public class NotFoundException extends Exception {
 
 	private static final long serialVersionUID = 4L;
 	

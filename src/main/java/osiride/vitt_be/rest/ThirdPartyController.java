@@ -18,7 +18,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/third-party-management/")
+@RequestMapping("/api/third-party-management")
 public class ThirdPartyController {
 
     @Autowired

@@ -121,7 +121,7 @@ public class UserService {
 				return userMapper.toDto(user);
 			}
 			else {
-				log.error("SERVICE - User Not Deleted cause by Unknown Error - DELETE");
+				log.error("SERVICE - User Not Deleted due to Unknown Error - DELETE");
 				throw new InternalServerException();
 			}
 		}
@@ -131,7 +131,7 @@ public class UserService {
 		}
 	}
 
-	public boolean isDataValid(UserDTO userDTO) {
+	private boolean isDataValid(UserDTO userDTO) {
 		return (userDTO.getFirstName() == null || 
 				userDTO.getLastName() == null || 
 				userDTO.getDob() == null || 

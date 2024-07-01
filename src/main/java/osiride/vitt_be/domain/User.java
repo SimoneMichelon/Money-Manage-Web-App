@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,15 +25,19 @@ public class User extends AbstractAuditingEntity {
     @Column(name = "usr_id")
     private Long id;
 
+    @NotNull
     @Column(name = "usr_frt_name")
     private String firstName;
     
+    @NotNull
     @Column(name = "usr_lst_name")
     private String lastName;
 
+    @NotNull
     @Column(name = "usr_dob")
     private LocalDate dob;
 
+    @NotNull
     @Column(name = "usr_img_prf")
     private String imgProfile;
 
