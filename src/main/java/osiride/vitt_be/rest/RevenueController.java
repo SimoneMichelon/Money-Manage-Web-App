@@ -18,58 +18,59 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import osiride.vitt_be.dto.ExpenseDTO;
+import osiride.vitt_be.dto.RevenueDTO;
 import osiride.vitt_be.error.BadRequestException;
 import osiride.vitt_be.error.InternalServerException;
 import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.error.OperationNotPermittedException;
-import osiride.vitt_be.service.ExpenseService;
+import osiride.vitt_be.service.RevenueService;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/expense-management")
-public class ExpenseController {
+@RequestMapping("/api/revenue-management")
+public class RevenueController {
+
 
 	@Autowired
-	private ExpenseService expenseService;
+	private RevenueService revenueService;
 
-	@Operation(summary = "Get all Expense", description = "Get all Expense")
-	@GetMapping(value = "/expenses", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ExpenseDTO>> getAllExpense() {
-		List<ExpenseDTO> result = expenseService.getAll();
+	@Operation(summary = "Get all Revenue", description = "Get all Revenue")
+	@GetMapping(value = "/revenues", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<RevenueDTO>> getAllRevenue() {
+		List<RevenueDTO> result = revenueService.getAll();
 		log.info("REST - Third Party list size: {} - READ ALL", result.size());
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 	
-	@Operation(summary = "Find Expense by id", description = "Get a Expense by ID")
-	@GetMapping(value = "/expenses/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ExpenseDTO> getExpenseById(@PathVariable Long id){
+	@Operation(summary = "Find Revenue by id", description = "Get a Revenue by ID")
+	@GetMapping(value = "/revenues/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<RevenueDTO> getRevenueById(@PathVariable Long id){
 		try {			
-			ExpenseDTO result = expenseService.findById(id);
-			log.info("REST - Expense found : {} - READ ONE", result);
+			RevenueDTO result = revenueService.findById(id);
+			log.info("REST - Revenue found : {} - READ ONE", result);
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 
 		} catch (BadRequestException e) {
 			log.error("REST - Bad information given - READ ONE");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
-			log.error("REST - Expense NOT found - READ ONE");
+			log.error("REST - Revenue NOT found - READ ONE");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 	
-	@Operation(summary = "Create expense", description = "Creation expense by given data")
-	@PostMapping(value = "/expenses", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ExpenseDTO> createExpense(@Valid @RequestBody ExpenseDTO expenseDTO){
+	@Operation(summary = "Create revenue", description = "Creation revenue by given data")
+	@PostMapping(value = "/revenues", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<RevenueDTO> createRevenue(@Valid @RequestBody RevenueDTO revenueDTO){
 		try {			
-			ExpenseDTO result = expenseService.create(expenseDTO);
-			log.info("REST - Expense created - CREATE");
+			RevenueDTO result = revenueService.create(revenueDTO);
+			log.info("REST - Revenue created - CREATE");
 			return ResponseEntity.status(HttpStatus.CREATED).body(result);
 		} catch(BadRequestException e) {
 			log.error("REST - Bad information given - CREATE");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
-			log.error("REST - Expense Data NOT found - CREATE");
+			log.error("REST - Revenue Data NOT found - CREATE");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (OperationNotPermittedException e) {
 			log.error("REST - Operation Not Permitted Error - UPDATE");
@@ -77,18 +78,18 @@ public class ExpenseController {
 		}
 	}
 	
-	@Operation(summary = "Update expense", description = "Update expense by given data")
-	@PutMapping(value = "/expenses", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity<ExpenseDTO> updateExpense(@Valid @RequestBody ExpenseDTO expenseDTO){
+	@Operation(summary = "Update revenue", description = "Update revenue by given data")
+	@PutMapping(value = "/revenues", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<RevenueDTO> updateRevenue(@Valid @RequestBody RevenueDTO revenueDTO){
 		try {
-			ExpenseDTO result = expenseService.update(expenseDTO);
-			log.info("REST - Expense Updated - UPDATE");
+			RevenueDTO result = revenueService.update(revenueDTO);
+			log.info("REST - Revenue Updated - UPDATE");
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch (BadRequestException e) {
 			log.error("REST - Bad information given - UPDATE");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
-			log.error("REST - Expense NOT found - UPDATE");
+			log.error("REST - Revenue NOT found - UPDATE");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (OperationNotPermittedException e) {
 			log.error("REST - Operation Not Permitted Error - UPDATE");
@@ -96,24 +97,23 @@ public class ExpenseController {
 		}
 	}
 	
-	@Operation(summary = "Delete expense by id", description = "Delete expense by id")
-	@DeleteMapping(value = "/expenses/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ExpenseDTO> deleteExpenseById(@PathVariable Long id){
+	@Operation(summary = "Delete revenue by id", description = "Delete revenue by id")
+	@DeleteMapping(value = "/revenues/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<RevenueDTO> deleteRevenueById(@PathVariable Long id){
 		try {
-			ExpenseDTO result = expenseService.deleteById(id);
-			log.info("REST - Expense Deleted, ID : {} - DELETE", id);
+			RevenueDTO result = revenueService.deleteById(id);
+			log.info("REST - Revenue Deleted, ID : {} - DELETE", id);
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch (BadRequestException e) {
 			log.error("REST - Bad information given - DELETE");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
-			log.error("REST - Expense NOT found - DELETE");
+			log.error("REST - Revenue NOT found - DELETE");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (InternalServerException e) {
-			log.error("REST - Error on deleting Expense - DELETE");
+			log.error("REST - Error on deleting Revenue - DELETE");
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
-
 }

@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import osiride.vitt_be.domain.Expense;
 import osiride.vitt_be.dto.CategoryDTO;
@@ -103,13 +102,13 @@ public class ExpenseService {
 	 */
 	public ExpenseDTO findById(Long id) throws BadRequestException, NotFoundException {
 		if(id == null) {
-			log.error("SERVICE - Category id is null- FIND ONE");
+			log.error("SERVICE - Expense id is null- FIND ONE");
 			throw new BadRequestException();
 		}
 
 		Optional<Expense> maybeExpense = expenseRepository.findById(id);
 		if(maybeExpense.isPresent()) {
-			log.info("SERVICE - Found a Category on DB - FIND ONE");
+			log.info("SERVICE - Found a Expense on DB - FIND ONE");
 			return expenseMapper.toDto(maybeExpense.get());
 		} 
 		else {
@@ -157,7 +156,6 @@ public class ExpenseService {
 	 * 
 	 * @author Simone
 	 */
-	@Transactional
 	public ExpenseDTO create(ExpenseDTO expenseDTO) throws BadRequestException, NotFoundException, OperationNotPermittedException {
 		if(expenseDTO == null || !isDataValid(expenseDTO)) {
 			log.error("SERVICE - Expense data is invalid - CREATE");
@@ -236,7 +234,6 @@ public class ExpenseService {
 	 * 
 	 * @author Simone
 	 */
-	@Transactional
 	public ExpenseDTO update(ExpenseDTO expenseDTO) throws BadRequestException, OperationNotPermittedException, NotFoundException {
 		if(expenseDTO == null || expenseDTO.getId() == null || !isDataValid(expenseDTO) ) {
 			log.error("SERVICE - Expense data is invalid - UPDATE");
@@ -293,7 +290,6 @@ public class ExpenseService {
 	 * 
 	 * @author Simone
 	 */
-	@Transactional
 	public ExpenseDTO deleteById(Long id) throws BadRequestException, NotFoundException, InternalServerException{
 		ExpenseDTO expenseDTO = findById(id);
 		expenseRepository.deleteById(id);

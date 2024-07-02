@@ -244,7 +244,9 @@ public class VaultService {
 		}
 
 		if(operation instanceof Revenue) {
-			throw new UnsupportedOperationException();
+			vault.setCapital(vault.getCapital().add(operation.getAmount()));
+			update(vaultMapper.toDto(vault));
+			return true;
 		}
 		return false;
 	}
