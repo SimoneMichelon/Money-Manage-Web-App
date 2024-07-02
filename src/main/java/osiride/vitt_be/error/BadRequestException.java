@@ -1,6 +1,6 @@
 package osiride.vitt_be.error;
 
-public class BadRequestException extends RuntimeException{
+public class BadRequestException extends Exception{
 
 	private static final long serialVersionUID = 3L;
 	

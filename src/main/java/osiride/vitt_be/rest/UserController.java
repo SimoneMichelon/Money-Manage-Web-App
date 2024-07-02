@@ -89,7 +89,7 @@ public class UserController {
 
 	@Operation(summary = "Delete user by Id", description = "Delete user by his id")
 	@DeleteMapping( value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserDTO> deleteUserById(@PathVariable Long id){
+	public ResponseEntity<UserDTO> deleteUserById(@PathVariable Long id) throws BadRequestException{
 		try {
 			UserDTO result = userService.deleteById(id);
 			log.info("REST - User Deleted, Id : {}", id);

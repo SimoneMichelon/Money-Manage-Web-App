@@ -1,6 +1,6 @@
 package osiride.vitt_be.error;
 
-public class DuplicatedValueException extends RuntimeException {
+public class DuplicatedValueException extends Exception {
 
 	private static final long serialVersionUID = 2L;
 	

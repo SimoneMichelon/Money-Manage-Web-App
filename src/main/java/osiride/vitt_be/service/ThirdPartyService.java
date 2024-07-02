@@ -77,7 +77,7 @@ public class ThirdPartyService {
         }
 
         ThirdParty thirdParty = thirdPartyMapper.toEntity(thirdPartyDTO);
-        thirdParty.setId(null); // Ensure new entity creation
+        thirdParty.setId(null);
         try {
             return thirdPartyMapper.toDto(thirdPartyRepository.save(thirdParty));
         } catch (Exception e) {
@@ -139,14 +139,8 @@ public class ThirdPartyService {
         return thirdPartyDTO;
     }
 
-    /**
-     * Checks if the data in the given ThirdPartyDTO is valid.
-     * Currently checks if the third party name is not null.
-     *
-     * @param thirdPartyDTO ThirdPartyDTO to validate
-     * @return true if valid, false otherwise
-     */
-    public boolean isDataValid(ThirdPartyDTO thirdPartyDTO) {
+
+    private boolean isDataValid(ThirdPartyDTO thirdPartyDTO) {
         return thirdPartyDTO.getThirdPartyName() != null;
     }
 }

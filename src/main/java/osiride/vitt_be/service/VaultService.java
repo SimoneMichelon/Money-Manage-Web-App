@@ -7,7 +7,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import osiride.vitt_be.domain.Expense;
+import osiride.vitt_be.domain.Operation;
+import osiride.vitt_be.domain.Revenue;
 import osiride.vitt_be.domain.Vault;
 import osiride.vitt_be.dto.UserDTO;
 import osiride.vitt_be.dto.VaultDTO;
@@ -71,9 +75,11 @@ public class VaultService {
 	 * @return VaultDTO
 	 * @throws BadRequestException
 	 * @throws NotFoundException
+	 * @throws DuplicatedValueException 
 	 * @throws SQLException
 	 */
-	public VaultDTO create(VaultDTO vaultDTO) throws BadRequestException, NotFoundException{
+	
+	public VaultDTO create(VaultDTO vaultDTO) throws BadRequestException, NotFoundException, DuplicatedValueException{
 		if(vaultDTO == null || !isDataValid(vaultDTO)) {
 			log.error("SERVICE - Vault Data given is null - CREATE");
 			throw new BadRequestException();
@@ -98,6 +104,7 @@ public class VaultService {
 	 * @throws NotFoundException
 	 * @throws DuplicatedValueException
 	 */
+	
 	public VaultDTO update(VaultDTO vaultDTO) throws BadRequestException, NotFoundException,DuplicatedValueException{
 		if(vaultDTO == null || vaultDTO.getId() == null || !isDataValid(vaultDTO)) {
 			log.error("SERVICE - Vault Data given is null - UPDATE");
@@ -111,14 +118,14 @@ public class VaultService {
 		}
 
 		Vault newVault = vaultMapper.toEntity(vaultDTO);
-		
+
 		try {		
 			newVault= vaultRepository.save(newVault);
 		} catch (Exception e) {
 			log.error("SERVICE - Dupicated Vault Name - UPDATE");
 			throw new DuplicatedValueException();
 		}
-		
+
 		return vaultMapper.toDto(newVault);
 
 	}
@@ -131,6 +138,7 @@ public class VaultService {
 	 * @throws InternalServerException
 	 * @throws NotFoundException
 	 */
+
 	public VaultDTO deleteById(Long id) throws BadRequestException, InternalServerException, NotFoundException{
 		if(id == null) {
 			log.error("SERVICE - Vault id is null - DELETE");
@@ -146,7 +154,7 @@ public class VaultService {
 				return vaultMapper.toDto(vault);
 			}
 			else {
-				log.error("SERVICE - Vault Not Deleted cause by Unknown Error - DELETE");
+				log.error("SERVICE - Vault Not Deleted due to Unknown Error - DELETE");
 				throw new InternalServerException();
 			}
 		}
@@ -168,7 +176,7 @@ public class VaultService {
 			log.error("SERVICE - Vault id is null - DELETE");
 			throw new BadRequestException();
 		}
-		
+
 		UserDTO user = userService.findById(userId);
 		List<VaultDTO> vaultList = 
 				vaultRepository.getAllByUser(userMapper.toEntity(user))
@@ -178,7 +186,72 @@ public class VaultService {
 		return vaultList;
 	}
 
-	public boolean isDataValid(VaultDTO vaultDTO) {
+
+	/**
+	 * Updates the capital of a Vault based on the provided Operation.
+	 * 
+	 * This method takes an Operation object (either Expense or Revenue), validates it,
+	 * and updates the capital of the corresponding Vault entity in the database.
+	 * If the provided Operation is null, a {@link BadRequestException} is thrown.
+	 * If the Vault corresponding to the Operation is not found, a {@link NotFoundException} is thrown.
+	 * If the operation results in a duplicated value (e.g., trying to update with the same value),
+	 * a {@link DuplicatedValueException} is thrown.
+	 * 
+	 * @param operation the Operation object containing data to update the Vault's capital
+	 * @return true if the capital update operation is successful, false otherwise
+	 * @throws BadRequestException if the provided Operation is null
+	 * @throws NotFoundException if the Vault corresponding to the Operation is not found
+	 * @throws DuplicatedValueException if the capital update operation results in a duplicated value
+	 * 
+	 * <p>
+	 * Example usage:
+	 * <pre>
+	 * {@code
+	 * try {
+	 *     boolean updated = vaultService.updateCapital(expense);
+	 *     if (updated) {
+	 *         // handle success
+	 *     } else {
+	 *         // handle failure
+	 *     }
+	 * } catch (BadRequestException e) {
+	 *     // handle bad request
+	 * } catch (NotFoundException e) {
+	 *     // handle not found
+	 * } catch (DuplicatedValueException e) {
+	 *     // handle duplicated value
+	 * }
+	 * }
+	 * </pre>
+	 * </p>
+	 * 
+	 * @author Simone
+	 */
+
+	public boolean updateCapital(Operation operation) throws BadRequestException, NotFoundException, DuplicatedValueException {
+		if(operation == null) {
+			log.error("SERVICE - Operation Data is null - OPERATION");
+			throw new BadRequestException();
+		}
+
+		VaultDTO vaultDTO = findById(operation.getVault().getId());
+		Vault vault = vaultMapper.toEntity(vaultDTO);
+
+		if(operation instanceof Expense) {
+			vault.setCapital(vault.getCapital().subtract(operation.getAmount()));
+			update(vaultMapper.toDto(vault));
+			return true;
+		}
+
+		if(operation instanceof Revenue) {
+			vault.setCapital(vault.getCapital().add(operation.getAmount()));
+			update(vaultMapper.toDto(vault));
+			return true;
+		}
+		return false;
+	}
+
+	private boolean isDataValid(VaultDTO vaultDTO) {
 		return (vaultDTO.getName() == null || 
 				vaultDTO.getUserDTO() == null || 
 				vaultDTO.getCapital() == null) 
