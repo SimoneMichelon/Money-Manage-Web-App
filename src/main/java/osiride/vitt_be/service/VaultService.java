@@ -78,7 +78,7 @@ public class VaultService {
 	 * @throws DuplicatedValueException 
 	 * @throws SQLException
 	 */
-	@Transactional
+	
 	public VaultDTO create(VaultDTO vaultDTO) throws BadRequestException, NotFoundException, DuplicatedValueException{
 		if(vaultDTO == null || !isDataValid(vaultDTO)) {
 			log.error("SERVICE - Vault Data given is null - CREATE");
@@ -104,7 +104,7 @@ public class VaultService {
 	 * @throws NotFoundException
 	 * @throws DuplicatedValueException
 	 */
-	@Transactional
+	
 	public VaultDTO update(VaultDTO vaultDTO) throws BadRequestException, NotFoundException,DuplicatedValueException{
 		if(vaultDTO == null || vaultDTO.getId() == null || !isDataValid(vaultDTO)) {
 			log.error("SERVICE - Vault Data given is null - UPDATE");
@@ -138,7 +138,7 @@ public class VaultService {
 	 * @throws InternalServerException
 	 * @throws NotFoundException
 	 */
-	@Transactional
+
 	public VaultDTO deleteById(Long id) throws BadRequestException, InternalServerException, NotFoundException{
 		if(id == null) {
 			log.error("SERVICE - Vault id is null - DELETE");
@@ -227,7 +227,7 @@ public class VaultService {
 	 * 
 	 * @author Simone
 	 */
-	@Transactional
+
 	public boolean updateCapital(Operation operation) throws BadRequestException, NotFoundException, DuplicatedValueException {
 		if(operation == null) {
 			log.error("SERVICE - Operation Data is null - OPERATION");
