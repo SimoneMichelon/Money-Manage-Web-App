@@ -3,11 +3,11 @@ package osiride.vitt_be.mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import osiride.vitt_be.domain.Expense;
-import osiride.vitt_be.dto.ExpenseDTO;
+import osiride.vitt_be.domain.Revenue;
+import osiride.vitt_be.dto.RevenueDTO;
 
 @Component
-public class ExpenseMapper {
+public class RevenueMapper {
 	
 	@Autowired
 	private VaultMapper vaultMapper;
@@ -19,11 +19,11 @@ public class ExpenseMapper {
 	private ThirdPartyMapper thirdPartyMapper;
 	
 	
-	  public ExpenseDTO toDto(Expense entity) {
+	  public RevenueDTO toDto(Revenue entity) {
 	        if (entity == null) {
 	            return null;
 	        }
-	        ExpenseDTO dto = new ExpenseDTO();
+	        RevenueDTO dto = new RevenueDTO();
 	        dto.setId(entity.getId());
 	        dto.setCausal(entity.getCausal());
 	        dto.setAmount(entity.getAmount());
@@ -36,11 +36,11 @@ public class ExpenseMapper {
 	        return dto;
 	    }
 
-	    public Expense toEntity(ExpenseDTO dto) {
+	    public Revenue toEntity(RevenueDTO dto) {
 	        if (dto == null) {
 	            return null;
 	        }
-	        Expense entity = new Expense();
+	        Revenue entity = new Revenue();
 	        entity.setId(dto.getId());
 	        entity.setCausal(dto.getCausal());
 	        entity.setAmount(dto.getAmount());
