@@ -7,6 +7,8 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 import { VaultControllerService } from './services/vault-controller.service';
 import { UserControllerService } from './services/user-controller.service';
 import { ThirdPartyControllerService } from './services/third-party-controller.service';
+import { RevenueControllerService } from './services/revenue-controller.service';
+import { ExpenseControllerService } from './services/expense-controller.service';
 import { CategoryControllerService } from './services/category-controller.service';
 
 /**
@@ -20,6 +22,8 @@ import { CategoryControllerService } from './services/category-controller.servic
     VaultControllerService,
     UserControllerService,
     ThirdPartyControllerService,
+    RevenueControllerService,
+    ExpenseControllerService,
     CategoryControllerService,
     ApiConfiguration
   ],
