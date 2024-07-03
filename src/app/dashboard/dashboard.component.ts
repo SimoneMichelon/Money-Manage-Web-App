@@ -8,15 +8,25 @@ import { UserControllerService } from '../api/services/user-controller.service';
   standalone: true,
   imports: [MatButtonModule, MatCardModule],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-
-  constructor(private userService: UserControllerService) { }
+  constructor(private userService: UserControllerService) {}
 
   ngOnInit(): void {
-    this.userService.getAllUsers().subscribe(users => {
+    this.userService.getAllUsers().subscribe((users) => {
       console.log(users);
     });
   }
+
+  collapsed = false;
+  navData = navbarData;
 }
+
+const navbarData = [
+  {
+    routeLink: 'dashboard',
+    icon: 'fal fa-home',
+    label: 'Dashboard',
+  },
+];
