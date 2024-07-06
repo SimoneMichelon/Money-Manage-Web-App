@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import osiride.vitt_be.domain.Expense;
 import osiride.vitt_be.domain.Operation;
@@ -79,6 +78,7 @@ public class VaultService {
 	 * @throws SQLException
 	 */
 	
+	//FIXME CREARE UN METODO CHE CERCA SE IL VAULT ESISTE GIA CON QUEL NOME
 	public VaultDTO create(VaultDTO vaultDTO) throws BadRequestException, NotFoundException, DuplicatedValueException{
 		if(vaultDTO == null || !isDataValid(vaultDTO)) {
 			log.error("SERVICE - Vault Data given is null - CREATE");

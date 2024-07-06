@@ -181,8 +181,6 @@ public class RevenueService {
 			throw new BadRequestException();
 		}
 		revenue.setId(null);
-
-
 		revenue = revenueRepository.save(revenue);
 
 		boolean operationResult = false;
