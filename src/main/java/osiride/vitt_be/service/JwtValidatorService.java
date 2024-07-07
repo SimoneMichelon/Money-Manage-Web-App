@@ -2,60 +2,52 @@ package osiride.vitt_be.service;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.crypto.SecretKey;
+
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
 import osiride.vitt_be.constant.JwtConstant;
-import osiride.vitt_be.error.BadRequestException;
 
-@Slf4j
-
-public class JwtValidatorService extends OncePerRequestFilter {
-
-	@Autowired
-	private JwtProviderService jwtProviderService;
-
+public class JwtValidatorService extends OncePerRequestFilter{
+	
+	private SecretKey key = Keys.hmacShaKeyFor(JwtConstant.JWT_SECRET.getBytes());
+	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+		
 		String jwt = request.getHeader(JwtConstant.JWT_HEADER);
-		String email;
+		
 		if(jwt != null) {
+			jwt = jwt.substring(7);
 			try {
-				
-				try {
-					log.error("EMAIL,  {}", jwt);
-					email = jwtProviderService.getEmailFromJwt(jwt);
-				}catch (Exception e) {
-					throw new BadRequestException();
-				}
-				
-				
-				log.error("EMAIL,  {}", email);
+				Claims claims = Jwts.parserBuilder()
+						.setSigningKey(key)
+						.build()
+						.parseClaimsJws(jwt)
+						.getBody();
+						
+				String email = String.valueOf(claims.get("email"));
 				
 				Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, null);
-				SecurityContextHolder
-				.getContext()
-				.setAuthentication(authentication);
+				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}
-			catch(BadRequestException e) {
-				log.error("GESU VOLANTE");
-				throw new BadCredentialsException("QUALCOSA E ANDATO STORTO");
-			}catch(Exception e) {
-				log.error("LA MADONNA");
+			catch (Exception e) {
 				throw new BadCredentialsException("invalid token ...");
 			}
 		}
-
+		
 		filterChain.doFilter(request, response);
 	}
 

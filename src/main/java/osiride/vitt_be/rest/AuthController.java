@@ -48,7 +48,7 @@ public class AuthController {
 	public ResponseEntity<AuthResponse> signIn(@RequestBody LoginRequest loginRequest){
 		try {
 			AuthResponse result = authService.signInHandler(loginRequest);
-			log.info("REST - Sign Up success: email = {} - SIGN IP", loginRequest.getEmail());
+			log.info("REST - Sign Up success: email = {} - SIGN IN", loginRequest.getEmail());
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch (BadRequestException e) {
 			log.error("REST - Bad information given - SIGN IN");

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,11 +44,11 @@ public class UserController {
 		List<UserDTO> result = userService.getAll();
 		log.info("REST - Users's list size : {} - READ ALL", result.size());
 		return ResponseEntity.status(HttpStatus.OK).body(result);
-	}	
+	}
 	
 	@Operation(summary = "Get User By JWT", description = "Get User By JWT")
 	@GetMapping(value = "/user/profile", produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity<UserDTO> getUserByJwt(@RequestBody String jwt){
+	public ResponseEntity<UserDTO> getUserByJwt(@RequestHeader("Authorization") String jwt){
 		try {
 			UserDTO result = authService.getPrincipal(jwt);
 			log.info("REST - User returned - JWT");
