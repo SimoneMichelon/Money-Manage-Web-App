@@ -17,6 +17,8 @@ import osiride.vitt_be.dto.VaultDTO;
 import osiride.vitt_be.error.BadRequestException;
 import osiride.vitt_be.error.DuplicatedValueException;
 import osiride.vitt_be.error.InternalServerException;
+import osiride.vitt_be.error.InvalidTokenException;
+import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.mapper.UserMapper;
 import osiride.vitt_be.mapper.VaultMapper;
@@ -38,6 +40,9 @@ public class VaultService {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private AuthService authService;
+	
 	/**
 	 * Get all vaults in database
 	 * @return List<VaultDTO>
@@ -51,8 +56,10 @@ public class VaultService {
 	 * @param id
 	 * @return VaultDTO
 	 * @throws BadRequestException
+	 * @throws InvalidTokenException 
+	 * @throws NotAuthorizedException 
 	 */
-	public VaultDTO findById(Long id) throws BadRequestException, NotFoundException{
+	public VaultDTO findById(Long id) throws BadRequestException, NotFoundException, InvalidTokenException, NotAuthorizedException{
 		if(id == null) {
 			log.error("SERVICE - Vault id is null - FIND ONE");
 			throw new BadRequestException();
@@ -60,7 +67,15 @@ public class VaultService {
 		Optional<Vault> maybeVault = vaultRepository.findById(id);
 
 		if(maybeVault.isPresent()) {
-			return vaultMapper.toDto(maybeVault.get());
+			VaultDTO vaultDTO = vaultMapper.toDto(maybeVault.get());
+			
+			UserDTO principal = authService.getPrincipal();
+			if(isOwner(principal, vaultDTO)) {
+				return vaultDTO;
+			}
+			else {
+				throw new NotAuthorizedException();
+			}
 		}
 		else {
 			log.error("SERVICE - Vault not found - FIND ONE");
@@ -78,7 +93,7 @@ public class VaultService {
 	 * @throws SQLException
 	 */
 	
-	//FIXME CREARE UN METODO CHE CERCA SE IL VAULT ESISTE GIA CON QUEL NOME
+	//FIXME CREARE UN METODO CHE CERCA SE IL VAULT ESISTE GIA CON QUEL NOME PER NON ROMPERE NEL DB
 	public VaultDTO create(VaultDTO vaultDTO) throws BadRequestException, NotFoundException, DuplicatedValueException{
 		if(vaultDTO == null || !isDataValid(vaultDTO)) {
 			log.error("SERVICE - Vault Data given is null - CREATE");
@@ -185,6 +200,17 @@ public class VaultService {
 				.toList();
 		return vaultList;
 	}
+	
+	public List<VaultDTO> getAllVaultByPrincipal() throws BadRequestException, NotFoundException, InvalidTokenException{
+		UserDTO user = authService.getPrincipal();
+
+		List<VaultDTO> vaultList = 
+				vaultRepository.getAllByUser(userMapper.toEntity(user))
+				.stream()
+				.map(vault -> vaultMapper.toDto(vault))
+				.toList();
+		return vaultList;
+	}
 
 
 	/**
@@ -226,9 +252,11 @@ public class VaultService {
 	 * </p>
 	 * 
 	 * @author Simone
+	 * @throws NotAuthorizedException 
+	 * @throws InvalidTokenException 
 	 */
 
-	public boolean updateCapital(Operation operation) throws BadRequestException, NotFoundException, DuplicatedValueException {
+	public boolean updateCapital(Operation operation) throws BadRequestException, NotFoundException, DuplicatedValueException, InvalidTokenException, NotAuthorizedException {
 		if(operation == null) {
 			log.error("SERVICE - Operation Data is null - OPERATION");
 			throw new BadRequestException();
@@ -257,6 +285,14 @@ public class VaultService {
 				vaultDTO.getCapital() == null) 
 				? false 
 						: true;
+	}
+	
+	private boolean isOwner(UserDTO userDTO , VaultDTO vaultDTO) throws BadRequestException {
+		if(userDTO == null || vaultDTO == null) {
+			throw new BadRequestException();
+		}
+		
+		return vaultDTO.getUserDTO().equals(userDTO);
 	}
 
 }

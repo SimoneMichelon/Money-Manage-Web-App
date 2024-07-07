@@ -18,6 +18,7 @@ public class UserMapper{
 	    dto.setLastName(object.getLastName());
 	    dto.setDob(object.getDob());
 	    dto.setImgProfile(object.getImgProfile());
+	    dto.setRole(object.getRole());
 	    return dto;
 	}
 	
@@ -32,6 +33,7 @@ public class UserMapper{
 	    entity.setLastName(object.getLastName());
 	    entity.setDob(object.getDob());
 	    entity.setImgProfile(object.getImgProfile());
+	    entity.setRole(object.getRole());
 	    return entity;
 	}
 }

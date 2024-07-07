@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,10 +46,10 @@ public class UserController {
 	}
 	
 	@Operation(summary = "Get User By JWT", description = "Get User By JWT")
-	@GetMapping(value = "/user/profile", produces = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity<UserDTO> getUserByJwt(@RequestHeader("Authorization") String jwt){
+	@GetMapping(value = "/user/profile", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserDTO> getUserByJwt(){
 		try {
-			UserDTO result = authService.getPrincipal(jwt);
+			UserDTO result = authService.getPrincipal();
 			log.info("REST - User returned - JWT");
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch (InvalidTokenException e) {
@@ -59,6 +58,9 @@ public class UserController {
 		} catch (NotFoundException e) {
 			log.error("REST - User has not been found - JWT");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (BadRequestException e) {
+			log.error("REST - Invalid User Data - JWT");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}	
 	

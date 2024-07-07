@@ -15,6 +15,8 @@ import osiride.vitt_be.dto.VaultDTO;
 import osiride.vitt_be.error.BadRequestException;
 import osiride.vitt_be.error.DuplicatedValueException;
 import osiride.vitt_be.error.InternalServerException;
+import osiride.vitt_be.error.InvalidTokenException;
+import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.error.OperationNotPermittedException;
 import osiride.vitt_be.mapper.RevenueMapper;
@@ -157,8 +159,10 @@ public class RevenueService {
 	 * @implNote Ensure the services and repositories are properly injected.
 	 * 
 	 * @author Simone
+	 * @throws NotAuthorizedException 
+	 * @throws InvalidTokenException 
 	 */
-	public RevenueDTO create(RevenueDTO revenueDTO) throws BadRequestException, NotFoundException, OperationNotPermittedException {
+	public RevenueDTO create(RevenueDTO revenueDTO) throws BadRequestException, NotFoundException, OperationNotPermittedException, InvalidTokenException, NotAuthorizedException {
 		if(revenueDTO == null || !isDataValid(revenueDTO)) {
 			log.error("SERVICE - Revenue data is invalid - CREATE");
 			throw new BadRequestException();

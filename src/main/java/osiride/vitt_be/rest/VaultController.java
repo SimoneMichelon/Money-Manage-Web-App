@@ -21,6 +21,8 @@ import osiride.vitt_be.dto.VaultDTO;
 import osiride.vitt_be.error.BadRequestException;
 import osiride.vitt_be.error.DuplicatedValueException;
 import osiride.vitt_be.error.InternalServerException;
+import osiride.vitt_be.error.InvalidTokenException;
+import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.service.VaultService;
 
@@ -32,7 +34,7 @@ public class VaultController {
 	@Autowired 
 	private VaultService vaultService;
 
-	@Operation(summary = "Get all Vault", description = "Get all vault ")
+	@Operation(summary = "Get all Vault - ADMIN", description = "Get all vault ")
 	@GetMapping(value = "/vaults", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<VaultDTO>> getAllVaults(){
 		List<VaultDTO> result = vaultService.getAll();
@@ -40,7 +42,7 @@ public class VaultController {
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 	
-	@Operation(summary = "Get all vault by User Id", description = "Get all vault by User given")
+	@Operation(summary = "Get all vault by User Id - ADMIN", description = "Get all vault by User given")
 	@GetMapping(value = "/vaults/user/{id}" )
 	public ResponseEntity<List<VaultDTO>> getAllVaultsByUserId(@PathVariable Long id){
 		try {
@@ -55,25 +57,47 @@ public class VaultController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@Operation(summary = "Get all vault by Principal - ADMIN / GUEST", description = "Get all vault Principal")
+	@GetMapping(value = "/vaults/user/" )
+	public ResponseEntity<List<VaultDTO>> getAllVaultsByPrincipal(){
+		try {
+			List<VaultDTO> result = vaultService.getAllVaultByPrincipal();
+			log.info("REST - Vault's list size : {} - READ ALL by USER ID", result.size());
+			return ResponseEntity.status(HttpStatus.OK).body(result);
+		}catch (BadRequestException e) {
+			log.error("REST - Bad information given - READ ALL by USER ID");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException e) {
+			log.error("REST - User NOT found - READ ALL by USER ID");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - READ ALL by USER ID");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
 
-	@Operation(summary = "Find vault by id")
+	@Operation(summary = "Find vault by id - ADMIN / GUEST", description = "Find vault by id")
 	@GetMapping(value = "/vaults/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<VaultDTO> getVaultById(@PathVariable Long id){
 		try {			
 			VaultDTO result = vaultService.findById(id);
 			log.info("REST - Vault found : {} - READ ONE", result);
 			return ResponseEntity.status(HttpStatus.OK).body(result);
-
 		} catch (BadRequestException e) {
 			log.error("REST - Bad information given - READ ONE");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
 			log.error("REST - Vault NOT found - READ ONE");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (NotAuthorizedException | InvalidTokenException e) {
+			log.error("REST - Not Authorized || Invalid Token - READ ONE");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 
-	@Operation(summary = "Create vault", description = "Creation vault by given data")
+	@Operation(summary = "Create vault ", description = "Creation vault by given data")
 	@PostMapping(value = "/vaults", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<VaultDTO> createVault(@RequestBody VaultDTO vaultDTO){
 		try {			

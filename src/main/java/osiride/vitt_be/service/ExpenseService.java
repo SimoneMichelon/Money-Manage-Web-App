@@ -15,6 +15,8 @@ import osiride.vitt_be.dto.VaultDTO;
 import osiride.vitt_be.error.BadRequestException;
 import osiride.vitt_be.error.DuplicatedValueException;
 import osiride.vitt_be.error.InternalServerException;
+import osiride.vitt_be.error.InvalidTokenException;
+import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.error.OperationNotPermittedException;
 import osiride.vitt_be.mapper.ExpenseMapper;
@@ -155,8 +157,10 @@ public class ExpenseService {
 	 * </p>
 	 * 
 	 * @author Simone
+	 * @throws NotAuthorizedException 
+	 * @throws InvalidTokenException 
 	 */
-	public ExpenseDTO create(ExpenseDTO expenseDTO) throws BadRequestException, NotFoundException, OperationNotPermittedException {
+	public ExpenseDTO create(ExpenseDTO expenseDTO) throws BadRequestException, NotFoundException, OperationNotPermittedException, InvalidTokenException, NotAuthorizedException {
 		if(expenseDTO == null || !isDataValid(expenseDTO)) {
 			log.error("SERVICE - Expense data is invalid - CREATE");
 			throw new BadRequestException();
@@ -179,8 +183,6 @@ public class ExpenseService {
 			throw new BadRequestException();
 		}
 		expense.setId(null);
-		
-		
 		expense = expenseRepository.save(expense);
 		
 		boolean operationResult = false;

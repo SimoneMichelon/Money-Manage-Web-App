@@ -2,12 +2,14 @@ package osiride.vitt_be.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import osiride.vitt_be.dto.CredentialDTO;
 import osiride.vitt_be.error.BadRequestException;
@@ -26,7 +28,8 @@ public class AuthController {
 	@Autowired
 	private AuthService authService;
 	
-	@PostMapping("/signUp")
+	@Operation(summary = "Sign Up", description = "Sign up givin Credentials Details")
+	@PostMapping( value ="/signUp", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<AuthResponse> signUp(@RequestBody CredentialDTO credentialDTO) {
 		try {
 			AuthResponse result = authService.signUpHandler(credentialDTO);
@@ -44,7 +47,8 @@ public class AuthController {
 		}
 	}	 
 	
-	@PostMapping("/signIn")
+	@Operation(summary = "Sign Ip", description = "Sign ip givin email and password")
+	@PostMapping(value = "/signIn", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AuthResponse> signIn(@RequestBody LoginRequest loginRequest){
 		try {
 			AuthResponse result = authService.signInHandler(loginRequest);

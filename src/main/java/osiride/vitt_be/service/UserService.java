@@ -140,7 +140,8 @@ public class UserService {
 		return (userDTO.getFirstName() == null || 
 				userDTO.getLastName() == null || 
 				userDTO.getDob() == null || 
-				userDTO.getImgProfile() == null) 
+				userDTO.getImgProfile() == null ||
+				userDTO.getRole() == null) 
 				? false 
 						: true;
 	}
