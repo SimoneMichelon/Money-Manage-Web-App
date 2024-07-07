@@ -33,5 +33,4 @@ public class Credential extends AbstractAuditingEntity {
     @OneToOne
     @JoinColumn(name = "crd_usr_id", referencedColumnName = "usr_id", nullable = false)
     private User user;
-
 }

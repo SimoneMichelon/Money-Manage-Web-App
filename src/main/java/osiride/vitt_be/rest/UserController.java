@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 import osiride.vitt_be.dto.UserDTO;
 import osiride.vitt_be.error.BadRequestException;
 import osiride.vitt_be.error.InternalServerException;
+import osiride.vitt_be.error.InvalidTokenException;
 import osiride.vitt_be.error.NotFoundException;
+import osiride.vitt_be.service.AuthService;
 import osiride.vitt_be.service.UserService;
 
 @Slf4j
@@ -31,6 +34,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private AuthService authService;
 
 	@Operation(summary = "Get all Users", description = "Returns all Users")
 	@GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE )
@@ -38,18 +44,33 @@ public class UserController {
 		List<UserDTO> result = userService.getAll();
 		log.info("REST - Users's list size : {} - READ ALL", result.size());
 		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+	
+	@Operation(summary = "Get User By JWT", description = "Get User By JWT")
+	@GetMapping(value = "/user/profile", produces = MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<UserDTO> getUserByJwt(@RequestHeader("Authorization") String jwt){
+		try {
+			UserDTO result = authService.getPrincipal(jwt);
+			log.info("REST - User returned - JWT");
+			return ResponseEntity.status(HttpStatus.OK).body(result);
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - JWT");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		} catch (NotFoundException e) {
+			log.error("REST - User has not been found - JWT");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}	
-
+	
 	@Operation(summary = "Get user by Id", description = "Get user by Id")
 	@GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<UserDTO> getUserById(@PathVariable Long id){
 		try {
 			UserDTO result = userService.findById(id);
-			log.info("REST - Users returned");
+			log.info("REST - Users returned - READ ONE");
 			return ResponseEntity.status(HttpStatus.OK).body(result);
-
 		} catch(BadRequestException e) {
-			log.error("REST - BadRequest Error, ");
+			log.error("REST - Bad Request Error - READ ONE ");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch(NotFoundException e) {
 			log.error("REST - User has not been found - READ ONE");

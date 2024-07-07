@@ -30,9 +30,14 @@ public class UserService {
 	 * @return List<User>
 	 */
 	public List<UserDTO> getAll(){
-		return userRepository.findAll().stream().map(user -> userMapper.toDto(user)).toList();
+		return userRepository
+				.findAll()
+				.stream()
+				.map(user -> userMapper
+						.toDto(user))
+				.toList();
 	}
-	
+
 	/**
 	 * 
 	 * Find a User by Id, if not found, return empty optional
@@ -46,7 +51,7 @@ public class UserService {
 			log.error("SERVICE - User id is null - FIND ONE");
 			throw new BadRequestException();
 		}
-		
+
 		Optional<User> maybeUser = userRepository.findById(id);
 		if(maybeUser.isPresent()) {
 			return userMapper.toDto(maybeUser.get());
@@ -130,7 +135,7 @@ public class UserService {
 			throw new NotFoundException();
 		}
 	}
-
+	
 	private boolean isDataValid(UserDTO userDTO) {
 		return (userDTO.getFirstName() == null || 
 				userDTO.getLastName() == null || 
