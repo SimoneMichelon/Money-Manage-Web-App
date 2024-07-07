@@ -1,8 +1,5 @@
 package osiride.vitt_be.config;
 
-
-import static org.springframework.security.config.Customizer.withDefaults;
-
 import java.util.Collections;
 
 import org.springframework.context.annotation.Bean;
@@ -21,6 +18,8 @@ import osiride.vitt_be.service.JwtValidatorService;
 
 @Configuration
 public class AppConfig {
+	
+	
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
@@ -31,9 +30,7 @@ public class AppConfig {
 				.permitAll())
 					.addFilterBefore(new JwtValidatorService(), BasicAuthenticationFilter.class)
 					.csrf(csrf -> csrf.disable())
-					.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-					.formLogin(withDefaults());
-		
+					.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 		return http.build();
 	}
 
