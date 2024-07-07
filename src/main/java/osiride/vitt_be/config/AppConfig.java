@@ -18,9 +18,6 @@ import osiride.vitt_be.service.JwtValidatorService;
 
 @Configuration
 public class AppConfig {
-	
-	
-
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 		http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
