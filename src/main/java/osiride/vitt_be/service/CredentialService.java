@@ -80,10 +80,8 @@ public class CredentialService {
 		
 		credential.setId(null);
 		credential.setPassword(passwordEncoder.encode(credential.getPassword()));
-		
-		CredentialDTO d = credentialMapper.toDto(credentialRepository.save(credential));
-		log.info( "RUOLO UTENTE : {}",d.getUserDTO().getRole());
-		return d;
+
+		return credentialMapper.toDto(credentialRepository.save(credential));
 	}
 
 	private boolean isDataValid(CredentialDTO object) {
