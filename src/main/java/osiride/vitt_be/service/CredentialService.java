@@ -73,14 +73,17 @@ public class CredentialService {
 			throw new DuplicatedValueException();
 		}
 		
-		UserDTO userDTO = userService.create(credentialDTO.getUserDTO());
+		UserDTO userDTO = credentialDTO.getUserDTO();
+		userDTO = userService.create(userDTO);
 		credentialDTO.setUserDTO(userDTO);
 		Credential credential = credentialMapper.toEntity(credentialDTO);
 		
 		credential.setId(null);
 		credential.setPassword(passwordEncoder.encode(credential.getPassword()));
-
-		return credentialMapper.toDto(credentialRepository.save(credential));
+		
+		CredentialDTO d = credentialMapper.toDto(credentialRepository.save(credential));
+		log.info( "RUOLO UTENTE : {}",d.getUserDTO().getRole());
+		return d;
 	}
 
 	private boolean isDataValid(CredentialDTO object) {

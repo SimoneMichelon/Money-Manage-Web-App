@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import osiride.vitt_be.constant.Role;
 import osiride.vitt_be.domain.User;
 import osiride.vitt_be.dto.UserDTO;
 import osiride.vitt_be.error.BadRequestException;
@@ -97,9 +98,10 @@ public class UserService {
 			log.error("SERVICE - USER Data given is null - CREATE");
 			throw new BadRequestException();
 		}
-
+		
 		User user = userMapper.toEntity(userDTO);
 		user.setId(null);
+		user.setRole(Role.GUEST);
 		return userMapper.toDto(userRepository.save(user));
 	}
 

@@ -37,9 +37,20 @@ public class VaultController {
 	@Operation(summary = "Get all Vault - ADMIN", description = "Get all vault ")
 	@GetMapping(value = "/vaults", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<VaultDTO>> getAllVaults(){
-		List<VaultDTO> result = vaultService.getAll();
-		log.info("REST - Vault's list size : {} - READ ALL", result.size());
-		return ResponseEntity.status(HttpStatus.OK).body(result);
+		try {			
+			List<VaultDTO> result = vaultService.getAll();
+			log.info("REST - Vault's list size : {} - READ ALL", result.size());
+			return ResponseEntity.status(HttpStatus.OK).body(result);
+		} catch (BadRequestException e) {
+			log.error("REST - User Bad Info - READ ALL");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException e) {
+			log.error("REST - User NOT found - READ ALL");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (InvalidTokenException | NotAuthorizedException e) {
+			log.error("REST - Not Authorized || Invalid Token - READ ALL");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
 	
 	@Operation(summary = "Get all vault by User Id - ADMIN", description = "Get all vault by User given")
@@ -49,12 +60,15 @@ public class VaultController {
 			List<VaultDTO> result = vaultService.getAllVaultByUserId(id);
 			log.info("REST - Vault's list size : {} - READ ALL by USER ID", result.size());
 			return ResponseEntity.status(HttpStatus.OK).body(result);
-		}catch (BadRequestException e) {
+		} catch (BadRequestException e) {
 			log.error("REST - Bad information given - READ ALL by USER ID");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
 			log.error("REST - User NOT found - READ ALL by USER ID");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (InvalidTokenException | NotAuthorizedException e) {
+			log.error("REST - Not Authorized || Invalid Token - READ ALL by USER ID");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 	
@@ -63,16 +77,16 @@ public class VaultController {
 	public ResponseEntity<List<VaultDTO>> getAllVaultsByPrincipal(){
 		try {
 			List<VaultDTO> result = vaultService.getAllVaultByPrincipal();
-			log.info("REST - Vault's list size : {} - READ ALL by USER ID", result.size());
+			log.info("REST - Vault's list size : {} - READ ALL by PRINCIPAL", result.size());
 			return ResponseEntity.status(HttpStatus.OK).body(result);
-		}catch (BadRequestException e) {
-			log.error("REST - Bad information given - READ ALL by USER ID");
+		} catch (BadRequestException e) {
+			log.error("REST - Bad information given - READ ALL by PRINCIPAL");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
-			log.error("REST - User NOT found - READ ALL by USER ID");
+			log.error("REST - User NOT found - READ ALL by PRINCIPAL");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (InvalidTokenException e) {
-			log.error("REST - Invalid Token - READ ALL by USER ID");
+			log.error("REST - Invalid Token - READ ALL by PRINCIPAL");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
@@ -107,12 +121,15 @@ public class VaultController {
 		} catch(BadRequestException e) {
 			log.error("REST - Bad information given - CREATE");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}	catch (NotFoundException e) {
+		} catch (NotFoundException e) {
 			log.error("REST - User for Vault NOT found - CREATE");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (DuplicatedValueException e) {
 			log.error("REST - Duplicated Vault Name Error - CREATE");
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - CREATE");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 
@@ -132,6 +149,9 @@ public class VaultController {
 		} catch (DuplicatedValueException e) {
 			log.error("REST - Duplicated Vault Name Error - UPDATE");
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}  catch (InvalidTokenException | NotAuthorizedException e) {
+			log.error("REST - Not Authorized || Invalid Token - UPDATE");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 	
@@ -151,6 +171,9 @@ public class VaultController {
 		} catch (InternalServerException e) {
 			log.error("REST - Error on deleting Vault - DELETE");
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}  catch (InvalidTokenException | NotAuthorizedException e) {
+			log.error("REST - Not Authorized || Invalid Token - DELETE");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 }

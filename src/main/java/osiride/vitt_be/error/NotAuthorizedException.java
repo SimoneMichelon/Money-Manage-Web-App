@@ -2,7 +2,7 @@ package osiride.vitt_be.error;
 
 public class NotAuthorizedException extends Exception {
 
-	private static final long serialVersionUID = 4L;
+	private static final long serialVersionUID = 6L;
 	
 	public NotAuthorizedException() {
         super();

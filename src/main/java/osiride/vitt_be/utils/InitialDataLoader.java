@@ -7,12 +7,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
 import osiride.vitt_be.constant.Role;
 import osiride.vitt_be.domain.Credential;
 import osiride.vitt_be.domain.User;
 import osiride.vitt_be.repository.CredentialRepository;
 import osiride.vitt_be.repository.UserRepository;
 
+@Slf4j
 @Component
 public class InitialDataLoader implements CommandLineRunner {
 
@@ -42,6 +44,7 @@ public class InitialDataLoader implements CommandLineRunner {
             credential.setUser(user);
             userRepository.save(user);
             credentialRepository.save(credential);
+            log.info("COMPONENT - Admin load complete !!! ");
         }
     }
 }

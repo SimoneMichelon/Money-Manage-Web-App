@@ -82,7 +82,7 @@ public class UserController {
 
 	@Operation(summary = "Create user", description = "Create a user")
 	@PostMapping(value = "/users", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO){
+	public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO){
 		try {
 			UserDTO result = userService.create(userDTO);
 			log.info("REST - User created, id : {}, First Name : {}, Last Name : {} - READ ALL", result.getId() ,result.getFirstName(), result.getLastName());
