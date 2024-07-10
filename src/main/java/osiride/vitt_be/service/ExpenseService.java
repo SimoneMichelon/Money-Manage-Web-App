@@ -26,20 +26,23 @@ import osiride.vitt_be.repository.ExpenseRepository;
 @Service
 public class ExpenseService {
 
-	@Autowired
-	private ExpenseRepository expenseRepository;
+	private final ExpenseRepository expenseRepository;
+	private final ExpenseMapper expenseMapper;
+	private final VaultService vaultService;
+	private final CategoryService categoryService;
+	private final ThirdPartyService thirdPartyService;
 
-	@Autowired
-	private ExpenseMapper expenseMapper;
-
-	@Autowired 
-	private VaultService vaultService;
-
-	@Autowired 
-	private CategoryService categoryService;
-
-	@Autowired
-	private ThirdPartyService thirdPartyService;
+	public ExpenseService(ExpenseRepository expenseRepository, 
+			ExpenseMapper expenseMapper,
+			VaultService vaultService, 
+			CategoryService categoryService,
+			ThirdPartyService thirdPartyService) {
+		this.expenseRepository = expenseRepository;
+		this.expenseMapper = expenseMapper;
+		this.vaultService = vaultService;
+		this.categoryService = categoryService;
+		this.thirdPartyService = thirdPartyService;
+	}
 
 	/**
 	 * Retrieves all Expenses from the database.
@@ -184,7 +187,7 @@ public class ExpenseService {
 		}
 		expense.setId(null);
 		expense = expenseRepository.save(expense);
-		
+
 		boolean operationResult = false;
 		try {
 			operationResult = vaultService.updateCapital(expense);

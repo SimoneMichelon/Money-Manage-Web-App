@@ -26,20 +26,22 @@ import osiride.vitt_be.repository.RevenueRepository;
 @Service
 public class RevenueService {
 
-	@Autowired
-	private RevenueRepository revenueRepository;
+	private final RevenueRepository revenueRepository;
+	private final RevenueMapper revenueMapper;
+	private final VaultService vaultService;
+	private final CategoryService categoryService;
+	private final ThirdPartyService thirdPartyService;
 
-	@Autowired
-	private RevenueMapper revenueMapper;
-
-	@Autowired 
-	private VaultService vaultService;
-
-	@Autowired 
-	private CategoryService categoryService;
-
-	@Autowired
-	private ThirdPartyService thirdPartyService;
+	public RevenueService(RevenueRepository revenueRepository, 
+			RevenueMapper revenueMapper,
+			VaultService vaultService, CategoryService categoryService,
+			ThirdPartyService thirdPartyService) {
+		this.revenueRepository = revenueRepository;
+		this.revenueMapper = revenueMapper;
+		this.vaultService = vaultService;
+		this.categoryService = categoryService;
+		this.thirdPartyService = thirdPartyService;
+	}
 
 
 	/**

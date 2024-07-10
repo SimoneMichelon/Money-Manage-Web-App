@@ -32,7 +32,6 @@ import osiride.vitt_be.service.RevenueService;
 @RequestMapping("/api/revenue-management")
 public class RevenueController {
 
-
 	@Autowired
 	private RevenueService revenueService;
 

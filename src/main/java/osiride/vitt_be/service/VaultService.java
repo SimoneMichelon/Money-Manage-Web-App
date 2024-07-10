@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,20 +27,23 @@ import osiride.vitt_be.repository.VaultRepository;
 @Service
 public class VaultService {
 
-	@Autowired
-	private VaultRepository vaultRepository;
+    private final VaultRepository vaultRepository;
+    private final VaultMapper vaultMapper;
+    private final UserMapper userMapper;
+    private final UserService userService;
+    private final AuthService authService;
 
-	@Autowired
-	private VaultMapper vaultMapper;
-
-	@Autowired
-	private UserMapper userMapper;
-
-	@Autowired
-	private UserService userService;
-
-	@Autowired
-	private AuthService authService;
+    public VaultService(VaultRepository vaultRepository, 
+    					VaultMapper vaultMapper,
+    					UserMapper userMapper, 
+                      	UserService userService, 
+                      	AuthService authService) {
+        this.vaultRepository = vaultRepository;
+        this.vaultMapper = vaultMapper;
+        this.userMapper = userMapper;
+        this.userService = userService;
+        this.authService = authService;
+    }
 
 	/**
 	 * Retrieves all VaultDTO objects from the vault repository.

@@ -1,7 +1,5 @@
 package osiride.vitt_be.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,25 +30,26 @@ import osiride.vitt_be.utils.LoginRequest;
 @Service
 public class AuthService {
 
-	@Lazy
-	@Autowired
-	private CredentialService credentialService;
-	
-	@Lazy
-	@Autowired
-	private UserService userService;
+	private final CredentialService credentialService;
+    private final UserService userService;
+    private final CredentialMapper credentialMapper;
+    private final JwtProviderService jwtProviderService;
+    private final CustomCredentialDetailsService credentialDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
-	@Autowired
-	private CredentialMapper credentialMapper;
-
-	@Autowired
-	private JwtProviderService jwtProviderService;
-
-	@Autowired
-	private CustomCredentialDetailsService credentialDetailsService;
-
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+    public AuthService(CredentialService credentialService, 
+    				   UserService userService,
+                       CredentialMapper credentialMapper, 
+                       JwtProviderService jwtProviderService,
+                       CustomCredentialDetailsService credentialDetailsService, 
+                       PasswordEncoder passwordEncoder) {
+        this.credentialService = credentialService;
+        this.userService = userService;
+        this.credentialMapper = credentialMapper;
+        this.jwtProviderService = jwtProviderService;
+        this.credentialDetailsService = credentialDetailsService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
 
 	public AuthResponse signUpHandler(CredentialDTO credentialDTO) throws BadRequestException, DuplicatedValueException, NotFoundException {

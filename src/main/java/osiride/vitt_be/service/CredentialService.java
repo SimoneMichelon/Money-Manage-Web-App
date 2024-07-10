@@ -3,8 +3,6 @@ package osiride.vitt_be.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,21 +20,21 @@ import osiride.vitt_be.repository.CredentialRepository;
 @Service
 public class CredentialService {
 
-	@Autowired
-	private CredentialRepository credentialRepository;
+    private final CredentialRepository credentialRepository;
+    private final CredentialMapper credentialMapper;
+    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
-	@Autowired
-	private CredentialMapper credentialMapper;
+    public CredentialService(CredentialRepository credentialRepository,
+    						CredentialMapper credentialMapper,
+                             PasswordEncoder passwordEncoder,
+                             UserService userService) {
+        this.credentialRepository = credentialRepository;
+        this.credentialMapper = credentialMapper;
+        this.passwordEncoder = passwordEncoder;
+        this.userService = userService;
+    }
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	@Autowired
-	private UserService userService;
-	
-	@Lazy
-	@Autowired
-	private AuthService authService;
 
 	public List<CredentialDTO> getAll(){
 		return credentialRepository.findAll()
