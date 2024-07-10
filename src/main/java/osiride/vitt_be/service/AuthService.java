@@ -1,6 +1,7 @@
 package osiride.vitt_be.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,8 +32,13 @@ import osiride.vitt_be.utils.LoginRequest;
 @Service
 public class AuthService {
 
+	@Lazy
 	@Autowired
 	private CredentialService credentialService;
+	
+	@Lazy
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	private CredentialMapper credentialMapper;
@@ -46,8 +52,6 @@ public class AuthService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@Autowired
-	private UserService userService;
 
 	public AuthResponse signUpHandler(CredentialDTO credentialDTO) throws BadRequestException, DuplicatedValueException, NotFoundException {
 		Credential credential = credentialMapper.toEntity(credentialService.create(credentialDTO));
