@@ -17,7 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 import osiride.vitt_be.dto.CredentialDTO;
 import osiride.vitt_be.error.BadRequestException;
 import osiride.vitt_be.error.DuplicatedValueException;
+import osiride.vitt_be.error.InvalidTokenException;
 import osiride.vitt_be.error.NotFoundException;
+import osiride.vitt_be.service.AuthService;
 import osiride.vitt_be.service.CredentialService;
 
 @Slf4j
@@ -27,22 +29,40 @@ public class CredentialController {
 
 	@Autowired
 	private CredentialService credentialService;
-	
+
+	@Autowired
+	private AuthService authService;
+
 	@Operation(summary = "Get all Credentials", description = "Get all credentials ")
 	@GetMapping(value = "/credentials")
 	public ResponseEntity<List<CredentialDTO>> getAllCredentials(){
-		List<CredentialDTO> result = credentialService.getAll();
-		log.info("REST - Vault's list size : {} - READ ALL", result.size());
-		return ResponseEntity.status(HttpStatus.OK).body(result);
+		try {
+			if(authService.isAdmin()) {
+				List<CredentialDTO> result = credentialService.getAll();
+				log.info("REST - Vault's list size : {} - READ ALL", result.size());
+				return ResponseEntity.status(HttpStatus.OK).body(result);
+			}
+			else {
+				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			}
+		} catch (InvalidTokenException | NotFoundException | BadRequestException e) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} 
+
 	}
 
-	@Operation(summary = "Sign up with Credentials", description = "Creation credential by given data")
+	@Operation(summary = "Create new Credentials", description = "Create credential by given data")
 	@PostMapping(value = "/credentials", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<CredentialDTO> createCredential(@RequestBody CredentialDTO credentialDTO) throws BadRequestException {
+	public ResponseEntity<CredentialDTO> createCredential(@RequestBody CredentialDTO credentialDTO) {
 		try {
+			if(authService.isAdmin()) {
 			CredentialDTO result = credentialService.create(credentialDTO);
 			log.info("REST - Credential created - CREATE");
 			return ResponseEntity.status(HttpStatus.CREATED).body(result);
+			} else {
+				log.error("REST - Not Authorized  - READ ALL");
+				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			}
 		} catch (BadRequestException e) {
 			log.error("REST - Bad information given - CREATE");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -52,6 +72,9 @@ public class CredentialController {
 		} catch (NotFoundException e) {
 			log.error("REST - User for Credential NOT found - CREATE");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}  catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token  - CREATE");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
 	}

@@ -3,7 +3,6 @@ package osiride.vitt_be.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +14,8 @@ import osiride.vitt_be.dto.VaultDTO;
 import osiride.vitt_be.error.BadRequestException;
 import osiride.vitt_be.error.DuplicatedValueException;
 import osiride.vitt_be.error.InternalServerException;
+import osiride.vitt_be.error.InvalidTokenException;
+import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.error.OperationNotPermittedException;
 import osiride.vitt_be.mapper.RevenueMapper;
@@ -24,20 +25,22 @@ import osiride.vitt_be.repository.RevenueRepository;
 @Service
 public class RevenueService {
 
-	@Autowired
-	private RevenueRepository revenueRepository;
+	private final RevenueRepository revenueRepository;
+	private final RevenueMapper revenueMapper;
+	private final VaultService vaultService;
+	private final CategoryService categoryService;
+	private final ThirdPartyService thirdPartyService;
 
-	@Autowired
-	private RevenueMapper revenueMapper;
-
-	@Autowired 
-	private VaultService vaultService;
-
-	@Autowired 
-	private CategoryService categoryService;
-
-	@Autowired
-	private ThirdPartyService thirdPartyService;
+	public RevenueService(RevenueRepository revenueRepository, 
+			RevenueMapper revenueMapper,
+			VaultService vaultService, CategoryService categoryService,
+			ThirdPartyService thirdPartyService) {
+		this.revenueRepository = revenueRepository;
+		this.revenueMapper = revenueMapper;
+		this.vaultService = vaultService;
+		this.categoryService = categoryService;
+		this.thirdPartyService = thirdPartyService;
+	}
 
 
 	/**
@@ -157,8 +160,10 @@ public class RevenueService {
 	 * @implNote Ensure the services and repositories are properly injected.
 	 * 
 	 * @author Simone
+	 * @throws NotAuthorizedException 
+	 * @throws InvalidTokenException 
 	 */
-	public RevenueDTO create(RevenueDTO revenueDTO) throws BadRequestException, NotFoundException, OperationNotPermittedException {
+	public RevenueDTO create(RevenueDTO revenueDTO) throws BadRequestException, NotFoundException, OperationNotPermittedException, InvalidTokenException, NotAuthorizedException {
 		if(revenueDTO == null || !isDataValid(revenueDTO)) {
 			log.error("SERVICE - Revenue data is invalid - CREATE");
 			throw new BadRequestException();

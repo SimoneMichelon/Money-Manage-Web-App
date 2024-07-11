@@ -3,14 +3,17 @@ package osiride.vitt_be.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import osiride.vitt_be.constant.Role;
 import osiride.vitt_be.domain.User;
 import osiride.vitt_be.dto.UserDTO;
 import osiride.vitt_be.error.BadRequestException;
 import osiride.vitt_be.error.InternalServerException;
+import osiride.vitt_be.error.InvalidTokenException;
+import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.mapper.UserMapper;
 import osiride.vitt_be.repository.UserRepository;
@@ -19,32 +22,56 @@ import osiride.vitt_be.repository.UserRepository;
 @Service
 public class UserService {
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
+	private final UserMapper userMapper;
+	private final AuthService authService;
 
-	@Autowired
-	private UserMapper userMapper;
-
-	/**
-	 * getAllUsers
-	 * @return List<User>
-	 */
-	public List<UserDTO> getAll(){
-		return userRepository
-				.findAll()
-				.stream()
-				.map(user -> userMapper
-						.toDto(user))
-				.toList();
+	public UserService(UserRepository userRepository, 
+			UserMapper userMapper,
+			@Lazy AuthService authService) {
+		this.userRepository = userRepository;
+		this.userMapper = userMapper;
+		this.authService = authService;
 	}
 
 	/**
-	 * 
-	 * Find a User by Id, if not found, return empty optional
-	 * @param id
-	 * @return Optional<UserDTO> or Optional.empty()
-	 * @throws NotFoundException
-	 * @throws BadRequestException
+	 * <p>
+	 * Retrieves a list of all users as UserDTO objects.
+	 * <br><br>
+	 *
+	 * @return a list of UserDTO objects representing all users.
+	 * @throws NotAuthorizedException if the current user is not authorized to perform this operation.
+	 * <br><br>
+	 *</p>
+	 * This method checks if the current user has administrative privileges by calling the {@code isAdmin}
+	 * method of the {@code authService}. If the user is an admin, it retrieves all users from the
+	 * {@code userRepository}, maps them to {@code UserDTO} objects using the {@code userMapper}, and returns
+	 * the list of these DTOs. If the user is not an admin, a {@code NotAuthorizedException} is thrown.
+	 * Additionally, if any of the following exceptions are encountered during the operation:
+	 * {@code InvalidTokenException}, {@code NotFoundException}, or {@code BadRequestExceptio-n}, a 
+	 * {@code NotAuthorizedException} is thrown.
+	 */
+	public List<UserDTO> getAll(){
+				return userRepository
+						.findAll()
+						.stream()
+						.map(user -> userMapper
+								.toDto(user))
+						.toList();
+	}
+
+	/**
+	 * Retrieves a user by their ID and maps it to a UserDTO object.
+	 *
+	 * @param id the ID of the user to be retrieved.
+	 * @return a UserDTO object representing the user with the specified ID.
+	 * @throws NotFoundException if a user with the specified ID is not found.
+	 * @throws BadRequestException if the provided ID is null.
+	 *
+	 * This method attempts to retrieve a user by their ID from the {@code userRepository}. 
+	 * If the provided ID is null, a {@code BadRequestException} is thrown. If a user with the 
+	 * specified ID is found, it is mapped to a {@code UserDTO} object using the {@code userMapper} 
+	 * and returned. If the user is not found, a {@code NotFoundException} is thrown.
 	 */
 	public UserDTO findById(Long id) throws NotFoundException, BadRequestException {
 		if(id == null) {
@@ -68,22 +95,30 @@ public class UserService {
 	 * @return
 	 * @throws NotFoundException
 	 * @throws BadRequestException
+	 * @throws InvalidTokenException 
+	 * @throws NotAuthorizedException 
 	 */
-	public UserDTO update(UserDTO userDTO) throws NotFoundException, BadRequestException {
+	public UserDTO update(UserDTO userDTO) throws NotFoundException, BadRequestException, InvalidTokenException, NotAuthorizedException {	
 		if (userDTO == null || userDTO.getId() == null || !isDataValid(userDTO)) {
 			log.error("SERVICE - USER Data given is null - UPDATE");
 			throw new BadRequestException();
 		}
 
-		Optional<User> maybeUser = userRepository.findById(userDTO.getId());
-		if(maybeUser.isEmpty()) {
+		if(userRepository.existsById(userDTO.getId())) {
+			User newUser = userMapper.toEntity(userDTO);
+			if(authService.isAdmin() || authService.isPrincipal(newUser)) {
+				newUser = userRepository.save(newUser);
+				return userMapper.toDto(newUser);
+			}
+			else {
+				log.error("SERVICE - User Operation not allowed - FIND ONE");
+				throw new NotAuthorizedException();
+			}	
+		}
+		else {
 			log.error("SERVICE - User Not Found - UPDATE");
 			throw new NotFoundException();
-		}
-
-		User newUser = userMapper.toEntity(userDTO);
-		newUser = userRepository.save(newUser);
-		return userMapper.toDto(newUser);
+		}		
 	}
 
 	/**
@@ -100,13 +135,14 @@ public class UserService {
 
 		User user = userMapper.toEntity(userDTO);
 		user.setId(null);
+		user.setRole(Role.GUEST);
 		return userMapper.toDto(userRepository.save(user));
 	}
 
 	/**
 	 * Delete User By Id 
 	 * @param id
-	 * @return Optional<UserDTO> or Optional.empty()
+	 * @return UserDTO
 	 * @throws InternalServerException
 	 * @throws NotFoundException
 	 * @throws BadRequestException
@@ -135,12 +171,13 @@ public class UserService {
 			throw new NotFoundException();
 		}
 	}
-	
+
 	private boolean isDataValid(UserDTO userDTO) {
 		return (userDTO.getFirstName() == null || 
 				userDTO.getLastName() == null || 
 				userDTO.getDob() == null || 
-				userDTO.getImgProfile() == null) 
+				userDTO.getImgProfile() == null ||
+				userDTO.getRole() == null) 
 				? false 
 						: true;
 	}
