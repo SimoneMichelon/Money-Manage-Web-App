@@ -1,5 +1,8 @@
 package osiride.vitt_be.domain;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,5 +35,6 @@ public class Credential extends AbstractAuditingEntity {
     
     @OneToOne
     @JoinColumn(name = "crd_usr_id", referencedColumnName = "usr_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 }
