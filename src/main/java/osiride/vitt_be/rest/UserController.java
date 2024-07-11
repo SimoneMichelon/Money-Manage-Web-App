@@ -49,15 +49,16 @@ public class UserController {
 				return ResponseEntity.status(HttpStatus.OK).body(result);
 			}
 			else {
-				log.error("REST - Not Authorized || Invalid Token - READ ALL");
+				log.error("REST - Not Authorized - READ ALL");
 				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 			}
 		} catch (InvalidTokenException | NotFoundException | BadRequestException e) {
+			log.error("REST - Invalid Token - READ ALL");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		} 
 	}
 
-	@Operation(summary = "Get User By JWT", description = "Get User By JWT")
+	@Operation(summary = "Get User By JWT ", description = "Get User By JWT")
 	@GetMapping(value = "/user/profile", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserDTO> getUserByJwt(){
 		try {
@@ -76,7 +77,7 @@ public class UserController {
 		}
 	}	
 
-	@Operation(summary = "Get user by Id", description = "Get user by Id")
+	@Operation(summary = "Get user by Id - ADMIN", description = "Get user by Id")
 	@GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<UserDTO> getUserById(@PathVariable Long id){
 		try {
@@ -101,17 +102,29 @@ public class UserController {
 		} 
 	}	
 
-	@Operation(summary = "Create user", description = "Create a user")
+	@Operation(summary = "Create user - ADMIN", description = "Create a user")
 	@PostMapping(value = "/users", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO){
 		try {
-			UserDTO result = userService.create(userDTO);
-			log.info("REST - User created, id : {}, First Name : {}, Last Name : {} - READ ALL", result.getId() ,result.getFirstName(), result.getLastName());
-			return ResponseEntity.status(HttpStatus.CREATED).body(result);
+			if(authService.isAdmin()) {
+				UserDTO result = userService.create(userDTO);
+				log.info("REST - User created, id : {}, First Name : {}, Last Name : {} - READ ALL", result.getId() ,result.getFirstName(), result.getLastName());
+				return ResponseEntity.status(HttpStatus.CREATED).body(result);
+			}
+			else {
+				log.error("REST - Not Authorized - CREATE");
+				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			}
 		} catch (BadRequestException e) {
 			log.error("REST - Bad Request, Data given is invalid - CREATE");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		} catch(NotFoundException e) {
+			log.error("REST - User has not been found - CREATE");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token- CREATE");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} 
 	}
 
 
@@ -120,7 +133,7 @@ public class UserController {
 	public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO){
 		try {
 			UserDTO result = userService.update(userDTO);
-			log.info("REST - User updated, id : {}, First Name : {}, Last Name : {} - READ ALL", result.getId() ,result.getFirstName(), result.getLastName());
+			log.info("REST - User updated, id : {}, First Name : {}, Last Name : {} - UPDATE", result.getId() ,result.getFirstName(), result.getLastName());
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch(NotFoundException e) {
 			log.error("REST - User has not been found - UPDATE");
@@ -128,9 +141,12 @@ public class UserController {
 		} catch(BadRequestException e) {
 			log.error("REST - Bad Request, Data given is invalid - UPDATE");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		} catch ( NotAuthorizedException | InvalidTokenException e) {
-			log.error("REST - Not Authorized || Invalid Token - READ ALL");
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - UPDATE");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch (NotAuthorizedException e) {
+			log.error("REST - Not Authorized  - UPDATE");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}
 

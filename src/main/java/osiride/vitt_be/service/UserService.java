@@ -142,7 +142,7 @@ public class UserService {
 	/**
 	 * Delete User By Id 
 	 * @param id
-	 * @return Optional<UserDTO> or Optional.empty()
+	 * @return UserDTO
 	 * @throws InternalServerException
 	 * @throws NotFoundException
 	 * @throws BadRequestException
