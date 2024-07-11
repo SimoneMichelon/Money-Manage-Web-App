@@ -27,23 +27,23 @@ import osiride.vitt_be.repository.VaultRepository;
 @Service
 public class VaultService {
 
-    private final VaultRepository vaultRepository;
-    private final VaultMapper vaultMapper;
-    private final UserMapper userMapper;
-    private final UserService userService;
-    private final AuthService authService;
+	private final VaultRepository vaultRepository;
+	private final VaultMapper vaultMapper;
+	private final UserMapper userMapper;
+	private final UserService userService;
+	private final AuthService authService;
 
-    public VaultService(VaultRepository vaultRepository, 
-    					VaultMapper vaultMapper,
-    					UserMapper userMapper, 
-                      	UserService userService, 
-                      	AuthService authService) {
-        this.vaultRepository = vaultRepository;
-        this.vaultMapper = vaultMapper;
-        this.userMapper = userMapper;
-        this.userService = userService;
-        this.authService = authService;
-    }
+	public VaultService(VaultRepository vaultRepository, 
+			VaultMapper vaultMapper,
+			UserMapper userMapper, 
+			UserService userService, 
+			AuthService authService) {
+		this.vaultRepository = vaultRepository;
+		this.vaultMapper = vaultMapper;
+		this.userMapper = userMapper;
+		this.userService = userService;
+		this.authService = authService;
+	}
 
 	/**
 	 * Retrieves all VaultDTO objects from the vault repository.
@@ -60,14 +60,12 @@ public class VaultService {
 	 * @throws InvalidTokenException 
 	 */
 	public List<VaultDTO> getAll() throws InvalidTokenException, NotFoundException, BadRequestException, NotAuthorizedException{
-		if(authService.isAdmin()) 
-		{
-			return vaultRepository.findAll().stream().map(vault -> vaultMapper.toDto(vault)).toList(); 
-		}
-		else {
-			log.error("SERVICE - Vault Operation not allowed - DELETE");
-			throw new NotAuthorizedException();
-		}
+		return vaultRepository
+				.findAll()
+				.stream()
+				.map(vault -> vaultMapper
+						.toDto(vault))
+				.toList(); 
 	}
 
 	/**
@@ -96,7 +94,7 @@ public class VaultService {
 			VaultDTO vaultDTO = vaultMapper.toDto(maybeVault.get());
 
 			UserDTO principal = authService.getPrincipal();
-			if(authService.isAdmin() || isOwner(principal, vaultDTO)) {
+			if(isOwner(principal, vaultDTO) || authService.isAdmin() ) {
 				return vaultDTO;
 			}
 			else {
@@ -146,6 +144,7 @@ public class VaultService {
 	}
 
 	/**
+	 * <p>
 	 * Updates a Vault entity based on the provided VaultDTO.
 	 * 
 	 * This method validates the provided VaultDTO, checks authorization, and updates the corresponding Vault entity in the repository.
@@ -153,7 +152,7 @@ public class VaultService {
 	 * If the user is not an admin or the owner of the Vault, a {@link NotAuthorizedException} is thrown.
 	 * If no Vault is found with the provided ID, a {@link NotFoundException} is thrown.
 	 * If the update operation results in a duplicated value, a {@link DuplicatedValueException} is thrown.
-	 * 
+	 * </p>
 	 * @param vaultDTO The VaultDTO containing the data to update the Vault.
 	 * @return The updated VaultDTO.
 	 * @throws BadRequestException If the provided VaultDTO is null, its ID is null, or the data is invalid.
@@ -168,27 +167,29 @@ public class VaultService {
 			throw new BadRequestException();
 		}
 
-		if(!(authService.isAdmin() || isOwner(authService.getPrincipal(),vaultDTO))) {
+		if(isOwner(authService.getPrincipal(),vaultDTO) || authService.isAdmin()) {
+
+			Optional<Vault> maybeVault = vaultRepository.findById(vaultDTO.getId());
+			if(maybeVault.isEmpty()) {
+				log.error("SERVICE - Vault Not Found - UPDATE");
+				throw new NotFoundException();
+			}
+
+			Vault newVault = vaultMapper.toEntity(vaultDTO);
+			try {		
+				newVault= vaultRepository.save(newVault);
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.error("SERVICE - Dupicated Vault Name - UPDATE");
+				throw new DuplicatedValueException();
+			}
+
+			return vaultMapper.toDto(newVault);
+		}
+		else {
 			log.error("SERVICE - Vault Operation not allowed - UPDATE");
 			throw new NotAuthorizedException();
 		}
-
-		Optional<Vault> maybeVault = vaultRepository.findById(vaultDTO.getId());
-		if(maybeVault.isEmpty()) {
-			log.error("SERVICE - Vault Not Found - UPDATE");
-			throw new NotFoundException();
-		}
-
-		Vault newVault = vaultMapper.toEntity(vaultDTO);
-		try {		
-			newVault= vaultRepository.save(newVault);
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error("SERVICE - Dupicated Vault Name - UPDATE");
-			throw new DuplicatedValueException();
-		}
-
-		return vaultMapper.toDto(newVault);
 	}
 
 	/**
@@ -331,7 +332,7 @@ public class VaultService {
 		return false;
 	}
 
-	
+
 	/**
 	 * Retrieves all VaultDTO objects for the currently authenticated principal user.
 	 * 
@@ -366,7 +367,7 @@ public class VaultService {
 			throw new BadRequestException();
 		}
 
-		return vaultDTO.getUserDTO().equals(userDTO);
+		return vaultDTO.getUserDTO().getId().equals(userDTO.getId());
 	}
 
 }

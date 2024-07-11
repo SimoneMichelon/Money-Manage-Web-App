@@ -1,5 +1,6 @@
 package osiride.vitt_be.service;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,7 +39,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
     public AuthService(CredentialService credentialService, 
-    				   UserService userService,
+    				   @Lazy UserService userService,
                        CredentialMapper credentialMapper, 
                        JwtProviderService jwtProviderService,
                        CustomCredentialDetailsService credentialDetailsService, 
@@ -113,11 +114,12 @@ public class AuthService {
 			log.error("SERVICE - JWT Token is null - IS AUTH USER");
 			throw new BadRequestException();
 		}
-		UserDTO userValidated = getPrincipal();
-		UserDTO userChecker = userService.findById(userValidated.getId());
+		UserDTO principal = getPrincipal();
+		UserDTO toCheck = userService.findById(user.getId());
 
 		log.info("SERVICE - Check is Auth User - IS AUTH USER");
-		return userValidated.equals(userChecker);
+		boolean result = principal.getId().equals(toCheck.getId());
+		return result;
 	}
 
 	private Authentication authenticate(String email, String password) throws BadRequestException, InvalidPasswordException {
@@ -159,7 +161,7 @@ public class AuthService {
 	}
 	
 	public boolean isGuest() throws InvalidTokenException, NotFoundException, BadRequestException {
-		return Role.ADMIN
+		return Role.GUEST
 				.equals(getPrincipal()
 						.getRole()) ? 
 								true : 

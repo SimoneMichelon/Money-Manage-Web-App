@@ -24,6 +24,7 @@ import osiride.vitt_be.error.InternalServerException;
 import osiride.vitt_be.error.InvalidTokenException;
 import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
+import osiride.vitt_be.service.AuthService;
 import osiride.vitt_be.service.VaultService;
 
 @Slf4j
@@ -33,26 +34,39 @@ public class VaultController {
 
 	@Autowired 
 	private VaultService vaultService;
+	
+	@Autowired
+	private AuthService authService;
 
 	@Operation(summary = "Get all Vault - ADMIN", description = "Get all vault ")
 	@GetMapping(value = "/vaults", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<VaultDTO>> getAllVaults(){
-		try {			
-			List<VaultDTO> result = vaultService.getAll();
-			log.info("REST - Vault's list size : {} - READ ALL", result.size());
-			return ResponseEntity.status(HttpStatus.OK).body(result);
+		try {	
+			if(authService.isAdmin()) 
+			{
+				List<VaultDTO> result = vaultService.getAll();
+				log.info("REST - Vault's list size : {} - READ ALL", result.size());
+				return ResponseEntity.status(HttpStatus.OK).body(result);
+			}
+			else {
+				log.error("SERVICE - Vault Operation not allowed - DELETE");
+				throw new NotAuthorizedException();
+			}
 		} catch (BadRequestException e) {
 			log.error("REST - User Bad Info - READ ALL");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
 			log.error("REST - User NOT found - READ ALL");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		} catch (InvalidTokenException | NotAuthorizedException e) {
-			log.error("REST - Not Authorized || Invalid Token - READ ALL");
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - READ ALL");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch (NotAuthorizedException e) {
+			log.error("REST - Not Authorized  - READ ALL");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}
-	
+
 	@Operation(summary = "Get all vault by User Id - ADMIN", description = "Get all vault by User given")
 	@GetMapping(value = "/vaults/user/{id}" )
 	public ResponseEntity<List<VaultDTO>> getAllVaultsByUserId(@PathVariable Long id){
@@ -66,13 +80,16 @@ public class VaultController {
 		} catch (NotFoundException e) {
 			log.error("REST - User NOT found - READ ALL by USER ID");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		} catch (InvalidTokenException | NotAuthorizedException e) {
-			log.error("REST - Not Authorized || Invalid Token - READ ALL by USER ID");
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - READ ALL by USER ID");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch (NotAuthorizedException e) {
+			log.error("REST - Not Authorized  -  READ ALL by USER ID");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}
-	
-	@Operation(summary = "Get all vault by Principal - ADMIN / GUEST", description = "Get all vault Principal")
+
+	@Operation(summary = "Get all vault by Principal", description = "Get all vault Principal")
 	@GetMapping(value = "/vaults/user/" )
 	public ResponseEntity<List<VaultDTO>> getAllVaultsByPrincipal(){
 		try {
@@ -90,7 +107,7 @@ public class VaultController {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
-	
+
 
 	@Operation(summary = "Find vault by id - ADMIN / GUEST", description = "Find vault by id")
 	@GetMapping(value = "/vaults/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -149,12 +166,15 @@ public class VaultController {
 		} catch (DuplicatedValueException e) {
 			log.error("REST - Duplicated Vault Name Error - UPDATE");
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
-		}  catch (InvalidTokenException | NotAuthorizedException e) {
-			log.error("REST - Not Authorized || Invalid Token - UPDATE");
+		}  catch (InvalidTokenException  e) {
+			log.error("REST - Invalid Token - UPDATE");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch (NotAuthorizedException e) {
+			log.error("REST - Not Authorized  - UPDATE");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}
-	
+
 	@Operation(summary = "Delete vault by id", description = "Delete vault by id")
 	@DeleteMapping(value = "/vaults/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<VaultDTO> deleteVaultById(@PathVariable Long id){
@@ -171,9 +191,12 @@ public class VaultController {
 		} catch (InternalServerException e) {
 			log.error("REST - Error on deleting Vault - DELETE");
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}  catch (InvalidTokenException | NotAuthorizedException e) {
-			log.error("REST - Not Authorized || Invalid Token - DELETE");
+		}  catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - DELETE");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch (NotAuthorizedException e) {
+			log.error("REST - Not Authorized  - DELETE");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}
 }
