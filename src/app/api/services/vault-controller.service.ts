@@ -15,6 +15,8 @@ import { deleteVaultById } from '../fn/vault-controller/delete-vault-by-id';
 import { DeleteVaultById$Params } from '../fn/vault-controller/delete-vault-by-id';
 import { getAllVaults } from '../fn/vault-controller/get-all-vaults';
 import { GetAllVaults$Params } from '../fn/vault-controller/get-all-vaults';
+import { getAllVaultsByPrincipal } from '../fn/vault-controller/get-all-vaults-by-principal';
+import { GetAllVaultsByPrincipal$Params } from '../fn/vault-controller/get-all-vaults-by-principal';
 import { getAllVaultsByUserId } from '../fn/vault-controller/get-all-vaults-by-user-id';
 import { GetAllVaultsByUserId$Params } from '../fn/vault-controller/get-all-vaults-by-user-id';
 import { getVaultById } from '../fn/vault-controller/get-vault-by-id';
@@ -33,7 +35,7 @@ export class VaultControllerService extends BaseService {
   static readonly GetAllVaultsPath = '/api/vault-management/vaults';
 
   /**
-   * Get all Vault.
+   * Get all Vault - ADMIN.
    *
    * Get all vault
    *
@@ -47,7 +49,7 @@ export class VaultControllerService extends BaseService {
   }
 
   /**
-   * Get all Vault.
+   * Get all Vault - ADMIN.
    *
    * Get all vault
    *
@@ -99,7 +101,7 @@ export class VaultControllerService extends BaseService {
   static readonly CreateVaultPath = '/api/vault-management/vaults';
 
   /**
-   * Create vault.
+   * Create vault .
    *
    * Creation vault by given data
    *
@@ -113,7 +115,7 @@ export class VaultControllerService extends BaseService {
   }
 
   /**
-   * Create vault.
+   * Create vault .
    *
    * Creation vault by given data
    *
@@ -132,9 +134,9 @@ export class VaultControllerService extends BaseService {
   static readonly GetVaultByIdPath = '/api/vault-management/vaults/{id}';
 
   /**
-   * Find vault by id.
+   * Find vault by id - ADMIN / GUEST.
    *
-   *
+   * Find vault by id
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `getVaultById()` instead.
@@ -146,9 +148,9 @@ export class VaultControllerService extends BaseService {
   }
 
   /**
-   * Find vault by id.
+   * Find vault by id - ADMIN / GUEST.
    *
-   *
+   * Find vault by id
    *
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `getVaultById$Response()` instead.
@@ -198,7 +200,7 @@ export class VaultControllerService extends BaseService {
   static readonly GetAllVaultsByUserIdPath = '/api/vault-management/vaults/user/{id}';
 
   /**
-   * Get all vault by User Id.
+   * Get all vault by User Id - ADMIN.
    *
    * Get all vault by User given
    *
@@ -212,7 +214,7 @@ export class VaultControllerService extends BaseService {
   }
 
   /**
-   * Get all vault by User Id.
+   * Get all vault by User Id - ADMIN.
    *
    * Get all vault by User given
    *
@@ -223,6 +225,39 @@ export class VaultControllerService extends BaseService {
    */
   getAllVaultsByUserId(params: GetAllVaultsByUserId$Params, context?: HttpContext): Observable<Array<VaultDto>> {
     return this.getAllVaultsByUserId$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<VaultDto>>): Array<VaultDto> => r.body)
+    );
+  }
+
+  /** Path part for operation `getAllVaultsByPrincipal()` */
+  static readonly GetAllVaultsByPrincipalPath = '/api/vault-management/vaults/user/';
+
+  /**
+   * Get all vault by Principal.
+   *
+   * Get all vault Principal
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getAllVaultsByPrincipal()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllVaultsByPrincipal$Response(params?: GetAllVaultsByPrincipal$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<VaultDto>>> {
+    return getAllVaultsByPrincipal(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Get all vault by Principal.
+   *
+   * Get all vault Principal
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getAllVaultsByPrincipal$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllVaultsByPrincipal(params?: GetAllVaultsByPrincipal$Params, context?: HttpContext): Observable<Array<VaultDto>> {
+    return this.getAllVaultsByPrincipal$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<VaultDto>>): Array<VaultDto> => r.body)
     );
   }

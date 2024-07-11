@@ -17,6 +17,8 @@ import { getAllUsers } from '../fn/user-controller/get-all-users';
 import { GetAllUsers$Params } from '../fn/user-controller/get-all-users';
 import { getUserById } from '../fn/user-controller/get-user-by-id';
 import { GetUserById$Params } from '../fn/user-controller/get-user-by-id';
+import { getUserByJwt } from '../fn/user-controller/get-user-by-jwt';
+import { GetUserByJwt$Params } from '../fn/user-controller/get-user-by-jwt';
 import { updateUser } from '../fn/user-controller/update-user';
 import { UpdateUser$Params } from '../fn/user-controller/update-user';
 import { UserDto } from '../models/user-dto';
@@ -64,7 +66,7 @@ export class UserControllerService extends BaseService {
   static readonly GetAllUsersPath = '/api/user-management/users';
 
   /**
-   * Get all Users.
+   * Get all Users - ADMIN.
    *
    * Returns all Users
    *
@@ -78,7 +80,7 @@ export class UserControllerService extends BaseService {
   }
 
   /**
-   * Get all Users.
+   * Get all Users - ADMIN.
    *
    * Returns all Users
    *
@@ -97,7 +99,7 @@ export class UserControllerService extends BaseService {
   static readonly CreateUserPath = '/api/user-management/users';
 
   /**
-   * Create user.
+   * Create user - ADMIN.
    *
    * Create a user
    *
@@ -111,7 +113,7 @@ export class UserControllerService extends BaseService {
   }
 
   /**
-   * Create user.
+   * Create user - ADMIN.
    *
    * Create a user
    *
@@ -130,7 +132,7 @@ export class UserControllerService extends BaseService {
   static readonly GetUserByIdPath = '/api/user-management/users/{id}';
 
   /**
-   * Get user by Id.
+   * Get user by Id - ADMIN.
    *
    * Get user by Id
    *
@@ -144,7 +146,7 @@ export class UserControllerService extends BaseService {
   }
 
   /**
-   * Get user by Id.
+   * Get user by Id - ADMIN.
    *
    * Get user by Id
    *
@@ -188,6 +190,39 @@ export class UserControllerService extends BaseService {
    */
   deleteUserById(params: DeleteUserById$Params, context?: HttpContext): Observable<UserDto> {
     return this.deleteUserById$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserDto>): UserDto => r.body)
+    );
+  }
+
+  /** Path part for operation `getUserByJwt()` */
+  static readonly GetUserByJwtPath = '/api/user-management/user/profile';
+
+  /**
+   * Get User By JWT .
+   *
+   * Get User By JWT
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getUserByJwt()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getUserByJwt$Response(params?: GetUserByJwt$Params, context?: HttpContext): Observable<StrictHttpResponse<UserDto>> {
+    return getUserByJwt(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Get User By JWT .
+   *
+   * Get User By JWT
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getUserByJwt$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getUserByJwt(params?: GetUserByJwt$Params, context?: HttpContext): Observable<UserDto> {
+    return this.getUserByJwt$Response(params, context).pipe(
       map((r: StrictHttpResponse<UserDto>): UserDto => r.body)
     );
   }

@@ -6,4 +6,5 @@ export interface UserDto {
   id?: number;
   imgProfile?: string;
   lastName?: string;
+  role?: 'GUEST' | 'ADMIN';
 }

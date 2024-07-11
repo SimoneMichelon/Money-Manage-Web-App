@@ -10,6 +10,8 @@ import { ThirdPartyControllerService } from './services/third-party-controller.s
 import { RevenueControllerService } from './services/revenue-controller.service';
 import { ExpenseControllerService } from './services/expense-controller.service';
 import { CategoryControllerService } from './services/category-controller.service';
+import { AuthControllerService } from './services/auth-controller.service';
+import { CredentialControllerService } from './services/credential-controller.service';
 
 /**
  * Module that provides all services and configuration.
@@ -25,6 +27,8 @@ import { CategoryControllerService } from './services/category-controller.servic
     RevenueControllerService,
     ExpenseControllerService,
     CategoryControllerService,
+    AuthControllerService,
+    CredentialControllerService,
     ApiConfiguration
   ],
 })
