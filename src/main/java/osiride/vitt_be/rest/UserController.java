@@ -3,6 +3,7 @@ package osiride.vitt_be.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import osiride.vitt_be.dto.UserDTO;
 import osiride.vitt_be.error.BadRequestException;
 import osiride.vitt_be.error.InternalServerException;
+import osiride.vitt_be.error.InvalidTokenException;
+import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
+import osiride.vitt_be.service.AuthService;
 import osiride.vitt_be.service.UserService;
 
 @Slf4j
@@ -32,51 +35,105 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@Operation(summary = "Get all Users", description = "Returns all Users")
+	@Lazy
+	@Autowired
+	private AuthService authService;
+
+	@Operation(summary = "Get all Users - ADMIN", description = "Returns all Users")
 	@GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<List<UserDTO>> getAllUsers(){
-		List<UserDTO> result = userService.getAll();
-		log.info("REST - Users's list size : {} - READ ALL", result.size());
-		return ResponseEntity.status(HttpStatus.OK).body(result);
+		try {
+			if(authService.isAdmin()) {
+				List<UserDTO> result = userService.getAll();
+				log.info("REST - Users's list size : {} - READ ALL", result.size());
+				return ResponseEntity.status(HttpStatus.OK).body(result);
+			}
+			else {
+				log.error("REST - Not Authorized - READ ALL");
+				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			}
+		} catch (InvalidTokenException | NotFoundException | BadRequestException e) {
+			log.error("REST - Invalid Token - READ ALL");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} 
+	}
+
+	@Operation(summary = "Get User By JWT ", description = "Get User By JWT")
+	@GetMapping(value = "/user/profile", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserDTO> getUserByJwt(){
+		try {
+			UserDTO result = authService.getPrincipal();
+			log.info("REST - User returned - JWT");
+			return ResponseEntity.status(HttpStatus.OK).body(result);
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - JWT");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		} catch (NotFoundException e) {
+			log.error("REST - User has not been found - JWT");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (BadRequestException e) {
+			log.error("REST - Invalid User Data - JWT");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}	
 
-	@Operation(summary = "Get user by Id", description = "Get user by Id")
+	@Operation(summary = "Get user by Id - ADMIN", description = "Get user by Id")
 	@GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<UserDTO> getUserById(@PathVariable Long id){
 		try {
-			UserDTO result = userService.findById(id);
-			log.info("REST - Users returned");
-			return ResponseEntity.status(HttpStatus.OK).body(result);
-
+			if(authService.isAdmin()) {
+				UserDTO result = userService.findById(id);
+				log.info("REST - Users returned - READ ONE");
+				return ResponseEntity.status(HttpStatus.OK).body(result);
+			}
+			else {
+				log.error("REST - Not Authorized - READ ALL");
+				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			}
 		} catch(BadRequestException e) {
-			log.error("REST - BadRequest Error, ");
+			log.error("REST - Bad Request Error - READ ONE ");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch(NotFoundException e) {
 			log.error("REST - User has not been found - READ ONE");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token- READ ONE");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} 
 	}	
 
-	@Operation(summary = "Create user", description = "Create a user")
+	@Operation(summary = "Create user - ADMIN", description = "Create a user")
 	@PostMapping(value = "/users", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO){
+	public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO){
 		try {
-			UserDTO result = userService.create(userDTO);
-			log.info("REST - User created, id : {}, First Name : {}, Last Name : {} - READ ALL", result.getId() ,result.getFirstName(), result.getLastName());
-			return ResponseEntity.status(HttpStatus.CREATED).body(result);
+			if(authService.isAdmin()) {
+				UserDTO result = userService.create(userDTO);
+				log.info("REST - User created, id : {}, First Name : {}, Last Name : {} - READ ALL", result.getId() ,result.getFirstName(), result.getLastName());
+				return ResponseEntity.status(HttpStatus.CREATED).body(result);
+			}
+			else {
+				log.error("REST - Not Authorized - CREATE");
+				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			}
 		} catch (BadRequestException e) {
 			log.error("REST - Bad Request, Data given is invalid - CREATE");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		} catch(NotFoundException e) {
+			log.error("REST - User has not been found - CREATE");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token- CREATE");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} 
 	}
 
 
 	@Operation(summary = "Update user", description = "Update a user")
 	@PutMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE) 
-	public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserDTO userDTO){
+	public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO){
 		try {
 			UserDTO result = userService.update(userDTO);
-			log.info("REST - User updated, id : {}, First Name : {}, Last Name : {} - READ ALL", result.getId() ,result.getFirstName(), result.getLastName());
+			log.info("REST - User updated, id : {}, First Name : {}, Last Name : {} - UPDATE", result.getId() ,result.getFirstName(), result.getLastName());
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch(NotFoundException e) {
 			log.error("REST - User has not been found - UPDATE");
@@ -84,6 +141,12 @@ public class UserController {
 		} catch(BadRequestException e) {
 			log.error("REST - Bad Request, Data given is invalid - UPDATE");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - UPDATE");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch (NotAuthorizedException e) {
+			log.error("REST - Not Authorized  - UPDATE");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}
 

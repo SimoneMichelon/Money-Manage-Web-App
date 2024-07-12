@@ -21,6 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 import osiride.vitt_be.dto.RevenueDTO;
 import osiride.vitt_be.error.BadRequestException;
 import osiride.vitt_be.error.InternalServerException;
+import osiride.vitt_be.error.InvalidTokenException;
+import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.error.OperationNotPermittedException;
 import osiride.vitt_be.service.RevenueService;
@@ -29,7 +31,6 @@ import osiride.vitt_be.service.RevenueService;
 @RestController
 @RequestMapping("/api/revenue-management")
 public class RevenueController {
-
 
 	@Autowired
 	private RevenueService revenueService;
@@ -75,6 +76,9 @@ public class RevenueController {
 		} catch (OperationNotPermittedException e) {
 			log.error("REST - Operation Not Permitted Error - UPDATE");
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		} catch (NotAuthorizedException | InvalidTokenException e) {
+			log.error("REST - Not Authorized || Invalid Token - UPDATE");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 	

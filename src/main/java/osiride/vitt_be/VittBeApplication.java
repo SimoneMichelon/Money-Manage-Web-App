@@ -8,5 +8,4 @@ public class VittBeApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(VittBeApplication.class, args);
 	}
-
 }
