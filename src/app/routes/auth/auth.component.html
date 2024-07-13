@@ -1,0 +1,35 @@
+<div class="main-container">
+    <div class="image-container">
+
+    </div>
+    <div class="form-container">
+        <form 
+            [formGroup]="loginForm" 
+            (submit)="loginHandler()"
+            class="login-form"
+            >
+            <mat-form-field 
+            >
+                <mat-label>
+                    Email :                     
+                </mat-label>
+                <input matInput formControlName="email" >
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>
+                    Password :                     
+                </mat-label>
+                <input matInput formControlName="password" type="password">
+            </mat-form-field>
+
+            <button 
+            mat-button 
+            type="submit"
+            [disabled]="loginForm.invalid"
+            >
+               Login
+            </button>
+        </form>
+    </div>
+</div>

@@ -1,8 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { UserControllerService } from '../api/services/user-controller.service';
-import { CommonModule } from '@angular/common';
+import { UserControllerService } from '../../api/services/user-controller.service';
 
 interface SideNavToggle {
   screenWidth: number;
@@ -12,7 +12,7 @@ interface SideNavToggle {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatButtonModule, MatCardModule, CommonModule],
+  imports : [MatButtonModule,MatCardModule,CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })

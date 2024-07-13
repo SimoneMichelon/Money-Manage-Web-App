@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { AuthComponent } from './routes/auth/auth.component';
+import { DashboardComponent } from './routes/dashboard/dashboard.component';
 
 interface SideNavToggle {
   screenWidth: number;
@@ -12,7 +13,7 @@ interface SideNavToggle {
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [RouterOutlet, DashboardComponent],
+  imports: [RouterOutlet, DashboardComponent, AuthComponent],
 })
 export class AppComponent {
   isSideNavCollapsed = false;
