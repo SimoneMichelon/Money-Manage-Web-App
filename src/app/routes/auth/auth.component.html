@@ -1,35 +1,37 @@
-<div class="main-container">
-    <div class="image-container">
-
-    </div>
+ <div class="main-container">
     <div class="form-container">
+        <div class="title"> 
+            <h1>E - Login</h1>
+        </div>
         <form 
             [formGroup]="loginForm" 
             (submit)="loginHandler()"
             class="login-form"
             >
-            <mat-form-field 
-            >
-                <mat-label>
-                    Email :                     
-                </mat-label>
-                <input matInput formControlName="email" >
-            </mat-form-field>
+                <input 
+                class="input-style"
+                matInput 
+                formControlName="email" 
+                type="email"
+                placeholder="Email ...">
+                
+                <input 
+                class="input-style"
+                matInput 
+                formControlName="password" 
+                type="password"
+                placeholder="Password ...">
 
-            <mat-form-field>
-                <mat-label>
-                    Password :                     
-                </mat-label>
-                <input matInput formControlName="password" type="password">
-            </mat-form-field>
+                <a class="password-forgot" href="">Forgot Password?</a>
 
-            <button 
-            mat-button 
-            type="submit"
-            [disabled]="loginForm.invalid"
-            >
-               Login
-            </button>
+                <button 
+                class="input-style"
+                mat-button 
+                type="submit"
+                [disabled]="loginForm.invalid"
+                >
+                    <h5>Login</h5>
+                </button>
         </form>
-    </div>
-</div>
+    </div> 
+</div> 

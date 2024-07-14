@@ -1,108 +1,86 @@
-// .main-container{
-//     display: flex;
-//     flex-direction: row;
-//     justify-content: center;
-//     margin-top: 10%;
-//     background-color: rgb(145, 136, 136);
-// }
+.main-container{
+    //background-image: url("../../../assets/photo/background.jpg");
+    //background-image: url("../../../assets/photo/login-wallpaper.png");
+    background-image: url("../../../assets/photo/montain.jpg");
+    //background-image: url("../../../assets/photo/neve.jpg") ;
+    //background-image: url("../../../assets/photo/purple-path.jpg");
+    //background-image: url("../../../assets/photo/forest.jpg");
 
-// .form-container{
-//     background-color: burlywood;
-//     height: fit-content;
-//     width: fit-content;
-//     width: 200px;
-//     height: 400px;
-// }
+    
+    background-size: cover;
+    background-attachment: fixed;
+    position: absolute;
+    height: 100%;
+    width: 100%;
 
-// .login-form{
-//     display: flex;
-//     flex-direction: column;
-//     height: 100%;
-//     width: 100%;
-// }
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    overflow: hidden;
+}
 
-// .image-container{
-//     width: 200px;
-//     height: 400px;
-//     background-color: aquamarine;
-// }
-
-/* Container Styles */
-.main-container {
+.form-container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: fit-content;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #fff;
-}
+    flex-direction: column;
+    transform: translate(-50%, -50%);
 
-.image-container {
-    margin-bottom: 20px;
-}
-
-/* Form Styles */
-.form-container {
-    background: #f0f0f0;
-    padding: 30px;
+    border: solid 3px rgb(255, 255, 255);
+    backdrop-filter: blur(20px);
+    padding: 40px;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 400px; /* Increased width */
 }
 
-.login-form {
+.login-form{
     display: flex;
     flex-direction: column;
-}
-
-.mat-form-field {
+    height: 100%;
     width: 100%;
-    margin-bottom: 20px; /* Increased margin */
 }
 
-.mat-form-field .mat-label {
-    color: #333;
-    font-weight: bold;
-}
-
-input[matInput] {
-    width: 100%;
-    box-sizing: border-box;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
+.input-style{
+    margin-top: 40px;
+    border-radius: 50px;
     font-size: 16px;
-    color: #333;
+    margin: 30px auto auto auto;
+    padding-left: 20px;
 }
 
-input[matInput]:focus {
-    border-color: #333;
+.password-forgot{
+    margin-top: 20px;
+    color: rgba(255, 255, 255);
+    text-align: center;
 }
 
-button[mat-button] {
-    background: #333;
-    color: #fff;
-    padding: 15px 20px; /* Increased padding */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s ease;
+input{
+    outline: none;
+    background: none;
+    border: solid 2px rgba(255, 255, 255);
+    height: 50px;
+    width: 300px;
 }
 
-button[mat-button]:hover {
-    background: #555;
+input::placeholder {
+    color: rgb(255, 255, 255);
+    opacity: 1;
 }
 
-button[mat-button][disabled] {
-    background: #aaa;
-    cursor: not-allowed;
+h5{
+    color: rgb(0, 0, 0);
+    font-size: large;
 }
 
-/* Responsive Design */
-@media (max-width: 600px) {
-    .form-container {
-        width: 90%;
-    }
+h1{
+    color: rgba(255, 255, 255);
+    font-size: 50px;
 }
+
+button{
+    margin: 20px 10px;
+    background: rgb(255, 255, 255);
+    height: 56px;
+    width: 326px;
+}
+

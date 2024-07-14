@@ -43,11 +43,10 @@ export class AuthComponent {
       body : loginData
     }).subscribe({
       next: (response) => {
-        // console.log("Jwt : " , response.jwt);
         localStorage.setItem("jwt", response.jwt!);
       },
       error : (response) => {
-        // console.log(response.status)
+        console.log(response.status)
       }
     });
   }
