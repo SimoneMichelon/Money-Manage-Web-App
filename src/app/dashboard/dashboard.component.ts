@@ -1,11 +1,10 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { UserControllerService } from '../api/services/user-controller.service';
 import { CommonModule } from '@angular/common';
 
 interface SideNavToggle {
-  screenWidth: number;
   collapsed: boolean;
 }
 
@@ -28,7 +27,6 @@ export class DashboardComponent {
     this.collapsed = !this.collapsed;
     this.onToggleSideNav.emit({
       collapsed: this.collapsed,
-      screenWidth: this.screenWidth,
     });
   }
 }

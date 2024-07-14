@@ -1,3 +1,9 @@
 <div class="full-container">
   <app-dashboard (onToggleSideNav)="collapsedOff($event)"></app-dashboard>
+  <div
+    class="main-content"
+    [ngClass]="isSideNavCollapsed ? 'blurred' : 'no-blur'"
+  >
+    <!-- routing components should be putted here -->
+  </div>
 </div>

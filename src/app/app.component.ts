@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { CommonModule } from '@angular/common';
 
 interface SideNavToggle {
-  screenWidth: number;
   collapsed: boolean;
 }
 
@@ -12,14 +12,12 @@ interface SideNavToggle {
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [RouterOutlet, DashboardComponent],
+  imports: [RouterOutlet, DashboardComponent, CommonModule],
 })
 export class AppComponent {
   isSideNavCollapsed = false;
-  screenWidth = 0;
 
   collapsedOff(data: SideNavToggle): void {
-    this.screenWidth = data.screenWidth;
     this.isSideNavCollapsed = data.collapsed;
   }
 }
