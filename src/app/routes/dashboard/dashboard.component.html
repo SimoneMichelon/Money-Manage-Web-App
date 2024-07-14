@@ -5,7 +5,8 @@
 <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
   <div class="logo-container">
     <button (click)="collapseOff()" class="logo">V</button>
-    <div class="logo-text" *ngIf="collapsed">Vitte</div>
+    <div class="logo-text" *ngIf="collapsed">Vitt</div>
+
     <button class="btn-close" (click)="collapseOff()" *ngIf="collapsed">
       <i class="material-symbols-outlined closeBtn">close</i>
     </button>
@@ -13,11 +14,15 @@
   <ul class="sidenav-nav">
     <li class="sidenav-nav-item" *ngFor="let data of navData">
       <a class="sidenav-nav-link" routerLink="[data.routeLink]">
-        <i class="sidenav-link-icon" [class]="data.icon">Home</i>
+        <i class="sidenav-link-icon" [class]="data.icon">{{data.routeLink}} </i>
         <span class="sidenav-link-text" *ngIf="collapsed">{{
           data.label
         }}</span>
       </a>
     </li>
+
+    <button class="btn-close" (click)="logout()">
+      <i class="material-symbols-outlined closeBtn">logout</i>
+    </button>
   </ul>
 </div>
