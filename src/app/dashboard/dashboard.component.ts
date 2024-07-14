@@ -38,5 +38,30 @@ const navbarData = [
     routeLink: 'dashboard',
     icon: 'material-symbols-outlined',
     label: 'Dashboard',
+    iconName: 'Home',
+  },
+  {
+    routeLink: 'statistics',
+    icon: 'material-symbols-outlined',
+    label: 'Statistics',
+    iconName: 'Monitoring',
+  },
+  {
+    routeLink: 'charts',
+    icon: 'material-symbols-outlined',
+    label: 'Charts',
+    iconName: 'bar_chart',
+  },
+  {
+    routeLink: 'chartsData',
+    icon: 'material-symbols-outlined',
+    label: 'Charts Data',
+    iconName: 'chart_data',
+  },
+  {
+    routeLink: 'scheduledOperations',
+    icon: 'material-symbols-outlined',
+    label: 'Scheduled Operations',
+    iconName: 'event_upcoming',
   },
 ];
