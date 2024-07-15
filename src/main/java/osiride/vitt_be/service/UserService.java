@@ -72,6 +72,7 @@ public class UserService {
 	 * If the provided ID is null, a {@code BadRequestException} is thrown. If a user with the 
 	 * specified ID is found, it is mapped to a {@code UserDTO} object using the {@code userMapper} 
 	 * and returned. If the user is not found, a {@code NotFoundException} is thrown.
+	 * @throws InternalServerException 
 	 */
 	public UserDTO findById(Long id) throws NotFoundException, BadRequestException {
 		if(id == null) {
@@ -87,6 +88,9 @@ public class UserService {
 			log.error("SERVICE - User not found - FIND ONE");
 			throw new NotFoundException();
 		}
+		
+
+		
 	}
 
 	/**

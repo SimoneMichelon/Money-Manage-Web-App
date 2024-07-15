@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import osiride.vitt_be.constant.Role;
 
-@Entity(name = "user")
+@Entity(name = "`user`")
 @Getter
 @Setter
 @AllArgsConstructor

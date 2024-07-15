@@ -1,4 +1,4 @@
-spring:
+mspring:
   application:
     name: Vitt
 
@@ -12,7 +12,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto:
     show-sql: true
     properties:
       hibernate: 
