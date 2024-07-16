@@ -25,8 +25,10 @@ import { AuthControllerService } from '../../api/services';
   styleUrl: './auth.component.scss'
 })
 export class AuthComponent implements OnInit{
+
   constructor(private authControllerService : AuthControllerService,
     private router : Router){}
+
   ngOnInit(): void {
     if(localStorage.getItem("jwt")){
       this.router.navigateByUrl('/dashboard');
@@ -45,12 +47,12 @@ export class AuthComponent implements OnInit{
       password : this.loginForm.value.password!
     }
 
-
     this.authControllerService.signIn({
       body : loginData
     }).subscribe({
       next: (response) => {
         localStorage.setItem("jwt", response.jwt!);
+        this.router.navigateByUrl('/dashboard');
       },
       error : (response) => {
         console.log(response.status)
@@ -58,5 +60,4 @@ export class AuthComponent implements OnInit{
     });
   }
 
-  
 }

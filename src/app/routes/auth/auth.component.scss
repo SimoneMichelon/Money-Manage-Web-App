@@ -1,12 +1,11 @@
 .main-container{
     //background-image: url("../../../assets/photo/background.jpg");
     //background-image: url("../../../assets/photo/login-wallpaper.png");
-    background-image: url("../../../assets/photo/montain.jpg");
-    //background-image: url("../../../assets/photo/neve.jpg") ;
+    //background-image: url("../../../assets/photo/montain.jpg");
+    background-image: url("../../../assets/photo/neve.jpg") ;
     //background-image: url("../../../assets/photo/purple-path.jpg");
     //background-image: url("../../../assets/photo/forest.jpg");
 
-    
     background-size: cover;
     background-attachment: fixed;
     position: absolute;
@@ -27,10 +26,11 @@
     flex-direction: column;
     transform: translate(-50%, -50%);
 
-    border: solid 3px rgb(255, 255, 255);
-    backdrop-filter: blur(20px);
+    background-color: rgba(0, 0, 0, 0.800);
     padding: 40px;
     border-radius: 10px;
+    box-shadow: 0px 15px 30px rgb(0, 0, 0);
+    border: 2px solid black;
 }
 
 .login-form{
@@ -50,38 +50,54 @@
 
 .password-forgot{
     margin-top: 20px;
-    color: rgba(255, 255, 255);
+    color: rgba(255, 255, 255, 0.9);
     text-align: center;
 }
+
+.password-forgot:hover {
+    text-shadow: 0px 0px 2px rgba(255, 255, 255, 0.594);
+}
+
 
 input{
     outline: none;
     background: none;
-    border: solid 2px rgba(255, 255, 255);
+    border: solid 2px rgba(255, 255, 255, 0.623);
     color: white;
     height: 50px;
     width: 300px;
 }
+input:hover{
+    box-shadow: 0px  0px 10px rgb(255, 255, 255);
+
+}
 
 input::placeholder {
-    color: rgb(255, 255, 255);
+    color: rgba(254, 254, 254, 0.66);
     opacity: 1;
 }
 
 h5{
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     font-size: large;
+    
 }
 
 h1{
-    color: rgba(255, 255, 255);
+    color: rgb(255, 255, 255);
     font-size: 50px;
 }
 
 button{
     margin: 20px 10px;
-    background: rgb(255, 255, 255);
+    background: rgb(38, 61, 155);
     height: 56px;
     width: 326px;
+}
+
+button:hover{
+    box-shadow: 0px  0px 15px  rgb(38, 61, 155);
+    background: rgb(54, 87, 220);
+
 }
 
