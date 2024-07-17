@@ -1,0 +1,42 @@
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+/>
+<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
+  <div class="logo-container">
+    <button (click)="collapseOff()" class="logo">V</button>
+    <div class="logo-text" *ngIf="collapsed">Vitt</div>
+
+    <button class="btn-close" (click)="collapseOff()" *ngIf="collapsed">
+      <i class="material-symbols-outlined closeBtn">close</i>
+    </button>
+  </div>
+  
+  <div class="img-profile">
+    <img src="" >
+  </div>
+
+
+  <ul class="sidenav-nav">
+    <li class="sidenav-nav-item" *ngFor="let data of navData">
+      <a class="sidenav-nav-link" routerLink="[data.routeLink]" routerLinkActive="active">
+        <i class="sidenav-link-icon" [class]="data.icon">{{ data.iconName }}</i>
+        <span class="sidenav-link-text" *ngIf="collapsed">{{
+          data.label
+        }}</span>
+      </a>
+    </li>
+
+    <a class="sidenav-nav-link sidenav-nav-item" routerLink="[data.routeLink]" routerLinkActive="active">
+      <i class="sidenav-link-icon" [class]="logoutData.icon">Logout</i>
+      <span class="sidenav-link-text" *ngIf="collapsed">
+        Logout
+      </span>
+    </a>
+<!-- 
+    <button class="btn-close" (click)="logout()">
+      <i class="material-symbols-outlined closeBtn">logout</i>
+    </button> -->
+  </ul>
+
+</div>
