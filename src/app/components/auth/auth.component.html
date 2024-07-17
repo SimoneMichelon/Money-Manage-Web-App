@@ -1,37 +1,8 @@
 <div class="main-container">
-    <div class="form-container">
-        <div class="title"> 
-            <h1>Login</h1>
-        </div>
-        <form 
-            [formGroup]="loginForm" 
-            (submit)="loginHandler()"
-            class="login-form"
-            >
-                <input 
-                class="input-style"
-                matInput 
-                formControlName="email" 
-                type="email"
-                placeholder="Email ...">
-                
-                <input 
-                class="input-style"
-                matInput 
-                formControlName="password" 
-                type="password"
-                placeholder="Password ...">
-
-                <a class="password-forgot" href="">Forgot Password?</a>
-
-                <button 
-                class="input-style"
-                mat-button 
-                type="submit"
-                [disabled]="loginForm.invalid"
-                >
-                    <h5>Login</h5>
-                </button>
-        </form>
-    </div> 
+    <div *ngIf="isLogin; else elseBlock" class="item">
+        <app-login></app-login>  
+    </div>
+    <ng-template #elseBlock class="mamma">
+        <app-register></app-register>
+    </ng-template>
 </div> 
