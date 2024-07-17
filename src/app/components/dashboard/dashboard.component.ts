@@ -1,12 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
-import { UserControllerService } from '../../api/services/user-controller.service';
-
-
+import { UserControllerService } from '../../api/services';
 
 interface SideNavToggle {
   screenWidth: number;
@@ -15,15 +9,13 @@ interface SideNavToggle {
 
 @Component({
   selector: 'app-dashboard',
-  standalone: true,
-  imports : [MatButtonModule,MatCardModule,CommonModule,MatIcon],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
-  constructor(private userService: UserControllerService,
-      private router : Router
-  ) {}
+  constructor(private userControllerService: UserControllerService,
+    private router: Router
+  ) { }
 
   @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter();
   collapsed = false;
@@ -38,9 +30,21 @@ export class DashboardComponent {
     });
   }
 
-  logout(){
+  logout() {
     localStorage.clear();
     this.router.navigateByUrl('/login');
+  }
+
+  getUser(){
+
+    this.userControllerService.getUserByJwt().subscribe({
+      next : (response) =>{
+        console.log("Response {}",response);
+      },
+      error : (error) => {
+        console.log("Error {}", error)
+      }
+    })
   }
 }
 

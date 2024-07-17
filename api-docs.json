@@ -1,37 +1,98 @@
 {
-  "openapi": "3.0.1",
-  "info": {
-    "title": "OpenAPI definition",
-    "version": "v0"
-  },
-  "servers": [
-    {
-      "url": "http://localhost:8080",
-      "description": "Generated server url"
-    }
-  ],
-  "security": [
-    {
-      "jwtToken": []
-    }
-  ],
-  "paths": {
-    "/api/vault-management/vaults": {
-      "get": {
-        "tags": [
-          "vault-controller"
-        ],
-        "summary": "Get all Vault - ADMIN",
-        "description": "Get all vault ",
-        "operationId": "getAllVaults",
-        "responses": {
-          "200": {
-            "description": "OK",
+    "openapi": "3.0.1",
+    "info": {
+      "title": "OpenAPI definition",
+      "version": "v0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:8080",
+        "description": "Generated server url"
+      }
+    ],
+    "security": [
+      {
+        "jwtToken": []
+      }
+    ],
+    "paths": {
+      "/api/vault-management/vaults": {
+        "get": {
+          "tags": [
+            "vault-controller"
+          ],
+          "summary": "Get all Vault - ADMIN",
+          "description": "Get all vault ",
+          "operationId": "getAllVaults",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/VaultDTO"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "vault-controller"
+          ],
+          "summary": "Update vault",
+          "description": "Update vault by given data",
+          "operationId": "updateVault",
+          "requestBody": {
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
+                  "$ref": "#/components/schemas/VaultDTO"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/VaultDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "vault-controller"
+          ],
+          "summary": "Create vault ",
+          "description": "Creation vault by given data",
+          "operationId": "createVault",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VaultDTO"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
                     "$ref": "#/components/schemas/VaultDTO"
                   }
                 }
@@ -40,574 +101,30 @@
           }
         }
       },
-      "put": {
-        "tags": [
-          "vault-controller"
-        ],
-        "summary": "Update vault",
-        "description": "Update vault by given data",
-        "operationId": "updateVault",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/VaultDTO"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VaultDTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "vault-controller"
-        ],
-        "summary": "Create vault ",
-        "description": "Creation vault by given data",
-        "operationId": "createVault",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/VaultDTO"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VaultDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/user-management/user": {
-      "put": {
-        "tags": [
-          "user-controller"
-        ],
-        "summary": "Update user",
-        "description": "Update a user",
-        "operationId": "updateUser",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserDTO"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
+      "/api/user-management/user": {
+        "put": {
+          "tags": [
+            "user-controller"
+          ],
+          "summary": "Update user",
+          "description": "Update a user",
+          "operationId": "updateUser",
+          "requestBody": {
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UserDTO"
                 }
               }
-            }
-          }
-        }
-      }
-    },
-    "/api/third-party-management/third-parties": {
-      "get": {
-        "tags": [
-          "third-party-controller"
-        ],
-        "summary": "Get all Third Parties",
-        "description": "Get all Third Parties",
-        "operationId": "getAllThirdParties",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ThirdPartyDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "third-party-controller"
-        ],
-        "summary": "Update Third Party",
-        "description": "Update a Third Party",
-        "operationId": "updateThirdParty",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ThirdPartyDTO"
-              }
-            }
+            },
+            "required": true
           },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ThirdPartyDTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "third-party-controller"
-        ],
-        "summary": "Create Third Party",
-        "description": "Create a Third Party",
-        "operationId": "createThirdParty",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ThirdPartyDTO"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ThirdPartyDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/revenue-management/revenues": {
-      "get": {
-        "tags": [
-          "revenue-controller"
-        ],
-        "summary": "Get all Revenue",
-        "description": "Get all Revenue",
-        "operationId": "getAllRevenue",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/RevenueDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "revenue-controller"
-        ],
-        "summary": "Update revenue",
-        "description": "Update revenue by given data",
-        "operationId": "updateRevenue",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RevenueDTO"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RevenueDTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "revenue-controller"
-        ],
-        "summary": "Create revenue",
-        "description": "Creation revenue by given data",
-        "operationId": "createRevenue",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RevenueDTO"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RevenueDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/expense-management/expenses": {
-      "get": {
-        "tags": [
-          "expense-controller"
-        ],
-        "summary": "Get all Expense",
-        "description": "Get all Expense",
-        "operationId": "getAllExpense",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ExpenseDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "expense-controller"
-        ],
-        "summary": "Update expense",
-        "description": "Update expense by given data",
-        "operationId": "updateExpense",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ExpenseDTO"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExpenseDTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "expense-controller"
-        ],
-        "summary": "Create expense",
-        "description": "Creation expense by given data",
-        "operationId": "createExpense",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ExpenseDTO"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExpenseDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/category-management/categories": {
-      "get": {
-        "tags": [
-          "category-controller"
-        ],
-        "summary": "Get all Category",
-        "description": "Get all Category ",
-        "operationId": "getAllCategories",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CategoryDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "category-controller"
-        ],
-        "summary": "Update category",
-        "description": "Update category by given data",
-        "operationId": "updateCategory",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CategoryDTO"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CategoryDTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "category-controller"
-        ],
-        "summary": "Create category",
-        "description": "Creation category by given data",
-        "operationId": "createCategory",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CategoryDTO"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CategoryDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/auth/signUp": {
-      "post": {
-        "tags": [
-          "auth-controller"
-        ],
-        "summary": "Sign Up",
-        "description": "Sign up givin Credentials Details",
-        "operationId": "signUp",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CredentialDTO"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/auth/signIn": {
-      "post": {
-        "tags": [
-          "auth-controller"
-        ],
-        "summary": "Sign Ip",
-        "description": "Sign ip givin email and password",
-        "operationId": "signIn",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/auth-management/credentials": {
-      "get": {
-        "tags": [
-          "credential-controller"
-        ],
-        "summary": "Get all Credentials",
-        "description": "Get all credentials ",
-        "operationId": "getAllCredentials",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CredentialDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "credential-controller"
-        ],
-        "summary": "Create new Credentials",
-        "description": "Create credential by given data",
-        "operationId": "createCredential",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CredentialDTO"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CredentialDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/user-management/users": {
-      "get": {
-        "tags": [
-          "user-controller"
-        ],
-        "summary": "Get all Users - ADMIN",
-        "description": "Returns all Users",
-        "operationId": "getAllUsers",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
                     "$ref": "#/components/schemas/UserDTO"
                   }
                 }
@@ -616,129 +133,980 @@
           }
         }
       },
-      "post": {
-        "tags": [
-          "user-controller"
-        ],
-        "summary": "Create user - ADMIN",
-        "description": "Create a user",
-        "operationId": "createUser",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserDTO"
+      "/api/third-party-management/third-parties": {
+        "get": {
+          "tags": [
+            "third-party-controller"
+          ],
+          "summary": "Get all Third Parties",
+          "description": "Get all Third Parties",
+          "operationId": "getAllThirdParties",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ThirdPartyDTO"
+                    }
+                  }
+                }
               }
             }
-          },
-          "required": true
+          }
         },
-        "responses": {
-          "200": {
-            "description": "OK",
+        "put": {
+          "tags": [
+            "third-party-controller"
+          ],
+          "summary": "Update Third Party",
+          "description": "Update a Third Party",
+          "operationId": "updateThirdParty",
+          "requestBody": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserDTO"
+                  "$ref": "#/components/schemas/ThirdPartyDTO"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ThirdPartyDTO"
+                  }
                 }
               }
             }
           }
-        }
-      }
-    },
-    "/api/vault-management/vaults/{id}": {
-      "get": {
-        "tags": [
-          "vault-controller"
-        ],
-        "summary": "Find vault by id - ADMIN / GUEST",
-        "description": "Find vault by id",
-        "operationId": "getVaultById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
+        },
+        "post": {
+          "tags": [
+            "third-party-controller"
+          ],
+          "summary": "Create Third Party",
+          "description": "Create a Third Party",
+          "operationId": "createThirdParty",
+          "requestBody": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/VaultDTO"
+                  "$ref": "#/components/schemas/ThirdPartyDTO"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ThirdPartyDTO"
+                  }
                 }
               }
             }
           }
         }
       },
-      "delete": {
-        "tags": [
-          "vault-controller"
-        ],
-        "summary": "Delete vault by id",
-        "description": "Delete vault by id",
-        "operationId": "deleteVaultById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
+      "/api/revenue-management/revenues": {
+        "get": {
+          "tags": [
+            "revenue-controller"
+          ],
+          "summary": "Get all Revenue",
+          "description": "Get all Revenue",
+          "operationId": "getAllRevenue",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/RevenueDTO"
+                    }
+                  }
+                }
+              }
             }
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
+        },
+        "put": {
+          "tags": [
+            "revenue-controller"
+          ],
+          "summary": "Update revenue",
+          "description": "Update revenue by given data",
+          "operationId": "updateRevenue",
+          "requestBody": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/VaultDTO"
+                  "$ref": "#/components/schemas/RevenueDTO"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RevenueDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "revenue-controller"
+          ],
+          "summary": "Create revenue",
+          "description": "Creation revenue by given data",
+          "operationId": "createRevenue",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RevenueDTO"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RevenueDTO"
+                  }
                 }
               }
             }
           }
         }
-      }
-    },
-    "/api/vault-management/vaults/user/{id}": {
-      "get": {
-        "tags": [
-          "vault-controller"
-        ],
-        "summary": "Get all vault by User Id - ADMIN",
-        "description": "Get all vault by User given",
-        "operationId": "getAllVaultsByUserId",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
+      },
+      "/api/expense-management/expenses": {
+        "get": {
+          "tags": [
+            "expense-controller"
+          ],
+          "summary": "Get all Expense",
+          "description": "Get all Expense",
+          "operationId": "getAllExpense",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ExpenseDTO"
+                    }
+                  }
+                }
+              }
             }
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
+        },
+        "put": {
+          "tags": [
+            "expense-controller"
+          ],
+          "summary": "Update expense",
+          "description": "Update expense by given data",
+          "operationId": "updateExpense",
+          "requestBody": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
+                  "$ref": "#/components/schemas/ExpenseDTO"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ExpenseDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "expense-controller"
+          ],
+          "summary": "Create expense",
+          "description": "Creation expense by given data",
+          "operationId": "createExpense",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenseDTO"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ExpenseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/category-management/categories": {
+        "get": {
+          "tags": [
+            "category-controller"
+          ],
+          "summary": "Get all Category",
+          "description": "Get all Category ",
+          "operationId": "getAllCategories",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/CategoryDTO"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "category-controller"
+          ],
+          "summary": "Update category",
+          "description": "Update category by given data",
+          "operationId": "updateCategory",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDTO"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CategoryDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "category-controller"
+          ],
+          "summary": "Create category",
+          "description": "Creation category by given data",
+          "operationId": "createCategory",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDTO"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CategoryDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/auth/signUp": {
+        "post": {
+          "tags": [
+            "auth-controller"
+          ],
+          "summary": "Sign Up",
+          "description": "Sign up givin Credentials Details",
+          "operationId": "signUp",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CredentialDTO"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/AuthResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/auth/signIn": {
+        "post": {
+          "tags": [
+            "auth-controller"
+          ],
+          "summary": "Sign Ip",
+          "description": "Sign ip givin email and password",
+          "operationId": "signIn",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginRequest"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/AuthResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/auth-management/credentials": {
+        "get": {
+          "tags": [
+            "credential-controller"
+          ],
+          "summary": "Get all Credentials",
+          "description": "Get all credentials ",
+          "operationId": "getAllCredentials",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/CredentialDTO"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "credential-controller"
+          ],
+          "summary": "Create new Credentials",
+          "description": "Create credential by given data",
+          "operationId": "createCredential",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CredentialDTO"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CredentialDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/user-management/users": {
+        "get": {
+          "tags": [
+            "user-controller"
+          ],
+          "summary": "Get all Users - ADMIN",
+          "description": "Returns all Users",
+          "operationId": "getAllUsers",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/UserDTO"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "user-controller"
+          ],
+          "summary": "Create user - ADMIN",
+          "description": "Create a user",
+          "operationId": "createUser",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDTO"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/vault-management/vaults/{id}": {
+        "get": {
+          "tags": [
+            "vault-controller"
+          ],
+          "summary": "Find vault by id - ADMIN / GUEST",
+          "description": "Find vault by id",
+          "operationId": "getVaultById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
                     "$ref": "#/components/schemas/VaultDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "vault-controller"
+          ],
+          "summary": "Delete vault by id",
+          "description": "Delete vault by id",
+          "operationId": "deleteVaultById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/VaultDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/vault-management/vaults/user/{id}": {
+        "get": {
+          "tags": [
+            "vault-controller"
+          ],
+          "summary": "Get all vault by User Id - ADMIN",
+          "description": "Get all vault by User given",
+          "operationId": "getAllVaultsByUserId",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/VaultDTO"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/vault-management/vaults/user/": {
+        "get": {
+          "tags": [
+            "vault-controller"
+          ],
+          "summary": "Get all vault by Principal",
+          "description": "Get all vault Principal",
+          "operationId": "getAllVaultsByPrincipal",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/VaultDTO"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/user-management/users/{id}": {
+        "get": {
+          "tags": [
+            "user-controller"
+          ],
+          "summary": "Get user by Id - ADMIN",
+          "description": "Get user by Id",
+          "operationId": "getUserById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "user-controller"
+          ],
+          "summary": "Delete user by Id",
+          "description": "Delete user by his id",
+          "operationId": "deleteUserById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/user-management/user/profile": {
+        "get": {
+          "tags": [
+            "user-controller"
+          ],
+          "summary": "Get User By JWT ",
+          "description": "Get User By JWT",
+          "operationId": "getUserByJwt",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/third-party-management/third-parties/{id}": {
+        "get": {
+          "tags": [
+            "third-party-controller"
+          ],
+          "summary": "Find Third Party by ID",
+          "description": "Get a Third Party by ID",
+          "operationId": "getThirdPartyById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ThirdPartyDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "third-party-controller"
+          ],
+          "summary": "Delete Third Party by ID",
+          "description": "Delete a Third Party by ID",
+          "operationId": "deleteThirdPartyById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ThirdPartyDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/revenue-management/revenues/{id}": {
+        "get": {
+          "tags": [
+            "revenue-controller"
+          ],
+          "summary": "Find Revenue by id",
+          "description": "Get a Revenue by ID",
+          "operationId": "getRevenueById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RevenueDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "revenue-controller"
+          ],
+          "summary": "Delete revenue by id",
+          "description": "Delete revenue by id",
+          "operationId": "deleteRevenueById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RevenueDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/expense-management/expenses/{id}": {
+        "get": {
+          "tags": [
+            "expense-controller"
+          ],
+          "summary": "Find Expense by id",
+          "description": "Get a Expense by ID",
+          "operationId": "getExpenseById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ExpenseDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "expense-controller"
+          ],
+          "summary": "Delete expense by id",
+          "description": "Delete expense by id",
+          "operationId": "deleteExpenseById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ExpenseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/category-management/categories/{id}": {
+        "get": {
+          "tags": [
+            "category-controller"
+          ],
+          "summary": "Find Category by id",
+          "description": "Get a Category by ID",
+          "operationId": "getCategoryById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CategoryDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "category-controller"
+          ],
+          "summary": "Delete category by id",
+          "description": "Delete category by id",
+          "operationId": "deleteCategoryById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CategoryDTO"
                   }
                 }
               }
@@ -747,586 +1115,218 @@
         }
       }
     },
-    "/api/vault-management/vaults/user/": {
-      "get": {
-        "tags": [
-          "vault-controller"
-        ],
-        "summary": "Get all vault by Principal",
-        "description": "Get all vault Principal",
-        "operationId": "getAllVaultsByPrincipal",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/VaultDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/user-management/users/{id}": {
-      "get": {
-        "tags": [
-          "user-controller"
-        ],
-        "summary": "Get user by Id - ADMIN",
-        "description": "Get user by Id",
-        "operationId": "getUserById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
+    "components": {
+      "schemas": {
+        "UserDTO": {
+          "type": "object",
+          "properties": {
+            "id": {
               "type": "integer",
               "format": "int64"
+            },
+            "firstName": {
+              "type": "string"
+            },
+            "lastName": {
+              "type": "string"
+            },
+            "dob": {
+              "type": "string",
+              "format": "date"
+            },
+            "imgProfile": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string",
+              "enum": [
+                "GUEST",
+                "ADMIN"
+              ]
             }
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "user-controller"
-        ],
-        "summary": "Delete user by Id",
-        "description": "Delete user by his id",
-        "operationId": "deleteUserById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
+        },
+        "VaultDTO": {
+          "type": "object",
+          "properties": {
+            "id": {
               "type": "integer",
               "format": "int64"
+            },
+            "name": {
+              "type": "string"
+            },
+            "userDTO": {
+              "$ref": "#/components/schemas/UserDTO"
+            },
+            "capital": {
+              "type": "number"
             }
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/user-management/user/profile": {
-      "get": {
-        "tags": [
-          "user-controller"
-        ],
-        "summary": "Get User By JWT ",
-        "description": "Get User By JWT",
-        "operationId": "getUserByJwt",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/third-party-management/third-parties/{id}": {
-      "get": {
-        "tags": [
-          "third-party-controller"
-        ],
-        "summary": "Find Third Party by ID",
-        "description": "Get a Third Party by ID",
-        "operationId": "getThirdPartyById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
+        },
+        "ThirdPartyDTO": {
+          "type": "object",
+          "properties": {
+            "id": {
               "type": "integer",
               "format": "int64"
+            },
+            "thirdPartyName": {
+              "type": "string"
             }
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ThirdPartyDTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "third-party-controller"
-        ],
-        "summary": "Delete Third Party by ID",
-        "description": "Delete a Third Party by ID",
-        "operationId": "deleteThirdPartyById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
+        },
+        "CategoryDTO": {
+          "type": "object",
+          "properties": {
+            "id": {
               "type": "integer",
               "format": "int64"
+            },
+            "categoryName": {
+              "type": "string"
             }
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ThirdPartyDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/revenue-management/revenues/{id}": {
-      "get": {
-        "tags": [
-          "revenue-controller"
-        ],
-        "summary": "Find Revenue by id",
-        "description": "Get a Revenue by ID",
-        "operationId": "getRevenueById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
+        },
+        "RevenueDTO": {
+          "required": [
+            "amount",
+            "categoryDTO",
+            "causal",
+            "endDate",
+            "isProgrammed",
+            "startDate",
+            "thirdPartyDTO",
+            "vaultDTO"
+          ],
+          "type": "object",
+          "properties": {
+            "id": {
               "type": "integer",
               "format": "int64"
+            },
+            "causal": {
+              "type": "string"
+            },
+            "amount": {
+              "minimum": 0,
+              "type": "number"
+            },
+            "isProgrammed": {
+              "type": "boolean"
+            },
+            "startDate": {
+              "type": "string",
+              "format": "date"
+            },
+            "endDate": {
+              "type": "string",
+              "format": "date"
+            },
+            "vaultDTO": {
+              "$ref": "#/components/schemas/VaultDTO"
+            },
+            "categoryDTO": {
+              "$ref": "#/components/schemas/CategoryDTO"
+            },
+            "thirdPartyDTO": {
+              "$ref": "#/components/schemas/ThirdPartyDTO"
             }
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RevenueDTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "revenue-controller"
-        ],
-        "summary": "Delete revenue by id",
-        "description": "Delete revenue by id",
-        "operationId": "deleteRevenueById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
+        },
+        "ExpenseDTO": {
+          "required": [
+            "amount",
+            "categoryDTO",
+            "causal",
+            "endDate",
+            "isProgrammed",
+            "startDate",
+            "thirdPartyDTO",
+            "vaultDTO"
+          ],
+          "type": "object",
+          "properties": {
+            "id": {
               "type": "integer",
               "format": "int64"
+            },
+            "causal": {
+              "type": "string"
+            },
+            "amount": {
+              "minimum": 0,
+              "type": "number"
+            },
+            "isProgrammed": {
+              "type": "boolean"
+            },
+            "startDate": {
+              "type": "string",
+              "format": "date"
+            },
+            "endDate": {
+              "type": "string",
+              "format": "date"
+            },
+            "vaultDTO": {
+              "$ref": "#/components/schemas/VaultDTO"
+            },
+            "categoryDTO": {
+              "$ref": "#/components/schemas/CategoryDTO"
+            },
+            "thirdPartyDTO": {
+              "$ref": "#/components/schemas/ThirdPartyDTO"
             }
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RevenueDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/expense-management/expenses/{id}": {
-      "get": {
-        "tags": [
-          "expense-controller"
-        ],
-        "summary": "Find Expense by id",
-        "description": "Get a Expense by ID",
-        "operationId": "getExpenseById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
+        },
+        "CredentialDTO": {
+          "type": "object",
+          "properties": {
+            "id": {
               "type": "integer",
               "format": "int64"
+            },
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "userDTO": {
+              "$ref": "#/components/schemas/UserDTO"
             }
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExpenseDTO"
-                }
-              }
+        },
+        "AuthResponse": {
+          "type": "object",
+          "properties": {
+            "jwt": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
             }
           }
-        }
-      },
-      "delete": {
-        "tags": [
-          "expense-controller"
-        ],
-        "summary": "Delete expense by id",
-        "description": "Delete expense by id",
-        "operationId": "deleteExpenseById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExpenseDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/category-management/categories/{id}": {
-      "get": {
-        "tags": [
-          "category-controller"
-        ],
-        "summary": "Find Category by id",
-        "description": "Get a Category by ID",
-        "operationId": "getCategoryById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CategoryDTO"
-                }
-              }
+        },
+        "LoginRequest": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
             }
           }
         }
       },
-      "delete": {
-        "tags": [
-          "category-controller"
-        ],
-        "summary": "Delete category by id",
-        "description": "Delete category by id",
-        "operationId": "deleteCategoryById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CategoryDTO"
-                }
-              }
-            }
-          }
+      "securitySchemes": {
+        "jwtToken": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
         }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "UserDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "dob": {
-            "type": "string",
-            "format": "date"
-          },
-          "imgProfile": {
-            "type": "string"
-          },
-          "role": {
-            "type": "string",
-            "enum": [
-              "GUEST",
-              "ADMIN"
-            ]
-          }
-        }
-      },
-      "VaultDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          },
-          "userDTO": {
-            "$ref": "#/components/schemas/UserDTO"
-          },
-          "capital": {
-            "type": "number"
-          }
-        }
-      },
-      "ThirdPartyDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "thirdPartyName": {
-            "type": "string"
-          }
-        }
-      },
-      "CategoryDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "categoryName": {
-            "type": "string"
-          }
-        }
-      },
-      "RevenueDTO": {
-        "required": [
-          "amount",
-          "categoryDTO",
-          "causal",
-          "endDate",
-          "isProgrammed",
-          "startDate",
-          "thirdPartyDTO",
-          "vaultDTO"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "causal": {
-            "type": "string"
-          },
-          "amount": {
-            "minimum": 0,
-            "type": "number"
-          },
-          "isProgrammed": {
-            "type": "boolean"
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "vaultDTO": {
-            "$ref": "#/components/schemas/VaultDTO"
-          },
-          "categoryDTO": {
-            "$ref": "#/components/schemas/CategoryDTO"
-          },
-          "thirdPartyDTO": {
-            "$ref": "#/components/schemas/ThirdPartyDTO"
-          }
-        }
-      },
-      "ExpenseDTO": {
-        "required": [
-          "amount",
-          "categoryDTO",
-          "causal",
-          "endDate",
-          "isProgrammed",
-          "startDate",
-          "thirdPartyDTO",
-          "vaultDTO"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "causal": {
-            "type": "string"
-          },
-          "amount": {
-            "minimum": 0,
-            "type": "number"
-          },
-          "isProgrammed": {
-            "type": "boolean"
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "vaultDTO": {
-            "$ref": "#/components/schemas/VaultDTO"
-          },
-          "categoryDTO": {
-            "$ref": "#/components/schemas/CategoryDTO"
-          },
-          "thirdPartyDTO": {
-            "$ref": "#/components/schemas/ThirdPartyDTO"
-          }
-        }
-      },
-      "CredentialDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "userDTO": {
-            "$ref": "#/components/schemas/UserDTO"
-          }
-        }
-      },
-      "AuthResponse": {
-        "type": "object",
-        "properties": {
-          "jwt": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
-      },
-      "LoginRequest": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "securitySchemes": {
-      "jwtToken": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
       }
     }
   }
-}
