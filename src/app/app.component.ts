@@ -1,18 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { CommonModule } from '@angular/common';
-
-interface SideNavToggle {
-  collapsed: boolean;
-}
+import { SideNavToggle } from './utilities/side-nav-toggle';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
-  imports: [RouterOutlet, DashboardComponent, CommonModule],
+  styleUrl: './app.component.scss'
 })
 export class AppComponent {
   isSideNavCollapsed = false;

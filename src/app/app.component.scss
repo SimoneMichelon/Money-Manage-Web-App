@@ -1,21 +1,22 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  position: relative;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-}
-.main-content {
-  transition: filter 0.5s ease;
-}
-
-.blurred {
-  filter: blur(5px);
-}
-
-.no-blur {
-  filter: none;
-}
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    position: relative;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  }
+  .main-content {
+    transition: filter 0.5s ease;
+  }
+  
+  .blurred {
+    filter: blur(5px);
+  }
+  
+  .no-blur {
+    filter: none;
+  }
+  
