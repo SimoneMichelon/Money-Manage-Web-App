@@ -27,16 +27,17 @@
       </a>
     </li>
 
-    <a class="sidenav-nav-link sidenav-nav-item" routerLink="[data.routeLink]" routerLinkActive="active">
+    <!-- <a class="sidenav-nav-link sidenav-nav-item" routerLink="[data.routeLink]" routerLinkActive="active">
       <i class="sidenav-link-icon" [class]="logoutData.icon">Logout</i>
       <span class="sidenav-link-text" *ngIf="collapsed">
         Logout
       </span>
-    </a>
-<!-- 
-    <button class="btn-close" (click)="logout()">
+    </a> -->
+
+    <button class="btn-close logout" (click)="logout()">
       <i class="material-symbols-outlined closeBtn">logout</i>
-    </button> -->
+      <h4>{{logoutData.label}}</h4>
+    </button>
   </ul>
 
 </div>

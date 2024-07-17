@@ -44,7 +44,6 @@ export class SideNavComponent {
   }
 
   getUser(){
-
     this.userControllerService.getUserByJwt().subscribe({
       next : (response) =>{
         console.log("Response {}",response);
