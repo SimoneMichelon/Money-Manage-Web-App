@@ -12,8 +12,4 @@ export class AppComponent {
   collapsedOff(data: SideNavToggle): void {
     this.isSideNavCollapsed = data.collapsed;
   }
-
-  isLogged(){
-    return true;
-  }
 }

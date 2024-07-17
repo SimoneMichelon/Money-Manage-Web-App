@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserControllerService } from '../../api/services';
+import { AuthService } from '../../security/auth.service';
 
 interface SideNavToggle {
   collapsed: boolean;
@@ -12,7 +13,9 @@ interface SideNavToggle {
   styleUrl: './sidenav.component.scss'
 })
 export class SideNavComponent {
-  constructor(private userControllerService: UserControllerService,
+  constructor(
+    private userControllerService: UserControllerService,
+    private authService : AuthService,
     private router: Router
   ) { }
 
@@ -36,7 +39,7 @@ export class SideNavComponent {
   }
 
   logout() {
-    localStorage.clear();
+    this.authService.logout();
     this.router.navigateByUrl('/login');
   }
 
