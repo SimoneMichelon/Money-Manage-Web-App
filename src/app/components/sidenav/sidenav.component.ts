@@ -57,7 +57,20 @@ const navbarData = [
   {
     routeLink: 'dashboard',
     icon: 'material-symbols-outlined',
-    label: 'Dashboard', iconName: 'Home',
+    label: 'Dashboard', 
+    iconName: 'Home',
+  },
+  {
+    routeLink: 'scheduledOperations',
+    icon: 'material-symbols-outlined',
+    label: 'Vault Account',
+    iconName: 'event_upcoming',
+  },
+  {
+    routeLink: 'scheduledOperations',
+    icon: 'material-symbols-outlined',
+    label: 'Scheduled Operations',
+    iconName: 'event_upcoming',
   },
   {
     routeLink: 'statistics',
