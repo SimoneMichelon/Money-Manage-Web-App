@@ -151,7 +151,22 @@ public class AuthService {
 
 		return jwt;
 	}
+	
+	public boolean isAuth() {
+		String jwt;
+		try {
+			jwt = getTokenJwt();
+			log.info("JWT = {} ", jwt);
+			
+			String email = jwtProviderService.getEmailFromJwt(jwt);
+						return !jwtProviderService.isTokenExpired(jwt) && 
+					credentialService.existsByEmail(email);
+		} catch (Exception e) {
+			return false;
+		}
 
+	}
+	
 	public boolean isAdmin() throws InvalidTokenException, NotFoundException, BadRequestException {
 		return Role.ADMIN
 				.equals(getPrincipal()

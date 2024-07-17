@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.crypto.SecretKey;
 
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,8 +16,10 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import osiride.vitt_be.constant.JwtConstant;
 
+@Slf4j
 public class JwtValidatorService extends OncePerRequestFilter{
 	
 	private SecretKey key = Keys.hmacShaKeyFor(JwtConstant.JWT_SECRET.getBytes());
@@ -42,9 +43,8 @@ public class JwtValidatorService extends OncePerRequestFilter{
 				
 				Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, null);
 				SecurityContextHolder.getContext().setAuthentication(authentication);
-			}
-			catch (Exception e) {
-				throw new BadCredentialsException("invalid token ...");
+			} catch(Exception e) {
+				log.info("Authentication Failed");
 			}
 		}
 		

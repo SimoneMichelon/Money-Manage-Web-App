@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +25,10 @@ import osiride.vitt_be.utils.LoginRequest;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-	
+
 	@Autowired
 	private AuthService authService;
-	
+
 	@Operation(summary = "Sign Up", description = "Sign up givin Credentials Details")
 	@PostMapping( value ="/signUp", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<AuthResponse> signUp(@RequestBody CredentialDTO credentialDTO) {
@@ -46,7 +47,7 @@ public class AuthController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}	 
-	
+
 	@Operation(summary = "Sign Ip", description = "Sign ip givin email and password")
 	@PostMapping(value = "/signIn", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AuthResponse> signIn(@RequestBody LoginRequest loginRequest){
@@ -61,5 +62,13 @@ public class AuthController {
 			log.error("REST - Invalid Password given - SIGN IN");
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
+	}
+
+	@Operation(summary = "Is Auth", description = "Is Token Valid")
+	@GetMapping(value = "/check", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Boolean> isAuth() {
+		boolean result = authService.isAuth();
+		log.info("REST - Is Authenticated : {} - IS AUTH", result);
+		return ResponseEntity.status(HttpStatus.OK).body(Boolean.valueOf(result));
 	}
 }
