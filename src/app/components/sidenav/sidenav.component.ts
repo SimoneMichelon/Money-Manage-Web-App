@@ -3,16 +3,15 @@ import { Router } from '@angular/router';
 import { UserControllerService } from '../../api/services';
 
 interface SideNavToggle {
-  screenWidth: number;
   collapsed: boolean;
 }
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  selector: 'app-sidenav',
+  templateUrl: './sidenav.component.html',
+  styleUrl: './sidenav.component.scss'
 })
-export class DashboardComponent {
+export class SideNavComponent {
   constructor(private userControllerService: UserControllerService,
     private router: Router
   ) { }
@@ -22,11 +21,17 @@ export class DashboardComponent {
   screenWidth = 0;
   navData = navbarData;
 
+  logoutData : any =   {
+    icon: 'material-symbols-outlined',
+    label: 'Logout', 
+    iconName: 'Logout',
+  };
+
+
   collapseOff() {
     this.collapsed = !this.collapsed;
     this.onToggleSideNav.emit({
       collapsed: this.collapsed,
-      screenWidth: this.screenWidth,
     });
   }
 
@@ -52,6 +57,30 @@ const navbarData = [
   {
     routeLink: 'dashboard',
     icon: 'material-symbols-outlined',
-    label: 'Dashboard',
-  }
+    label: 'Dashboard', iconName: 'Home',
+  },
+  {
+    routeLink: 'statistics',
+    icon: 'material-symbols-outlined',
+    label: 'Statistics',
+    iconName: 'Monitoring',
+  },
+  {
+    routeLink: 'charts',
+    icon: 'material-symbols-outlined',
+    label: 'Charts',
+    iconName: 'bar_chart',
+  },
+  {
+    routeLink: 'chartsData',
+    icon: 'material-symbols-outlined',
+    label: 'Charts Data',
+    iconName: 'chart_data',
+  },
+  {
+    routeLink: 'scheduledOperations',
+    icon: 'material-symbols-outlined',
+    label: 'Scheduled Operations',
+    iconName: 'event_upcoming',
+  },
 ];

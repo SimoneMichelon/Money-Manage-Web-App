@@ -3,12 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterOutlet } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './components/auth/auth.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { MainPageComponent } from './components/main-page/main-page.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { SideNavComponent } from './components/sidenav/sidenav.component';
 import { headersInterceptor } from './security/headers.interceptor';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+
 
 
 @NgModule({
@@ -16,7 +20,9 @@ import { headersInterceptor } from './security/headers.interceptor';
     AppComponent,
     AuthComponent,
     NotFoundComponent,
-    DashboardComponent,
+    SideNavComponent,
+    MainPageComponent,
+    UserProfileComponent,
     
   ],
   imports: [
@@ -24,6 +30,7 @@ import { headersInterceptor } from './security/headers.interceptor';
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    RouterOutlet
   ],
   providers: [provideHttpClient(withInterceptors([headersInterceptor])),],
   bootstrap: [AppComponent]

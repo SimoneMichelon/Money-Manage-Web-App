@@ -1,6 +1,6 @@
 .sidenav {
-    background-color: #263238;
-    transition: all 0.5s ease;
+    background-color: rgb(32, 44, 93);
+    transition: all 0.2s ease;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -61,7 +61,7 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     height: calc(100% - 3.65rem);
     cursor: pointer;
   
@@ -69,7 +69,7 @@
       display: flex;
       align-items: center;
       height: 3rem;
-      color: #f3f3f3;
+      color: rgb(243, 243, 243);
       text-decoration: none;
       border-radius: 0.625rem;
       transition: color 0.3s ease;
