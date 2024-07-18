@@ -1,8 +1,10 @@
 <div class="main-container">
-    <div *ngIf="isLogin; else elseBlock" class="item">
-        <app-login></app-login>  
+    <div *ngIf="change; else elseBlock" class="centered-div">
+        <div id="container-grid">
+            <app-login (isLogin)="isLogin($event)" class="form"></app-login>
+        </div>
     </div>
-    <ng-template #elseBlock class="mamma">
-        <app-register></app-register>
+    <ng-template #elseBlock class="centered-div">
+        <app-register (isLogin)="isLogin($event)" class="form"></app-register>
     </ng-template>
-</div> 
+</div>

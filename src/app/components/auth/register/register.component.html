@@ -1,53 +1,27 @@
-         
-    <div class="form-container">
-        <div class="title"> 
-            <h1>Register</h1>
+<div class="form-container">
+    <div class="title">
+        <h1>Register</h1>
+    </div>
+    <form [formGroup]="registerForm" (submit)="registerHandler()" class="login-form">
+        <div>
+            <input class="input-style" matInput formControlName="firstName" type="text" placeholder="Name ...">
+
+            <input class="input-style" matInput formControlName="firstName" type="text" placeholder="Name ...">
         </div>
-        <form 
-            [formGroup]="registerForm" 
-            (submit)="registerHandler()"
-            class="login-form"
-            >
-                <div>
-                    <input 
-                    class="input-style"
-                    matInput 
-                    formControlName="firstName" 
-                    type="text"
-                    placeholder="Name ...">
 
-                    <input 
-                    class="input-style"
-                    matInput 
-                    formControlName="firstName" 
-                    type="text"
-                    placeholder="Name ...">
-                </div>
+        <input class="input-style" matInput formControlName="email" type="email" placeholder="Email ...">
 
-                <input 
-                class="input-style"
-                matInput 
-                formControlName="email" 
-                type="email"
-                placeholder="Email ...">
-                
-                <input 
-                class="input-style"
-                matInput 
-                formControlName="password" 
-                type="password"
-                placeholder="Password ...">
+        <input class="input-style" matInput formControlName="password" type="password" placeholder="Password ...">
 
-                <a class="password-forgot" href="">Forgot Password?</a>
+        <button class="input-style" mat-button type="submit" [disabled]="registerForm.invalid"
+            [ngClass]="{disabled : registerForm.invalid , active : !registerForm.invalid}">
+            <h5>Login</h5>
+        </button>
+    </form>
 
-                <button 
-                class="input-style"
-                mat-button 
-                type="submit"
-                [disabled]="registerForm.invalid"
-                [ngClass]="{disabled : registerForm.invalid , active : !registerForm.invalid}"
-                >
-                    <h5>Login</h5>
-                </button>
-        </form>
-    </div>                
+    <hr>
+
+    <div class="botton-form">
+        <a (click)="switch()" id="switch-form">LOGIN</a>
+    </div>
+</div>

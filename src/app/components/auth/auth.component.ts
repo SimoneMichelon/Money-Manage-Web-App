@@ -12,11 +12,15 @@ export class AuthComponent implements OnInit {
   constructor(private authControllerService: AuthControllerService,
     private router: Router) { }
 
-  isLogin : boolean = true;
+  change : boolean = true;
 
   ngOnInit(): void {
     if (localStorage.getItem("jwt")) {
       this.router.navigateByUrl('/dashboard');
     }
+  }
+
+  isLogin(isLogin : boolean){
+    this.change = isLogin;
   }
 }

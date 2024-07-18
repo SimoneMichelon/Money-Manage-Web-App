@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -7,6 +7,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
+
+  @Output() isLogin = new EventEmitter<boolean>();
 
   registerForm = new FormGroup({
     firstName : new FormControl("",[Validators.minLength(3), Validators.required]),
@@ -18,5 +20,9 @@ export class RegisterComponent {
 
   registerHandler(){
     
+  }
+
+  switch(){
+    this.isLogin.emit(true);
   }
 }

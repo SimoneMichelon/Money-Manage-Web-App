@@ -20,9 +20,7 @@
             formControlName="password" 
             type="password"
             placeholder="Password ...">
-
-            <a class="password-forgot" href="">Forgot Password?</a>
-
+            
             <button 
             class="input-style"
             mat-button 
@@ -33,3 +31,13 @@
                 <h5>Login</h5>
             </button>
     </form>
+
+    <hr>
+    
+    <div class="botton-form">
+        <a id="password-forgot" s>Forgot Password?</a>
+
+        <a (click)="switch()" id="switch-form">REGISTER</a>
+    </div>
+
+</div>

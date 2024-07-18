@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginRequest } from '../../../api/models/login-request';
@@ -12,6 +12,8 @@ import { AuthControllerService } from '../../../api/services';
 export class LoginComponent {
   constructor(private authControllerService: AuthControllerService,
     private router: Router) { }
+
+  @Output() isLogin = new EventEmitter<boolean>();
 
   loginForm = new FormGroup({
     email: new FormControl("", [Validators.email, Validators.minLength(10), Validators.required]),
@@ -38,5 +40,7 @@ export class LoginComponent {
     });
   }
 
-
+  switch(){
+    this.isLogin.emit(false);
+  }
 }
