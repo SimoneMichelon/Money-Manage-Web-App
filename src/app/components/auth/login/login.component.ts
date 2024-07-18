@@ -34,8 +34,8 @@ export class LoginComponent {
         localStorage.setItem("jwt", response.jwt!);
         this.router.navigateByUrl('/dashboard');
       },
-      error: (response) => {
-        console.log(response)
+      error: (error) => {
+        console.log(error)
       }
     });
   }

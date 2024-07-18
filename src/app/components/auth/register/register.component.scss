@@ -12,7 +12,7 @@
     border: 2px solid black;
 }
 
-.login-form{
+.register-form{
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -21,15 +21,19 @@
 
 .input-style{
     margin-top: 40px;
-    border-radius: 50px;
     font-size: 16px;
     margin: 30px auto auto auto;
 }
 
+.date-picker{
+
+}
+
+
 input{
     outline: none;
     background: none;
-    border: solid 2px rgba(255, 255, 255, 0.623);
+    border: solid 2px 0px rgba(255, 255, 255, 0.623);
     color: white;
     height: 50px;
     width: 300px;
@@ -74,9 +78,9 @@ button{
 }
 
 hr{
-    width: 30%;
+    width: 70%;
     margin-top: 5%;
-    border-color: rgba(194, 193, 193, 0.676);
+    border-color: rgba(194, 193, 193, 0.342);
 }
 
 .botton-form{

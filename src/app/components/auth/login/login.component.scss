@@ -21,7 +21,6 @@
 
 .input-style{
     margin-top: 40px;
-    border-radius: 50px;
     font-size: 16px;
     margin: 10% auto auto auto;
 }
@@ -29,7 +28,7 @@
 input{
     outline: none;
     background: none;
-    border: solid 2px rgba(255, 255, 255, 0.623);
+    border: solid 2px 0px rgba(255, 255, 255, 0.623);
     color: white;
     height: 50px;
     width: 300px;
@@ -108,10 +107,10 @@ hr{
 }
 
 .botton-form{
-    width: 120%;
+    width: 100%;
     margin-top: 5%;
     display: flex;
     flex-direction: row;
     text-align: center;
-    justify-content: space-around;
+    justify-content: space-between;
 }

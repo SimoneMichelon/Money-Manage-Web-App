@@ -2,12 +2,12 @@
     <div class="title">
         <h1>Register</h1>
     </div>
-    <form [formGroup]="registerForm" (submit)="registerHandler()" class="login-form">
-        <div>
-            <input class="input-style" matInput formControlName="firstName" type="text" placeholder="Name ...">
+    <form [formGroup]="registerForm" (submit)="registerHandler()" class="register-form">
+        <input class="input-style" matInput formControlName="firstName" type="text" placeholder="First Name ..." >
 
-            <input class="input-style" matInput formControlName="firstName" type="text" placeholder="Name ...">
-        </div>
+        <input class="input-style" matInput formControlName="lastName" type="text" placeholder="Last Name ...">
+
+        <input class="input-style date-picker" matInput formControlName="dob" type="date">
 
         <input class="input-style" matInput formControlName="email" type="email" placeholder="Email ...">
 
@@ -15,7 +15,7 @@
 
         <button class="input-style" mat-button type="submit" [disabled]="registerForm.invalid"
             [ngClass]="{disabled : registerForm.invalid , active : !registerForm.invalid}">
-            <h5>Login</h5>
+            <h5>Register</h5>
         </button>
     </form>
 

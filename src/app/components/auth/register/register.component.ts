@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CredentialDto } from '../../../api/models';
+import { AuthControllerService } from '../../../api/services';
 
 @Component({
   selector: 'app-register',
@@ -7,6 +10,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
+  constructor(private authControllerService : AuthControllerService,
+    private router: Router){}
 
   @Output() isLogin = new EventEmitter<boolean>();
 
@@ -19,7 +24,28 @@ export class RegisterComponent {
   })
 
   registerHandler(){
-    
+    let registerRequest : CredentialDto = {
+      email : this.registerForm.value.email!,
+      password : this.registerForm.value.password!,
+      userDTO : {
+        firstName : this.registerForm.value.firstName!,
+        lastName : this.registerForm.value.lastName!,
+        dob : this.registerForm.value.dob!,
+        imgProfile : "",
+        role: "GUEST"
+      }
+    };
+    console.log(registerRequest)
+
+    this.authControllerService.signUp({body : registerRequest}).subscribe({
+      next : (response) =>{
+        localStorage.setItem("jwt", response.jwt!);
+        this.router.navigateByUrl('/dashboard');
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
   }
 
   switch(){
