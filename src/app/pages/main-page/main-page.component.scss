@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+}
+
+app-sidenav {
+  flex-shrink: 0;
+  width: 5rem; /* Default width of the sidebar */
+  transition: width 0.3s;
+}
+
+.content {
+  flex-grow: 1;
+  transition: margin-left 0.3s;
+  padding: 1rem; /* Add padding if needed */
+}
+
+.sidenav-collapsed + .content {
+  margin-left: 16.5625rem; /* Adjust based on the collapsed width of your sidebar */
+}
+
+.blurred {
+  filter: blur(5px);
+}
