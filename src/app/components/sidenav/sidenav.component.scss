@@ -1,100 +1,104 @@
 .sidenav {
-    background-color: rgb(32, 44, 93);
-    transition: all 0.2s ease;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    width: 5rem;
-    height: 100vh;
-    box-shadow: 0, 063rem 0 1.25rem 0 #8690a3;
-  }
-  
-  .logo-container {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    padding: 0.938rem;
-  
-    .logo {
-      background: #fff;
-      text-align: center;
-      width: 3rem;
-      min-width: 3rem;
-      border-radius: 0.313rem;
-      font-size: 24px;
-      font-weight: 900;
-      cursor: pointer;
-      border: none;
-    }
-  
-    .logo-text {
-      font-size: 24px;
-      font-weight: 700;
-      color: #fff;
-      justify-self: start;
-      margin-left: 1rem; /* Aggiungi margine per separare il testo dal logo */
-    }
-  
-    .btn-close {
-      cursor: pointer;
-      width: 2rem;
-      height: 2rem;
-      border-radius: 50%;
-      background-color: transparent;
-      border: none;
-      justify-self: end;
-  
-      .closeBtn {
-        color: #fff;
-        font-size: 24px;
-      }
-    }
-  }
-  
-  .sidenav-collapsed {
-    width: 16.5625rem;
-  }
-  
-  .sidenav-nav {
-    list-style: none;
-    padding: 0.983rem;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    height: calc(100% - 3.65rem);
+  background-color: rgb(32, 44, 93);
+  transition: all 0.2s ease;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  width: 5rem;
+  height: 100vh;
+  box-shadow: 0, 063rem 0 1.25rem 0 #8690a3;
+}
+
+.logo-container {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  padding: 0.938rem;
+
+  .logo {
+    background: #fff;
+    text-align: center;
+    width: 3rem;
+    min-width: 3rem;
+    border-radius: 0.313rem;
+    font-size: 24px;
+    font-weight: 900;
     cursor: pointer;
-  
-    .sidenav-nav-link {
-      display: flex;
-      align-items: center;
-      height: 3rem;
-      color: rgb(243, 243, 243);
-      text-decoration: none;
-      border-radius: 0.625rem;
-      transition: color 0.3s ease;
-  
-      .sidenav-link-icon {
-        font-size: 22px;
-        width: 2rem;
-        min-width: 2rem;
-        margin: 0 0.5rem;
-        text-align: center;
-      }
-  
-      .siden-link-text {
-        margin-left: 1.5rem;
-      }
-    }
-    .sidenav-nav-item:hover {
-      .sidenav-nav-link {
-        background-color: #fff;
-        color: #010101;
-      }
-    }
-  
-    .logout{
-     margin-top: 100px;
+    border: none;
+  }
+
+  .logo-text {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    justify-self: start;
+    margin-left: 1rem;
+  }
+
+  .btn-close {
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+    justify-self: end;
+
+    .closeBtn {
+      color: #fff;
+      font-size: 24px;
     }
   }
-  
+}
+
+.sidenav-collapsed {
+  width: 16.5625rem;
+}
+
+.sidenav-nav {
+  list-style: none;
+  padding: 0.983rem;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  height: calc(100% - 3.65rem);
+  cursor: pointer;
+
+  .sidenav-nav-item {
+    width: 60%;
+  }
+
+  .sidenav-nav-link {
+    display: flex;
+    align-items: center;
+    height: 3rem;
+    color: rgb(243, 243, 243);
+    text-decoration: none;
+    border-radius: 0.625rem;
+    transition: color 0.3s ease;
+
+    .sidenav-link-icon {
+      font-size: 22px;
+      width: 2rem;
+      min-width: 2rem;
+      margin: 0 0.5rem;
+      text-align: center;
+    }
+
+    .siden-link-text {
+      margin-left: 1.5rem;
+    }
+  }
+  .sidenav-nav-item:hover {
+    .sidenav-nav-link {
+      background-color: #fff;
+      color: #010101;
+    }
+  }
+
+  .logout {
+    margin-top: 100px;
+  }
+}

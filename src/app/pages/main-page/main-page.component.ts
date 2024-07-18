@@ -5,4 +5,10 @@ import { Component } from '@angular/core';
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss',
 })
-export class MainPageComponent {}
+export class MainPageComponent {
+  isBlurred = false; 
+
+  onToggleSideNav(event: { collapsed: boolean }) {
+    this.isBlurred = !event.collapsed;
+  }
+}

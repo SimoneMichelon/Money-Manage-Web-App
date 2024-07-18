@@ -19,14 +19,13 @@ export class SideNavComponent {
     private router: Router
   ) { }
 
-  @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter();
+ @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter();
   collapsed = false;
-  screenWidth = 0;
   navData = navbarData;
 
   logoutData : any =   {
     icon: 'material-symbols-outlined',
-    label: 'Logout', 
+    label: 'Logout',
     iconName: 'Logout',
   };
 
@@ -59,7 +58,7 @@ const navbarData = [
   {
     routeLink: 'dashboard',
     icon: 'material-symbols-outlined',
-    label: 'Dashboard', 
+    label: 'Dashboard',
     iconName: 'Home',
   },
   {
