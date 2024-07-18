@@ -10,31 +10,29 @@ interface SideNavToggle {
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
-  styleUrl: './sidenav.component.scss'
+  styleUrls: ['./sidenav.component.scss'],
 })
 export class SideNavComponent {
-  constructor(
-    private userControllerService: UserControllerService,
-    private authService : AuthService,
-    private router: Router
-  ) { }
-
- @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter();
+  @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter();
   collapsed = false;
   navData = navbarData;
 
-  logoutData : any =   {
+  logoutData: any = {
     icon: 'material-symbols-outlined',
     label: 'Logout',
     iconName: 'Logout',
   };
 
+  constructor(
+    private userControllerService: UserControllerService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   collapseOff() {
     this.collapsed = !this.collapsed;
-    this.onToggleSideNav.emit({
-      collapsed: this.collapsed,
-    });
+    console.log('Sidebar collapsed:', this.collapsed);
+    this.onToggleSideNav.emit({ collapsed: this.collapsed });
   }
 
   logout() {
@@ -42,15 +40,15 @@ export class SideNavComponent {
     this.router.navigateByUrl('/login');
   }
 
-  getUser(){
+  getUser() {
     this.userControllerService.getUserByJwt().subscribe({
-      next : (response) =>{
-        console.log("Response {}",response);
+      next: (response) => {
+        console.log('Response {}', response);
       },
-      error : (error) => {
-        console.log("Error {}", error)
-      }
-    })
+      error: (error) => {
+        console.log('Error {}', error);
+      },
+    });
   }
 }
 
