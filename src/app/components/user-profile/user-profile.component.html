@@ -1,1 +1,13 @@
-<p>user-profile works!</p>
+<div class="profile-card">
+  <h1>USER PROFILE</h1>
+  <div *ngIf="principal; else loading">
+    <img class="profile-img" *ngIf="principal.imgProfile" [src]="principal.imgProfile" alt="Profile Image">
+    <p><strong>First Name:</strong> {{ principal.firstName }}</p>
+    <p><strong>Last Name:</strong> {{ principal.lastName }}</p>
+    <p><strong>Date of Birth:</strong> {{ principal.dob }}</p>
+    <p><strong>Role:</strong> {{ principal.role }}</p>
+  </div>
+  <ng-template #loading>
+    <p>Loading...</p>
+  </ng-template>
+</div>

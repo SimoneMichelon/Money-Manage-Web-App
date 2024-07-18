@@ -35,7 +35,6 @@ export class RegisterComponent {
         role: "GUEST"
       }
     };
-    console.log(registerRequest)
 
     this.authControllerService.signUp({body : registerRequest}).subscribe({
       next : (response) =>{
