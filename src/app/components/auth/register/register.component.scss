@@ -1,0 +1,111 @@
+.form-container{
+    position: absolute;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    background-color: rgba(0, 0, 0, 0.800);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 15px 30px rgb(0, 0, 0);
+    border: 2px solid black;
+}
+
+.register-form{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.input-style{
+    margin-top: 40px;
+    font-size: 16px;
+    margin: 30px auto auto auto;
+}
+
+.date-picker{
+
+}
+
+
+input{
+    outline: none;
+    background: none;
+    border: solid 2px 0px rgba(255, 255, 255, 0.623);
+    color: white;
+    height: 50px;
+    width: 300px;
+    padding-left: 20px;
+}
+input:hover{
+    box-shadow: 0px  0px 10px rgb(255, 255, 255);
+}
+
+input::placeholder {
+    color: rgba(254, 254, 254, 0.66);
+    opacity: 1;
+}
+
+h5{
+    color: rgb(255, 255, 255);
+    font-size: large;
+}
+
+h1{
+    color: rgb(255, 255, 255);
+    font-size: 50px;
+}
+
+button{
+    background: rgb(38, 61, 155);
+    height: 56px;
+    width: 326px;
+    border: none;
+    padding: 0px 0px;
+}
+
+.active:hover{
+    box-shadow: 0px  0px 15px  rgb(38, 61, 155);
+    background: rgb(54, 87, 220);
+    cursor: pointer;
+}
+    
+.disabled{
+    background: rgb(25, 35, 74);
+    cursor: not-allowed;
+}
+
+hr{
+    width: 60%;
+    margin-top: 5%;
+    border-color: rgba(194, 193, 193, 0.342);
+}
+
+.botton-form{
+    width: 120%;
+    margin-top: 5%;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: space-around;
+}
+
+
+#switch-form{
+    color: rgb(0, 0, 0);
+    background-color: transparent;
+    font-weight: bold;
+    border-radius: 10px;
+    text-shadow: 2px 0 #ffffff90, -2px 0 #ffffff90, 0 2px #ffffff90, 0 -2px #ffffff90,
+               1px 1px #ffffff90, -1px -1px #ffffff90, 1px -1px #ffffff90, -1px 1px #ffffff90;
+
+    padding: 5px 7px 5px 7px;
+}
+
+#switch-form:hover{
+    color: rgb(28, 64, 111);
+    box-shadow:0px 0px 10px rgba(24, 21, 21, 0.342);
+    cursor: pointer;
+}

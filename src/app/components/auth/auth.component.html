@@ -1,37 +1,10 @@
 <div class="main-container">
-    <div class="form-container">
-        <div class="title"> 
-            <h1>Login</h1>
+    <div *ngIf="change; else elseBlock" class="centered-div">
+        <div id="container-grid">
+            <app-login (isLogin)="isLogin($event)" class="form"></app-login>
         </div>
-        <form 
-            [formGroup]="loginForm" 
-            (submit)="loginHandler()"
-            class="login-form"
-            >
-                <input 
-                class="input-style"
-                matInput 
-                formControlName="email" 
-                type="email"
-                placeholder="Email ...">
-                
-                <input 
-                class="input-style"
-                matInput 
-                formControlName="password" 
-                type="password"
-                placeholder="Password ...">
-
-                <a class="password-forgot" href="">Forgot Password?</a>
-
-                <button 
-                class="input-style"
-                mat-button 
-                type="submit"
-                [disabled]="loginForm.invalid"
-                >
-                    <h5>Login</h5>
-                </button>
-        </form>
-    </div> 
-</div> 
+    </div>
+    <ng-template #elseBlock class="centered-div">
+        <app-register (isLogin)="isLogin($event)" class="form"></app-register>
+    </ng-template>
+</div>

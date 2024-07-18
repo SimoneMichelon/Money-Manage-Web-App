@@ -1,0 +1,43 @@
+<div class="form-container">
+    <div class="title"> 
+        <h1>Login</h1>
+    </div>
+    <form 
+        [formGroup]="loginForm" 
+        (submit)="loginHandler()"
+        class="login-form"
+        >
+            <input 
+            class="input-style"
+            matInput 
+            formControlName="email" 
+            type="email"
+            placeholder="Email ...">
+            
+            <input 
+            class="input-style"
+            matInput 
+            formControlName="password" 
+            type="password"
+            placeholder="Password ...">
+            
+            <button 
+            class="input-style"
+            mat-button 
+            type="submit"
+            [disabled]="loginForm.invalid"
+            [ngClass]="{disabled : loginForm.invalid , active : !loginForm.invalid}"
+            >
+                <h5>Login</h5>
+            </button>
+    </form>
+
+    <hr>
+    
+    <div class="botton-form">
+        <a id="password-forgot" s>Forgot Password?</a>
+
+        <a (click)="switch()" id="switch-form" >REGISTER</a>
+    </div>
+
+</div>
