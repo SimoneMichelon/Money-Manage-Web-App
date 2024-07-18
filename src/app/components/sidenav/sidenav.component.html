@@ -11,28 +11,20 @@
       <i class="material-symbols-outlined closeBtn">close</i>
     </button>
   </div>
-  
+
   <div class="img-profile">
     <img src="" >
   </div>
 
-
   <ul class="sidenav-nav">
     <li class="sidenav-nav-item" *ngFor="let data of navData">
-      <a class="sidenav-nav-link" routerLink="[data.routeLink]" routerLinkActive="active">
+      <a class="sidenav-nav-link" [routerLink]="[data.routeLink]" routerLinkActive="active">
         <i class="sidenav-link-icon" [class]="data.icon">{{ data.iconName }}</i>
         <span class="sidenav-link-text" *ngIf="collapsed">{{
           data.label
         }}</span>
       </a>
     </li>
-
-    <!-- <a class="sidenav-nav-link sidenav-nav-item" routerLink="[data.routeLink]" routerLinkActive="active">
-      <i class="sidenav-link-icon" [class]="logoutData.icon">Logout</i>
-      <span class="sidenav-link-text" *ngIf="collapsed">
-        Logout
-      </span>
-    </a> -->
 
     <button class="btn-close logout" (click)="logout()">
       <i class="material-symbols-outlined closeBtn">logout</i>
