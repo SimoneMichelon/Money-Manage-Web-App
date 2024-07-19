@@ -10,47 +10,44 @@ interface SideNavToggle {
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
-  styleUrl: './sidenav.component.scss'
+  styleUrls: ['./sidenav.component.scss'],
 })
 export class SideNavComponent {
-  constructor(
-    private userControllerService: UserControllerService,
-    private authService : AuthService,
-    private router: Router
-  ) { }
-
   @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter();
   collapsed = false;
-  screenWidth = 0;
   navData = navbarData;
 
-  logoutData : any =   {
+  logoutData: any = {
     icon: 'material-symbols-outlined',
-    label: 'Logout', 
+    label: 'Logout',
     iconName: 'Logout',
   };
 
+  constructor(
+    private userControllerService: UserControllerService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   collapseOff() {
     this.collapsed = !this.collapsed;
-    this.onToggleSideNav.emit({
-      collapsed: this.collapsed,
-    });
+    console.log('Sidebar collapsed:', this.collapsed);
+    this.onToggleSideNav.emit({ collapsed: this.collapsed });
   }
 
   logout() {
     this.authService.logout();
   }
 
-  getUser(){
+  getUser() {
     this.userControllerService.getUserByJwt().subscribe({
-      next : (response) =>{
-        console.log("Response {}",response);
+      next: (response) => {
+        console.log('Response {}', response);
       },
-      error : (error) => {
-        console.log("Error {}", error)
-      }
-    })
+      error: (error) => {
+        console.log('Error {}', error);
+      },
+    });
   }
 }
 
@@ -64,7 +61,7 @@ const navbarData = [
   {
     routeLink: 'dashboard',
     icon: 'material-symbols-outlined',
-    label: 'Dashboard', 
+    label: 'Dashboard',
     iconName: 'Home',
   },
   {

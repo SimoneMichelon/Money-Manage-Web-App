@@ -4,22 +4,25 @@
 />
 <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
   <div class="logo-container">
-    <button (click)="collapseOff()" class="logo">V</button>
-    <div class="logo-text" *ngIf="collapsed">Vitt</div>
+    <button (click)="collapseOff()" class="logo">S</button>
+    <div class="logo-text" *ngIf="collapsed">Saver</div>
 
     <button class="btn-close" (click)="collapseOff()" *ngIf="collapsed">
       <i class="material-symbols-outlined closeBtn">close</i>
     </button>
   </div>
-  
-  <div class="img-profile">
-    <img src="" >
-  </div>
 
+  <div class="img-profile">
+    <img src="" />
+  </div>
 
   <ul class="sidenav-nav">
     <li class="sidenav-nav-item" *ngFor="let data of navData">
-      <a class="sidenav-nav-link" [routerLink]="[data.routeLink]" routerLinkActive="active">
+      <a
+        class="sidenav-nav-link"
+        [routerLink]="[data.routeLink]"
+        routerLinkActive="active"
+      >
         <i class="sidenav-link-icon" [class]="data.icon">{{ data.iconName }}</i>
         <span class="sidenav-link-text" *ngIf="collapsed">{{
           data.label
@@ -29,8 +32,7 @@
 
     <button class="btn-close logout" (click)="logout()">
       <i class="material-symbols-outlined closeBtn">logout</i>
-      <h4>{{logoutData.label}}</h4>
+      <p>{{ logoutData.label }}</p>
     </button>
   </ul>
-
 </div>
