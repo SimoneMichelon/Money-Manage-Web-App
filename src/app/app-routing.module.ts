@@ -10,9 +10,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: AuthComponent },
   {
-    path: 'dashboard',
-    component: MainPageComponent,
-    canActivate: [authGuard],
+    path: 'dashboard', component: MainPageComponent, canActivate: [authGuard],
     children: [
       { path: 'statistics', component: StatisticsComponent },
       { path: 'user-profile', component : UserProfileComponent}],

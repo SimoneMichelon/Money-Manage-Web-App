@@ -1,0 +1,88 @@
+/* Contenitore principale */
+.main-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px;
+  max-width: 1200px;
+  margin: 10% auto;
+  gap: 20px;
+  background-color: rgba(32, 44, 93, 0.05); /* Sfondo molto chiaro per il contenitore */
+}
+
+/* Stili per i card */
+.profile-card,
+.edit-card {
+  background-color: #fff; /* Sfondo bianco per i card */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra leggera nera */
+  padding: 20px;
+  flex: 1;
+  position: relative;
+}
+
+/* Stili specifici per il card del profilo */
+.profile-card {
+  border: 2px solid rgb(32, 44, 93); /* Bordo blu dominante */
+}
+
+.profile-card h1 {
+  color: rgb(32, 44, 93); /* Titolo in blu dominante */
+  margin-top: 0;
+}
+
+.profile-card img.profile-img {
+  border-radius: 50%;
+  max-width: 100px;
+  margin-bottom: 10px;
+  border: 2px solid rgba(32, 44, 93, 0.1); /* Bordo sottile blu chiaro */
+}
+
+.profile-card p {
+  color: rgba(0, 0, 0, 0.7); /* Testo nero con opacità per meno contrasto */
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.profile-card p strong {
+  color: rgb(32, 44, 93); /* Testo in blu dominante */
+}
+
+/* Stili specifici per il card di modifica */
+.edit-card h2 {
+  color: rgb(32, 44, 93); /* Titolo in blu dominante */
+  margin-top: 0;
+}
+
+.edit-card label {
+  display: block;
+  margin: 10px 0 5px;
+  color: rgb(32, 44, 93); /* Etichette in blu dominante */
+}
+
+.edit-card input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Bordo input nero chiaro */
+  border-radius: 4px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+.edit-card button {
+  background-color: rgb(32, 44, 93); /* Pulsante in blu dominante */
+  color: #fff; /* Testo del pulsante bianco */
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.edit-card button:hover {
+  background-color: rgba(32, 44, 93, 0.8); /* Colore blu leggermente più scuro per hover */
+}
+
+.edit-card button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(32, 44, 93, 0.2); /* Ombra blu chiara per focus */
+}

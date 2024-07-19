@@ -1,7 +1,6 @@
 <div class="container">
-  <app-sidenav (onToggleSideNav)="onToggleSideNav($event)"></app-sidenav>
-  <div class="content" [ngClass]="{ blurred: isBlurred }">
+    <app-sidenav (onToggleSideNav)="onToggleSideNav($event)"></app-sidenav>
+  <div class="router-content" [ngClass]="{ blurred: isBlurred }">
     <router-outlet></router-outlet>
-    <!-- Main content router outlet -->
   </div>
 </div>

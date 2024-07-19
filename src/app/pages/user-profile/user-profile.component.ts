@@ -15,7 +15,7 @@ export class UserProfileComponent implements OnInit{
     private authService : AuthService
   ){}
 
-  principal : UserDto | undefined;
+  principal : UserDto = {};
 
 
   ngOnInit(): void {
@@ -42,5 +42,15 @@ export class UserProfileComponent implements OnInit{
         }
       });
     });
+  }
+
+  loadUserProfile(): void {
+    // Simulate an API call to load user profile
+  }
+
+  onSubmit(): void {
+    // Handle form submission to save changes
+    console.log('Profile updated:', this.principal);
+    alert('Profile updated successfully!');
   }
 }
