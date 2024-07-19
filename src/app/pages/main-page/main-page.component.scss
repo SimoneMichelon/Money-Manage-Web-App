@@ -17,7 +17,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5); /* Velo nero con opacità al 50% */
-  z-index: 10; /* Assicurati che il velo sia sopra il contenuto */
-  pointer-events: auto; /* Impedisce l'interazione con il contenuto sottostante */
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10; 
+  pointer-events: auto;
 }
