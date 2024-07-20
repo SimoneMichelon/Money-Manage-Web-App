@@ -37,7 +37,6 @@ export class SideNavComponent {
 
   logout() {
     this.authService.logout();
-    this.router.navigateByUrl('/login');
   }
 
   getUser() {
@@ -53,6 +52,12 @@ export class SideNavComponent {
 }
 
 const navbarData = [
+  {
+    routeLink: 'user-profile',
+    icon: 'material-symbols-outlined',
+    label: 'User Profile', 
+    iconName: 'adb',
+  },
   {
     routeLink: 'dashboard',
     icon: 'material-symbols-outlined',

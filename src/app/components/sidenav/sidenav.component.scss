@@ -1,9 +1,7 @@
+
 .sidenav {
   background-color: rgb(32, 44, 93);
   transition: all 0.2s ease;
-  position: fixed;
-  z-index: 1;
-  top: 0;
   width: 5rem;
   height: 100vh;
   box-shadow: 0, 063rem 0 1.25rem 0 #8690a3;
@@ -76,6 +74,7 @@
     display: flex;
     align-items: center;
     height: 3rem;
+    width: auto;
     color: rgb(243, 243, 243);
     text-decoration: none;
     border-radius: 0.625rem;
@@ -91,6 +90,7 @@
 
     .siden-link-text {
       margin-left: 1.5rem;
+
     }
   }
   .sidenav-nav-item:hover {
@@ -101,7 +101,6 @@
   }
 
   .logout {
-    position: absolute;
-    bottom: 0;
+    
   }
 }

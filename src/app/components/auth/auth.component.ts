@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthControllerService } from '../../api/services';
 
 @Component({
   selector: 'app-auth',
@@ -9,8 +8,7 @@ import { AuthControllerService } from '../../api/services';
 })
 export class AuthComponent implements OnInit {
 
-  constructor(private authControllerService: AuthControllerService,
-    private router: Router) { }
+  constructor(private router: Router) { }
 
   change : boolean = true;
 

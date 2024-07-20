@@ -1,1 +1,34 @@
-<p>user-profile works!</p>
+<div class="main-container">
+  <div class="profile-card">
+    <h1>USER PROFILE</h1>
+    <div *ngIf="principal; else loading">
+      <img class="profile-img" *ngIf="principal.imgProfile" [src]="principal.imgProfile" alt="Profile Image">
+      <p><strong>First Name:</strong> {{ principal.firstName }}</p>
+      <p><strong>Last Name:</strong> {{ principal.lastName }}</p>
+      <p><strong>Date of Birth:</strong> {{ principal.dob | date }}</p>
+      <p><strong>Role:</strong> {{ principal.role }}</p>
+    </div>
+    <ng-template #loading>
+      <p>Loading...</p>
+    </ng-template>
+  </div>
+
+  <div class="edit-card">
+    <h2>Edit Profile</h2>
+    <form (ngSubmit)="onSubmit()">
+      <label for="editFirstName">First Name:</label>
+      <input type="text" id="editFirstName" [(ngModel)]="principal.firstName" name="editFirstName" required>
+      
+      <label for="editLastName">Last Name:</label>
+      <input type="text" id="editLastName" [(ngModel)]="principal.lastName" name="editLastName" required>
+      
+      <label for="editDob">Date of Birth:</label>
+      <input type="date" id="editDob" [(ngModel)]="principal.dob" name="editDob" required>
+      
+      <label for="editRole">Role:</label>
+      <input type="text" id="editRole" [(ngModel)]="principal.role" name="editRole" required>
+      
+      <button type="submit">Save Changes</button>
+    </form>
+  </div>
+</div>

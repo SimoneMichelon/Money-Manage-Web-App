@@ -35,7 +35,7 @@ export class LoginComponent {
         this.router.navigateByUrl('/dashboard');
       },
       error: (error) => {
-        console.log(error)
+        // console.log(error)
       }
     });
   }
