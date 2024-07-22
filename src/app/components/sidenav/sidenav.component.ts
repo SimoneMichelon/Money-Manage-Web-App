@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserControllerService } from '../../api/services';
 import { AuthService } from '../../security/auth.service';
@@ -13,8 +13,6 @@ interface SideNavToggle {
   styleUrls: ['./sidenav.component.scss'],
 })
 export class SideNavComponent {
-  @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter();
-  collapsed = false;
   navData = navbarData;
 
   logoutData: any = {
@@ -28,12 +26,6 @@ export class SideNavComponent {
     private authService: AuthService,
     private router: Router
   ) {}
-
-  collapseOff() {
-    this.collapsed = !this.collapsed;
-    console.log('Sidebar collapsed:', this.collapsed);
-    this.onToggleSideNav.emit({ collapsed: this.collapsed });
-  }
 
   logout() {
     this.authService.logout();
@@ -53,28 +45,22 @@ export class SideNavComponent {
 
 const navbarData = [
   {
-    routeLink: 'user-profile',
-    icon: 'material-symbols-outlined',
-    label: 'User Profile', 
-    iconName: 'adb',
-  },
-  {
     routeLink: 'dashboard',
     icon: 'material-symbols-outlined',
     label: 'Dashboard',
     iconName: 'Home',
   },
   {
-    routeLink: 'scheduledOperations',
+    routeLink: 'user-profile',
     icon: 'material-symbols-outlined',
-    label: 'Vault Account',
-    iconName: 'event_upcoming',
+    label: 'User Profile', 
+    iconName: 'adb',
   },
   {
     routeLink: 'scheduledOperations',
     icon: 'material-symbols-outlined',
-    label: 'Scheduled Operations',
-    iconName: 'event_upcoming',
+    label: 'Vault Account',
+    iconName: 'savings',
   },
   {
     routeLink: 'statistics',
