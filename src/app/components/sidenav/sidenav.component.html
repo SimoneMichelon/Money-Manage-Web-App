@@ -6,11 +6,6 @@
   <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
     <div class="logo-container">
       <button (click)="collapseOff()" class="logo">S</button>
-      <div class="logo-text" *ngIf="collapsed">Saver</div>
-
-      <button class="btn-close" (click)="collapseOff()" *ngIf="collapsed">
-        <i class="material-symbols-outlined closeBtn">close</i>
-      </button>
     </div>
 
     <ul class="sidenav-nav">

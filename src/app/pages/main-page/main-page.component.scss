@@ -1,23 +1,24 @@
 .container {
   display: flex;
   position: relative;
-  background-color: rgba(0, 0, 0, 0.15);
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .router-content {
   flex-grow: 1;
-  position: relative; /* Necessario per posizionare il velo all'interno di questo contenitore */
+  position: relative;
   transition: margin-left 0.3s;
 }
 
-.blurred::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 10; 
-  pointer-events: auto;
-}
+// .blurred::before {
+//   content: '';
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   background: rgba(0, 0, 0, 0.5);
+//   z-index: 10; 
+//   pointer-events: auto;
+// }
