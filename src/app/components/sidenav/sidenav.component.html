@@ -1,36 +1,21 @@
 <div class="main-container">
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-  />
-  <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <div class="navbar-container">
     <div class="logo-container">
-      <button (click)="collapseOff()" class="logo">S</button>
-      <div class="logo-text" *ngIf="collapsed">Saver</div>
-
-      <button class="btn-close" (click)="collapseOff()" *ngIf="collapsed">
-        <i class="material-symbols-outlined closeBtn">close</i>
-      </button>
+      <img src="../../../assets/favicon.ico" alt="Logo">
     </div>
-
-    <ul class="sidenav-nav">
-      <li class="sidenav-nav-item" *ngFor="let data of navData">
-        <a
-          class="sidenav-nav-link"
-          [routerLink]="[data.routeLink]"
-          routerLinkActive="active"
-        >
-          <i class="sidenav-link-icon" [class]="data.icon">{{ data.iconName }}</i>
-          <span class="sidenav-link-text" *ngIf="collapsed">{{
-            data.label
-          }}</span>
-        </a>
-      </li>
-
-      <button class="btn-close logout" (click)="logout()">
-        <i class="material-symbols-outlined closeBtn">logout</i>
-        <p>{{ logoutData.label }}</p>
-      </button>
-    </ul>
+    <div class="all-routes">
+      <div class="route-container" *ngFor="let data of navData">
+          <a class="nav-link" [routerLink]="[data.routeLink]" routerLinkActive="active">
+            <i class="sidenav-link-icon">{{ data.label }}</i>
+          </a>
+      </div>
+    </div>
+    <div class="logout route-container">
+      <a class="nav-link logout" (click)="logout()">
+        <i class="sidenav-link-icon" class="material-symbols-outlined">logout</i>
+      </a>
+    </div>
   </div>
 </div>

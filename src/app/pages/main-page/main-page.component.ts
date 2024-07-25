@@ -6,10 +6,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./main-page.component.scss'],
 })
 export class MainPageComponent {
-  isBlurred = false;
-
-  onToggleSideNav(event: { collapsed: boolean }) {
-    this.isBlurred = event.collapsed; 
-    console.log('Content blurred:', this.isBlurred);
-  }
 }

@@ -12,23 +12,4 @@
       <p>Loading...</p>
     </ng-template>
   </div>
-
-  <div class="edit-card">
-    <h2>Edit Profile</h2>
-    <form (ngSubmit)="onSubmit()">
-      <label for="editFirstName">First Name:</label>
-      <input type="text" id="editFirstName" [(ngModel)]="principal.firstName" name="editFirstName" required>
-      
-      <label for="editLastName">Last Name:</label>
-      <input type="text" id="editLastName" [(ngModel)]="principal.lastName" name="editLastName" required>
-      
-      <label for="editDob">Date of Birth:</label>
-      <input type="date" id="editDob" [(ngModel)]="principal.dob" name="editDob" required>
-      
-      <label for="editRole">Role:</label>
-      <input type="text" id="editRole" [(ngModel)]="principal.role" name="editRole" required>
-      
-      <button type="submit">Save Changes</button>
-    </form>
-  </div>
 </div>

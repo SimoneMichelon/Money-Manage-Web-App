@@ -1,21 +1,13 @@
 *{
+    padding: 0;
     margin: 0px;
 }
 
 body { 
-    margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
-    color: #616174;
-    background-image: url("./assets/photo/neve.jpg") ;
+    margin: 0;
+    background-color: rgb(28, 28, 60);
 
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-    position: fixed;
-    height: 100%; 
-    width: 100%;
-    display: flex;
-
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     overflow: hidden;
 }
 
