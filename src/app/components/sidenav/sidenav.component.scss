@@ -1,12 +1,16 @@
 .main-container{
-  height: 65px;
+  height: 70px;
   width: auto;
   color: white;
   display: flex;
   justify-content: center;
+  color: rgb(255, 255, 255);
+  text-shadow: 2px 0 #00000090, -2px 0 #00000090, 0 2px #00000090, 0 -2px #00000090,
+  1px 1px #00000090, -1px -1px #00000090, 1px -1px #00000090, -1px 1px #00000090;
 }
 
 .navbar-container{
+  margin: 0.5% 1% 0 1%;
   height: auto;
   width: 100%;
   display: flex;
@@ -14,6 +18,8 @@
   justify-content: space-evenly;
   padding: 0px;
   align-items: center;
+  box-shadow: 0px 2px 3px rgb(19, 19, 40);
+  border: 1px solid rgba(255, 255, 255, 0.800); 
 }
 
 .all-routes{
@@ -37,18 +43,19 @@ img{
 
 
 .route-container{
-  box-shadow: 0px 0px 1px white;
-  margin: 0px 5px 0px 5px;
+  min-width: 100px;
   width: 10%;
   height: 70%;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 4px;
+  margin: 0px 1%;
+  background-color:  rgb(67, 67, 180);
 }
 
 .route-container:hover{
   background-color:  rgb(60, 60, 161);
-  box-shadow: 0px 0px 1px rgb(0, 0, 0);
 }
 
 .nav-link{
@@ -57,8 +64,14 @@ img{
   display: flex;
   align-items: center; 
   justify-content: center;
-  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
   color: rgb(243, 243, 243);
+  text-decoration: none;
+}
+
+.nav-link:hover{
+  font-size: larger;
 }
 
 .nav-link-title{
@@ -67,13 +80,13 @@ img{
 }
 
 .logout{
-  box-shadow: 0px 0px 1px white;
-  width: fit-content;
-  padding: 0px 1% 0px 1%;
+  width: 20px;
   align-items: center;
   cursor: pointer;
+  max-width: fit-content;
+  margin: 0px 1%;
 }
 
 .logout:hover{
-  background-color:  rgb(161, 60, 60);
+  background-color:  rgb(134, 49, 49);
 }

@@ -3,74 +3,74 @@
   display: flex;
   justify-content: space-between;
   padding: 0px;
+  width: 40%;
+  height: auto;
   max-width: 1200px;
-  margin: 10% auto;
-  gap: 20px;
-  background-color: rgba(32, 44, 93, 0.05); /* Sfondo molto chiaro per il contenitore */
+  min-width: 230px;
+  margin: 1% 1%;
+  color: rgb(255, 255, 255);
+  text-shadow: 2px 0 #00000090, -2px 0 #00000090, 0 2px #00000090, 0 -2px #00000090,
+  1px 1px #00000090, -1px -1px #00000090, 1px -1px #00000090, -1px 1px #00000090;
 }
 
-/* Stili per i card */
+
 .profile-card,
 .edit-card {
-  background-color: #fff; /* Sfondo bianco per i card */
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra leggera nera */
+  background-color: rgb(47, 47, 128);
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); 
   padding: 20px;
   flex: 1;
   position: relative;
 }
 
-/* Stili specifici per il card del profilo */
 .profile-card {
-  border: 2px solid rgb(32, 44, 93); /* Bordo blu dominante */
+    // box-shadow: 0px 0px 10px white;
+  border: 1px solid rgb(255, 255, 255); 
+  
 }
 
 .profile-card h1 {
-  color: rgb(32, 44, 93); /* Titolo in blu dominante */
   margin-top: 0;
+  
 }
 
 .profile-card img.profile-img {
   border-radius: 50%;
   max-width: 100px;
   margin-bottom: 10px;
-  border: 2px solid rgba(32, 44, 93, 0.1); /* Bordo sottile blu chiaro */
+  border: 2px solid rgba(32, 44, 93, 0.1);
 }
 
 .profile-card p {
-  color: rgba(0, 0, 0, 0.7); /* Testo nero con opacità per meno contrasto */
   font-size: 16px;
   margin: 5px 0;
 }
 
 .profile-card p strong {
-  color: rgb(32, 44, 93); /* Testo in blu dominante */
 }
 
-/* Stili specifici per il card di modifica */
 .edit-card h2 {
-  color: rgb(32, 44, 93); /* Titolo in blu dominante */
   margin-top: 0;
 }
 
 .edit-card label {
   display: block;
   margin: 10px 0 5px;
-  color: rgb(32, 44, 93); /* Etichette in blu dominante */
 }
 
 .edit-card input {
   width: 100%;
   padding: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.1); /* Bordo input nero chiaro */
+  border: 1px solid rgba(0, 0, 0, 0.1); 
   border-radius: 4px;
   margin-bottom: 15px;
   box-sizing: border-box;
 }
 
 .edit-card button {
-  background-color: rgb(32, 44, 93); /* Pulsante in blu dominante */
-  color: #fff; /* Testo del pulsante bianco */
+  background-color: rgb(32, 44, 93); 
+  color: #fff; 
   border: none;
   padding: 10px 15px;
   border-radius: 4px;

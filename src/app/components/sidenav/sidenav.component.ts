@@ -53,13 +53,13 @@ const navbarData = [
   {
     routeLink: 'user-profile',
     icon: 'material-symbols-outlined',
-    label: 'User Profile', 
+    label: 'Profile', 
     iconName: 'adb',
   },
   {
     routeLink: 'scheduledOperations',
     icon: 'material-symbols-outlined',
-    label: 'Vault Account',
+    label: 'Vaults',
     iconName: 'savings',
   },
   {
@@ -75,15 +75,9 @@ const navbarData = [
     iconName: 'bar_chart',
   },
   {
-    routeLink: 'chartsData',
-    icon: 'material-symbols-outlined',
-    label: 'Charts Data',
-    iconName: 'chart_data',
-  },
-  {
     routeLink: 'scheduledOperations',
     icon: 'material-symbols-outlined',
-    label: 'Scheduled Operations',
+    label: 'Operations',
     iconName: 'event_upcoming',
   },
 ];

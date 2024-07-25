@@ -44,13 +44,13 @@ export class UserProfileComponent implements OnInit{
     });
   }
 
-  loadUserProfile(): void {
-    // Simulate an API call to load user profile
-  }
+  // loadUserProfile(): void {
+  //   // Simulate an API call to load user profile
+  // }
 
-  onSubmit(): void {
-    // Handle form submission to save changes
-    console.log('Profile updated:', this.principal);
-    alert('Profile updated successfully!');
-  }
+  // onSubmit(): void {
+  //   // Handle form submission to save changes
+  //   console.log('Profile updated:', this.principal);
+  //   alert('Profile updated successfully!');
+  // }
 }

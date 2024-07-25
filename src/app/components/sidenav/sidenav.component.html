@@ -8,12 +8,12 @@
     <div class="all-routes">
       <div class="route-container" *ngFor="let data of navData">
           <a class="nav-link" [routerLink]="[data.routeLink]" routerLinkActive="active">
-            <i class="sidenav-link-icon" [class]="data.icon">{{ data.iconName }}</i>
+            <i class="sidenav-link-icon">{{ data.label }}</i>
           </a>
       </div>
     </div>
     <div class="logout route-container">
-      <a class="nav-link" (click)="logout()">
+      <a class="nav-link logout" (click)="logout()">
         <i class="sidenav-link-icon" class="material-symbols-outlined">logout</i>
       </a>
     </div>
