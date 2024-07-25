@@ -1,0 +1,22 @@
+/* CSS for the logout dialog */
+.mat-dialog-container {
+  background-color: rgb(34, 34, 36);
+  color: white;
+}
+
+.dialog-title {
+  color: white;
+}
+
+.dialog-content p {
+  color: white;
+}
+
+.dialog-actions .dialog-button {
+  background-color: rgb(67, 67, 148); /* Slightly lighter color */
+  color: white;
+}
+
+.dialog-actions .dialog-button:hover {
+  background-color: rgb(87, 87, 168); /* Even lighter color on hover */
+}
