@@ -8,6 +8,13 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle
+} from '@angular/material/dialog';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { RouterOutlet } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,10 +22,12 @@ import { AuthComponent } from './components/auth/auth.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { LogoutDialogComponent } from './components/sidenav/logout-dialog/logout-dialog.component';
 import { SideNavComponent } from './components/sidenav/sidenav.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { headersInterceptor } from './security/headers.interceptor';
+
 
 
 
@@ -32,6 +41,7 @@ import { headersInterceptor } from './security/headers.interceptor';
     UserProfileComponent,
     LoginComponent,
     RegisterComponent,
+    LogoutDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,9 +49,13 @@ import { headersInterceptor } from './security/headers.interceptor';
     ReactiveFormsModule,
     HttpClientModule,
     RouterOutlet,
-    FormsModule
+    FormsModule,
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogContent,
+    MatDialogTitle,
   ],
-  providers: [provideHttpClient(withInterceptors([headersInterceptor]))],
+  providers: [provideHttpClient(withInterceptors([headersInterceptor])), provideAnimationsAsync()],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

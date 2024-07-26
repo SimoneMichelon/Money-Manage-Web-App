@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { UserControllerService } from '../../api/services';
 import { AuthService } from '../../security/auth.service';
+import { LogoutDialogComponent } from './logout-dialog/logout-dialog.component';
 
 interface SideNavToggle {
   collapsed: boolean;
@@ -23,8 +24,8 @@ export class SideNavComponent {
 
   constructor(
     private userControllerService: UserControllerService,
-    private authService: AuthService,
-    private router: Router
+    private authService : AuthService,
+    private dialog: MatDialog
   ) {}
 
   logout() {
@@ -39,6 +40,21 @@ export class SideNavComponent {
       error: (error) => {
         console.log('Error {}', error);
       },
+    });
+  }
+
+  openDialog(): void {
+    this.dialog.open(LogoutDialogComponent, {
+      width:'fit-content',
+      height:'fit-content',
+      autoFocus : false,
+      
+    }).afterClosed().subscribe({
+      next: (response) => {
+        if (response) {
+          this.logout();
+        }
+      }
     });
   }
 }

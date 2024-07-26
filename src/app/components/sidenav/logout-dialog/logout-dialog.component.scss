@@ -1,0 +1,67 @@
+.mat-dialog-container{
+  background-color: rgb(48, 48, 154),;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  width: 300px;
+  height: auto;
+  border: 3px solid rgb(153, 153, 176);
+  padding: 15px;
+}
+
+.dialog-title{
+  color: rgb(255, 255, 255);
+  text-transform: uppercase;
+  text-shadow: 2px 0 #00000090, -2px 0 #00000090, 0 2px #00000090, 0 -2px #00000090,
+  1px 1px #00000090, -1px -1px #00000090, 1px -1px #00000090, -1px 1px #00000090;
+}
+
+
+.dialog-actions{
+  display: flex;
+  justify-content: space-around
+}
+
+.dialog-button{
+  background: linear-gradient(rgb(47, 47, 128), rgb(36, 36, 99));
+  border-radius: 4px;
+  color: white;
+  height: 30px;
+  width: 30%;
+  border: none;
+  padding: 0px 0px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  font-weight: bolder;
+
+  
+}
+button{
+  border: none;
+}
+
+.dialog-button:hover{
+  box-shadow: 0px 2px 7px #000000;
+}
+
+.cancel:hover{
+  background: linear-gradient(rgb(66, 66, 179), rgb(48, 48, 131));
+}
+
+
+.logout{
+  background: rgb(118, 23, 23);
+}
+
+.logout:hover{
+  background: linear-gradient(rgb(183, 36, 36),  rgb(138, 26, 26));
+  font-weight: bolder;
+}
+
+.material-symbols-outlined{
+  font-size: 80px;
+  color: rgb(142, 27, 27);
+  text-shadow: 2px 0 rgba(255, 255, 255, 0.281), -2px 0 rgba(255, 255, 255, 0.609), 0 2px rgba(255, 255, 255, 0.609), 0 -2px rgba(255, 255, 255, 0.609),
+  1px 1px rgba(255, 255, 255, 0.609), -1px -1px rgba(255, 255, 255, 0.609), 1px -1px rgba(255, 255, 255, 0.609), -1px 1px rgba(255, 255, 255, 0.609);
+}

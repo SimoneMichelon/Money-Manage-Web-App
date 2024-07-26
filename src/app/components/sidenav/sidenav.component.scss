@@ -79,14 +79,34 @@ img{
   justify-content: center;
 }
 
-.logout{
+// .logout{
+//   width: 20px;
+//   align-items: center;
+//   cursor: pointer;
+//   max-width: fit-content;
+//   margin: 0px 1%;
+//   background-color:  rgb(134, 49, 49);
+// }
+
+.router-logout{
+  min-width: 100px;
   width: 20px;
+  height: 70%;
+  display: flex;
   align-items: center;
-  cursor: pointer;
-  max-width: fit-content;
+  justify-content: center;
+
   margin: 0px 1%;
+  background-color:  rgb(67, 67, 180);
+}
+
+
+a.logout{
+  border-radius: 4px;
+  background-color:  rgb(134, 49, 49);
+  cursor: pointer;
 }
 
 .logout:hover{
-  background-color:  rgb(134, 49, 49);
+  background: linear-gradient(rgb(179, 64, 64), rgb(134, 49, 49))
 }
