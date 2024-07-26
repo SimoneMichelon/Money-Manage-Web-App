@@ -10,27 +10,30 @@ import { AuthService } from '../../security/auth.service';
 })
 export class VaultsComponent implements OnInit {
 
-  vaults? : Array<VaultDto>;
+  vaults?: Array<VaultDto>;
 
-  constructor(private vaultControllerService : VaultControllerService,
-    private authService : AuthService
-  ){}
+  constructor(private vaultControllerService: VaultControllerService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.getVaultsByPrincipal();
   }
 
   getVaultsByPrincipal() {
-      this.vaultControllerService.getAllVaultsByPrincipal().subscribe({
-        next : (response) => {
-          console.log(response)
-          this.vaults = response;
-        },
-        error : (error) => {
-          this.authService.logout();
-        }
-      })
-    };
+    this.vaultControllerService.getAllVaultsByPrincipal().subscribe({
+      next: (response) => {
+        this.vaults = response;
+      },
+      error: () => {
+        this.authService.logout();
+      }
+    })
+  };
+
+  isEmpty(): boolean{
+    return this.vaults?.length == 0;
+  }
 
 
 }

@@ -1,12 +1,19 @@
 <div class="main-container">
-    <div class="item-list">
-        <h2 class="section-title">your vaults</h2>
-        <div *ngFor="let item of vaults">
-            <div class="item-card">
-                <h1>{{item.name}}</h1>
+    <div class="vault-section">
+        <h2 class="title">vaults</h2>
+        <div class="item-list">
+            <div *ngFor="let item of vaults" class="item-card">
+                    <h4>{{item.name}}</h4>
+                    <div class="gold-chip">
+                        <img src="../../../assets/photo/chip.png">
+                    </div>
+                    <h1>{{item.capital}}€</h1>
             </div>
         </div>
     </div>
-    
 
+    <!-- ALL OPERATIONS OF VAULT SELECTED -->
+    <div class="operations-container">
+
+    </div>
 </div>
