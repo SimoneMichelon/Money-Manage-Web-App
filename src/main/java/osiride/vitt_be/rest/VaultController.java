@@ -90,7 +90,7 @@ public class VaultController {
 	}
 
 	@Operation(summary = "Get all vault by Principal", description = "Get all vault Principal")
-	@GetMapping(value = "/vaults/user/" )
+	@GetMapping(value = "/vaults/user" , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<VaultDTO>> getAllVaultsByPrincipal(){
 		try {
 			List<VaultDTO> result = vaultService.getAllVaultByPrincipal();

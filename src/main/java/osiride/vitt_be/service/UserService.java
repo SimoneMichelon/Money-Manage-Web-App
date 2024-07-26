@@ -164,7 +164,7 @@ public class UserService {
 			userRepository.delete(user);
 
 			if(!userRepository.existsById(id)) {
-				return userMapper.toDto(user);
+				return userMapper.toDto(user); 
 			}
 			else {
 				log.error("SERVICE - User Not Deleted due to Unknown Error - DELETE");
