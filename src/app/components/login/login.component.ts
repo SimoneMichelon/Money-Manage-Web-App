@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginRequest } from '../../../api/models/login-request';
-import { AuthControllerService } from '../../../api/services';
+import { LoginRequest } from '../../api/models/login-request';
+import { AuthControllerService } from '../../api/services';
 
 @Component({
   selector: 'app-login',
