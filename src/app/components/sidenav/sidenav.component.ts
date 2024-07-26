@@ -61,16 +61,16 @@ export class SideNavComponent {
 
 const navbarData = [
   {
-    routeLink: 'user-profile',
-    icon: 'material-symbols-outlined',
-    label: 'Profile', 
-    iconName: 'adb',
-  },
-  {
     routeLink: 'dashboard',
     icon: 'material-symbols-outlined',
     label: 'Dashboard',
     iconName: 'Home',
+  },
+  {
+    routeLink: 'user-profile',
+    icon: 'material-symbols-outlined',
+    label: 'Profile', 
+    iconName: 'adb',
   },
   {
     routeLink: 'vaults',

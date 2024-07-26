@@ -10,6 +10,8 @@ import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
 import { AuthResponse } from '../models/auth-response';
+import { isAuth } from '../fn/auth-controller/is-auth';
+import { IsAuth$Params } from '../fn/auth-controller/is-auth';
 import { signIn } from '../fn/auth-controller/sign-in';
 import { SignIn$Params } from '../fn/auth-controller/sign-in';
 import { signUp } from '../fn/auth-controller/sign-up';
@@ -84,6 +86,39 @@ export class AuthControllerService extends BaseService {
   signIn(params: SignIn$Params, context?: HttpContext): Observable<AuthResponse> {
     return this.signIn$Response(params, context).pipe(
       map((r: StrictHttpResponse<AuthResponse>): AuthResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `isAuth()` */
+  static readonly IsAuthPath = '/auth/check';
+
+  /**
+   * Is Auth.
+   *
+   * Is Token Valid
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `isAuth()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  isAuth$Response(params?: IsAuth$Params, context?: HttpContext): Observable<StrictHttpResponse<boolean>> {
+    return isAuth(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Is Auth.
+   *
+   * Is Token Valid
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `isAuth$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  isAuth(params?: IsAuth$Params, context?: HttpContext): Observable<boolean> {
+    return this.isAuth$Response(params, context).pipe(
+      map((r: StrictHttpResponse<boolean>): boolean => r.body)
     );
   }
 
