@@ -1,9 +1,9 @@
-mspring:
+spring:
   application:
     name: Vitt
 
   datasource:
-    url: jdbc:mysql://localhost:3306/vitt_db_qa?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/vitt_db_dev?createDatabaseIfNotExist=true
  
     username: root
     password: root
@@ -12,7 +12,7 @@ mspring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: true
     properties:
       hibernate: 
@@ -23,3 +23,4 @@ logging:
     root: INFO
     osiride.vitt-be: DEBUG
     org.springframework.web: ERROR
+    

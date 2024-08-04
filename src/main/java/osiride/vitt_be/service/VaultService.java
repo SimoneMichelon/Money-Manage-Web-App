@@ -128,9 +128,11 @@ public class VaultService {
 
 		Vault vault = vaultMapper.toEntity(vaultDTO);
 
-		UserDTO user = authService.isAdmin() ? 
-				userService.findById(vaultDTO.getUserDTO().getId()) : 
-					authService.getPrincipal();
+//		UserDTO user = authService.isAdmin() ? 
+//				userService.findById(vaultDTO.getUserDTO().getId()) : 
+//					authService.getPrincipal();
+		
+		UserDTO user = authService.getPrincipal();
 
 		vault.setUser(userMapper.toEntity(user));
 

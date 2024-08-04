@@ -138,6 +138,7 @@ public class UserService {
 		}
 
 		User user = userMapper.toEntity(userDTO);
+		user.setImgProfile("https://www.svgrepo.com/show/408476/user-person-profile-block-account-circle.svg");
 		user.setId(null);
 		user.setRole(Role.GUEST);
 		return userMapper.toDto(userRepository.save(user));
@@ -163,7 +164,7 @@ public class UserService {
 			userRepository.delete(user);
 
 			if(!userRepository.existsById(id)) {
-				return userMapper.toDto(user);
+				return userMapper.toDto(user); 
 			}
 			else {
 				log.error("SERVICE - User Not Deleted due to Unknown Error - DELETE");
