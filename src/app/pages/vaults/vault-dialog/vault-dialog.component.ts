@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { UserDto, VaultDto } from '../../../api/models';
 import { UserControllerService, VaultControllerService } from '../../../api/services';
 
@@ -11,7 +12,9 @@ import { UserControllerService, VaultControllerService } from '../../../api/serv
 export class VaultDialogComponent implements OnInit{
 
   constructor(private userControllerService : UserControllerService,
-    private vaultControllerService : VaultControllerService
+    private vaultControllerService : VaultControllerService,
+    private dialogRef : MatDialogRef<VaultDialogComponent>
+
   ){}
 
   ngOnInit(): void {
@@ -37,6 +40,7 @@ export class VaultDialogComponent implements OnInit{
     this.vaultControllerService.createVault({body : data}).subscribe({
       next :(response) => {
         console.log("Vault Created !");
+        this.dialogRef.close({delete : true})
       },
       error : (error) => {
         console.log("Error : ", error);

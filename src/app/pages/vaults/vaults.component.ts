@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { VaultDto } from '../../api/models';
 import { VaultControllerService } from '../../api/services';
 import { AuthService } from '../../security/auth.service';
+import { DeleteVaultDialogComponent } from './delete-vault-dialog/delete-vault-dialog.component';
 import { EditVaultDialogComponent } from './edit-vault-dialog/edit-vault-dialog.component';
 import { VaultDialogComponent } from './vault-dialog/vault-dialog.component';
 
@@ -46,9 +47,10 @@ export class VaultsComponent implements OnInit {
       width: "30%",
       height: "auto"
     }).afterClosed().subscribe({
-     next : (result) => {
-        this.getVaultsByPrincipal();
-      }
+      next : (result) => {
+       if(result.delete)
+         this.getVaultsByPrincipal();
+       }
     });
   }
 
@@ -58,11 +60,24 @@ export class VaultsComponent implements OnInit {
       width: "30%",
       height: "auto"
     }).afterClosed().subscribe({
+      next : (result) => {
+       if(result.delete)
+         this.getVaultsByPrincipal();
+       }
+    });
+  }
+
+  openDeleteDialog(vault : VaultDto): void {
+    this.dialog.open(DeleteVaultDialogComponent, {
+      data : {vault : vault},
+      width: "auto",
+      height: "auto"
+    }).afterClosed().subscribe({
      next : (result) => {
+      if(result.delete)
         this.getVaultsByPrincipal();
       }
     });
   }
-
 
 }

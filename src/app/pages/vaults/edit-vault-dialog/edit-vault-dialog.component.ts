@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UserDto, VaultDto } from '../../../api/models';
-import { UserControllerService, VaultControllerService } from '../../../api/services';
+import { VaultControllerService } from '../../../api/services';
 
 @Component({
   selector: 'app-edit-vault-dialog',
@@ -12,8 +12,8 @@ import { UserControllerService, VaultControllerService } from '../../../api/serv
 export class EditVaultDialogComponent implements OnInit {
 
   constructor(
-    private userControllerService: UserControllerService,
-    private vaultControllerService: VaultControllerService
+    private vaultControllerService: VaultControllerService,
+    private dialogRef : MatDialogRef<EditVaultDialogComponent>
   ) {}
 
   data: any = inject<number>(MAT_DIALOG_DATA);
@@ -40,6 +40,7 @@ export class EditVaultDialogComponent implements OnInit {
       this.vaultControllerService.updateVault({ body: data }).subscribe({
         next: (response) => {
           console.log('Vault Edited!');
+          this.dialogRef.close({delete : true});
         },
         error: (error) => {
           console.log('Error:', error);
