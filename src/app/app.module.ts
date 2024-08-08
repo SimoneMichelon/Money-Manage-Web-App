@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+
 
 import {
   HttpClientModule,
@@ -26,8 +30,10 @@ import { SideNavComponent } from './components/sidenav/sidenav.component';
 import { AuthComponent } from './pages/auth/auth.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
-import { headersInterceptor } from './security/headers.interceptor';
+import { VaultDialogComponent } from './pages/vaults/vault-dialog/vault-dialog.component';
 import { VaultsComponent } from './pages/vaults/vaults.component';
+import { headersInterceptor } from './security/headers.interceptor';
+import { EditVaultDialogComponent } from './pages/vaults/edit-vault-dialog/edit-vault-dialog.component';
 
 
 
@@ -44,6 +50,8 @@ import { VaultsComponent } from './pages/vaults/vaults.component';
     RegisterComponent,
     LogoutDialogComponent,
     VaultsComponent,
+    VaultDialogComponent,
+    EditVaultDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +64,9 @@ import { VaultsComponent } from './pages/vaults/vaults.component';
     MatDialogClose,
     MatDialogContent,
     MatDialogTitle,
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule
   ],
   providers: [provideHttpClient(withInterceptors([headersInterceptor])), provideAnimationsAsync()],
   bootstrap: [AppComponent],

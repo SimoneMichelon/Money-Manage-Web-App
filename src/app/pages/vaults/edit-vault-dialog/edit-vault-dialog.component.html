@@ -1,0 +1,13 @@
+<div class="form-container">
+    <h1>Edit Vault</h1>
+    <form [formGroup]="vaultForm" (submit)="createVault()" class="vault-form">
+        <input class="input-style" matInput formControlName="name" type="text" placeholder="Balance Account 1 ...">
+        <input class="input-style" matInput formControlName="capital" type="number" placeholder="0 €...">
+
+        <button class="input-style" mat-button matDialogClose type="submit" [disabled]="vaultForm.invalid"
+            [ngClass]="{disabled : vaultForm.invalid , active : !vaultForm.invalid}">
+            <h5>Add Vault</h5>
+        </button>
+    </form>
+
+</div>

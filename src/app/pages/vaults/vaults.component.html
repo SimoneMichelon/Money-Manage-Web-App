@@ -1,19 +1,25 @@
 <div class="main-container">
     <div class="vault-section">
-        <h2 class="title">vaults</h2>
+        <div class="vault-header">
+            <h2 class="title">vaults</h2>
+            <button class="add-button" (click)="openCreateDialog()"> 
+                <mat-icon >add</mat-icon>
+            </button>
+        </div>
         <div class="item-list">
             <div *ngFor="let item of vaults" class="item-card">
                     <h4>{{item.name}}</h4>
-                    <div class="gold-chip">
-                        <img src="../../../assets/photo/chip.png">
-                    </div>
-                    <h1>{{item.capital}}€</h1>
+                    <h1><span>Balance: </span>{{item.capital}}€</h1>
+                    <button class="edit-button" (click)="openEditDialog(item.id!)"> 
+                        <mat-icon >edit</mat-icon>
+                    </button>
             </div>
         </div>
+
     </div>
 
     <!-- ALL OPERATIONS OF VAULT SELECTED -->
     <div class="operations-container">
-
+        <h1 class="title">Operation List</h1>
     </div>
 </div>

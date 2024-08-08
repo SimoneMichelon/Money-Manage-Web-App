@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { VaultDto } from '../../api/models';
 import { VaultControllerService } from '../../api/services';
 import { AuthService } from '../../security/auth.service';
+import { EditVaultDialogComponent } from './edit-vault-dialog/edit-vault-dialog.component';
+import { VaultDialogComponent } from './vault-dialog/vault-dialog.component';
+
+
 
 @Component({
   selector: 'app-vaults',
@@ -13,7 +18,8 @@ export class VaultsComponent implements OnInit {
   vaults?: Array<VaultDto>;
 
   constructor(private vaultControllerService: VaultControllerService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -33,6 +39,29 @@ export class VaultsComponent implements OnInit {
 
   isEmpty(): boolean{
     return this.vaults?.length == 0;
+  }
+
+  openCreateDialog(): void {
+    this.dialog.open(VaultDialogComponent, {
+      width: "30%",
+      height: "auto"
+    }).afterClosed().subscribe({
+     next : (result) => {
+        this.getVaultsByPrincipal();
+      }
+    });
+  }
+
+  openEditDialog(id : number): void {
+    this.dialog.open(EditVaultDialogComponent, {
+      data : {vault_id : id},
+      width: "30%",
+      height: "auto"
+    }).afterClosed().subscribe({
+     next : (result) => {
+        this.getVaultsByPrincipal();
+      }
+    });
   }
 
 
