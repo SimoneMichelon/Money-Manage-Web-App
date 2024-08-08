@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserDto, VaultDto } from '../../../api/models';
@@ -7,61 +7,61 @@ import { UserControllerService, VaultControllerService } from '../../../api/serv
 @Component({
   selector: 'app-edit-vault-dialog',
   templateUrl: './edit-vault-dialog.component.html',
-  styleUrl: './edit-vault-dialog.component.scss'
+  styleUrls: ['./edit-vault-dialog.component.scss']
 })
-export class EditVaultDialogComponent {
+export class EditVaultDialogComponent implements OnInit {
 
-  constructor(private userControllerService : UserControllerService,
-    private vaultControllerService : VaultControllerService
-  ){}
+  constructor(
+    private userControllerService: UserControllerService,
+    private vaultControllerService: VaultControllerService
+  ) {}
 
-  data : any = inject<number>(MAT_DIALOG_DATA);
+  data: any = inject<number>(MAT_DIALOG_DATA);
 
-  vaultDto! : VaultDto ;
+  vaultDto!: VaultDto;
+
+  vaultForm!: FormGroup;
+
+  principal!: UserDto;
 
   ngOnInit(): void {
-   this.getVaultById();
+    this.getVaultById();
   }
 
-  principal! : UserDto;
+  editVault() {
+    if (this.vaultForm.valid) {
+      let data: VaultDto = {
+        id: this.vaultDto.id,
+        name: this.vaultForm.value.name!,
+        userDTO: this.vaultDto.userDTO,
+        capital: this.vaultForm.value.capital!
+      };
 
-  vaultForm = new FormGroup({
-      name: new FormControl("",[Validators.minLength(3), Validators.required]),
-      capital: new FormControl(0,[Validators.min(0) ,Validators.required])
+      this.vaultControllerService.updateVault({ body: data }).subscribe({
+        next: (response) => {
+          console.log('Vault Edited!');
+        },
+        error: (error) => {
+          console.log('Error:', error);
+        }
+      });
     }
-  )
-
-  createVault(){
-    let data : VaultDto = {
-      id : 0,
-      name : this.vaultForm.value.name!,
-      userDTO : this.principal,
-      capital : this.vaultForm.value.capital!
-
-    }
-    this.vaultControllerService.createVault({body : data}).subscribe({
-      next :(response) => {
-        console.log("Vault Created !");
-      },
-      error : (error) => {
-        console.log("Error : ", error);
-      }
-    })
   }
 
-  getVaultById(){
-
+  getVaultById() {
     let id = this.data.vault_id;
-    console.log(id)
-
-    this.vaultControllerService.getVaultById({id : id}).subscribe({
-      next : (response) => {
-        console.log(response);
+    this.vaultControllerService.getVaultById({ id: id }).subscribe({
+      next: (response) => {
         this.vaultDto = response;
+
+        this.vaultForm = new FormGroup({
+          name: new FormControl(this.vaultDto.name, [Validators.minLength(3), Validators.required]),
+          capital: new FormControl(this.vaultDto.capital, [Validators.min(0), Validators.required])
+        });
       },
-      error : (error) => {
-        console.log("Error : ", error);
+      error: (error) => {
+        console.log('Error:', error);
       }
-    })
+    });
   }
 }
