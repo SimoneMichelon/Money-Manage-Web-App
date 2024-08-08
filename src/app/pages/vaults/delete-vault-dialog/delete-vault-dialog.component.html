@@ -1,0 +1,9 @@
+<div class="container">
+    <h2>Delete Vault : "<span class="item-name">{{data.vault.name}}</span>"</h2>
+    <button class="cancel-button" mat-button mat-dialog-close>
+        <h4>Cancel</h4>    
+    </button>
+    <button class="delete-button" mat-button mat-dialog-close="true" (click)="deleteVault()">        
+        <h4>Delete</h4>    
+    </button>
+</div>

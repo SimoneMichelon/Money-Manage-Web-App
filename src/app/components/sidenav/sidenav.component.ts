@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserControllerService } from '../../api/services';
 import { AuthService } from '../../security/auth.service';
-import { LogoutDialogComponent } from './logout-dialog/logout-dialog.component';
+import { LogoutDialogComponent } from '../logout-dialog/logout-dialog.component';
 
 interface SideNavToggle {
   collapsed: boolean;
@@ -73,10 +73,16 @@ const navbarData = [
     iconName: 'adb',
   },
   {
-    routeLink: 'scheduledOperations',
+    routeLink: 'vaults',
     icon: 'material-symbols-outlined',
     label: 'Vaults',
     iconName: 'savings',
+  },
+  {
+    routeLink: 'scheduledOperations',
+    icon: 'material-symbols-outlined',
+    label: 'Operations',
+    iconName: 'event_upcoming',
   },
   {
     routeLink: 'statistics',
@@ -89,11 +95,5 @@ const navbarData = [
     icon: 'material-symbols-outlined',
     label: 'Charts',
     iconName: 'bar_chart',
-  },
-  {
-    routeLink: 'scheduledOperations',
-    icon: 'material-symbols-outlined',
-    label: 'Operations',
-    iconName: 'event_upcoming',
   },
 ];

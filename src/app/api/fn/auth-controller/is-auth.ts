@@ -6,13 +6,12 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { VaultDto } from '../../models/vault-dto';
 
-export interface GetAllVaultsByPrincipal$Params {
+export interface IsAuth$Params {
 }
 
-export function getAllVaultsByPrincipal(http: HttpClient, rootUrl: string, params?: GetAllVaultsByPrincipal$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<VaultDto>>> {
-  const rb = new RequestBuilder(rootUrl, getAllVaultsByPrincipal.PATH, 'get');
+export function isAuth(http: HttpClient, rootUrl: string, params?: IsAuth$Params, context?: HttpContext): Observable<StrictHttpResponse<boolean>> {
+  const rb = new RequestBuilder(rootUrl, isAuth.PATH, 'get');
   if (params) {
   }
 
@@ -21,9 +20,9 @@ export function getAllVaultsByPrincipal(http: HttpClient, rootUrl: string, param
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<VaultDto>>;
+      return (r as HttpResponse<any>).clone({ body: String((r as HttpResponse<any>).body) === 'true' }) as StrictHttpResponse<boolean>;
     })
   );
 }
 
-getAllVaultsByPrincipal.PATH = '/api/vault-management/vaults/user';
+isAuth.PATH = '/auth/check';

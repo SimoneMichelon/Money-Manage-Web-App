@@ -196,6 +196,39 @@ export class VaultControllerService extends BaseService {
     );
   }
 
+  /** Path part for operation `getAllVaultsByPrincipal()` */
+  static readonly GetAllVaultsByPrincipalPath = '/api/vault-management/vaults/user';
+
+  /**
+   * Get all vault by Principal.
+   *
+   * Get all vault Principal
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getAllVaultsByPrincipal()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllVaultsByPrincipal$Response(params?: GetAllVaultsByPrincipal$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<VaultDto>>> {
+    return getAllVaultsByPrincipal(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Get all vault by Principal.
+   *
+   * Get all vault Principal
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getAllVaultsByPrincipal$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllVaultsByPrincipal(params?: GetAllVaultsByPrincipal$Params, context?: HttpContext): Observable<Array<VaultDto>> {
+    return this.getAllVaultsByPrincipal$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<VaultDto>>): Array<VaultDto> => r.body)
+    );
+  }
+
   /** Path part for operation `getAllVaultsByUserId()` */
   static readonly GetAllVaultsByUserIdPath = '/api/vault-management/vaults/user/{id}';
 
@@ -225,39 +258,6 @@ export class VaultControllerService extends BaseService {
    */
   getAllVaultsByUserId(params: GetAllVaultsByUserId$Params, context?: HttpContext): Observable<Array<VaultDto>> {
     return this.getAllVaultsByUserId$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<VaultDto>>): Array<VaultDto> => r.body)
-    );
-  }
-
-  /** Path part for operation `getAllVaultsByPrincipal()` */
-  static readonly GetAllVaultsByPrincipalPath = '/api/vault-management/vaults/user/';
-
-  /**
-   * Get all vault by Principal.
-   *
-   * Get all vault Principal
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getAllVaultsByPrincipal()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getAllVaultsByPrincipal$Response(params?: GetAllVaultsByPrincipal$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<VaultDto>>> {
-    return getAllVaultsByPrincipal(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Get all vault by Principal.
-   *
-   * Get all vault Principal
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getAllVaultsByPrincipal$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getAllVaultsByPrincipal(params?: GetAllVaultsByPrincipal$Params, context?: HttpContext): Observable<Array<VaultDto>> {
-    return this.getAllVaultsByPrincipal$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<VaultDto>>): Array<VaultDto> => r.body)
     );
   }

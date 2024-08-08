@@ -1,0 +1,64 @@
+.form-container {
+    margin:20px;
+    overflow: hidden;
+}
+
+
+.title h1 {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+.vault-form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.input-style {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+    width: 80%;
+}
+
+button.input-style {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button.input-style.disabled {
+    background-color: #d6d6d6;
+    cursor: not-allowed;
+}
+
+button.input-style.active {
+    background-color: #0056b3;
+}
+
+button.input-style.active:hover {
+    background-color: #00ccff;
+}
+
+button.input-style h5 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.vault-form > *:not(:last-child) {
+    margin-bottom: 15px;
+}
+
