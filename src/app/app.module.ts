@@ -35,6 +35,7 @@ import { VaultsComponent } from './pages/vaults/vaults.component';
 import { headersInterceptor } from './security/headers.interceptor';
 import { EditVaultDialogComponent } from './pages/vaults/edit-vault-dialog/edit-vault-dialog.component';
 import { DeleteVaultDialogComponent } from './pages/vaults/delete-vault-dialog/delete-vault-dialog.component';
+import { AuthenticationComponent } from './pages/authentication/authentication.component';
 
 
 
@@ -54,6 +55,7 @@ import { DeleteVaultDialogComponent } from './pages/vaults/delete-vault-dialog/d
     VaultDialogComponent,
     EditVaultDialogComponent,
     DeleteVaultDialogComponent,
+    AuthenticationComponent,
   ],
   imports: [
     BrowserModule,

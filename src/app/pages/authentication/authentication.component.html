@@ -1,0 +1,56 @@
+<div class="main-container unselectable">
+    <div class="content unselectable">
+        <div class="header">
+            <div class="blue-ball"></div>
+            <p class="title">Manager app<span class="special-detail">.</span></p>
+            <div class="routes ">
+                <a class="route" [ngClass]="{active : login}" (click)="changeMethod()">Login</a>
+                <a class="route" [ngClass]="{active : !login}" (click)="changeMethod()">Register</a>
+            </div>
+        </div>
+        <div class="body-container">
+            <div id="registration" *ngIf="!login">
+                <div class="form-header" >
+                    <p class="first-title">MANAGE YOUR MONEY</p>
+                    <h1 class="title">Create new account<span class="special-detail">.</span></h1>
+                    <p class="second-title">Already A Member? <span class="special-detail route" (click)="changeMethod()">Log In</span></p>
+                </div>  
+                <div class="form-container">
+                    <form [formGroup]="registrationForm" class="form" autocomplete="off">
+                        <div class="double-field">
+                            <div class="full-input first" [ngClass]="{'full-input-focus' : isFocus==1}">
+                                <label for="firstName" class="label" [ngClass]="{'label-focus': isFocus==1}">First name</label>
+                                <input class="input-style" id="firstName" matInput formControlName="firstName" type="text" 
+                                       (focus)="focus(1)" (blur)="blur(1)">
+                            </div>
+                            <div class="full-input" [ngClass]="{'full-input-focus' : isFocus==2}">
+                                <label for="lastName" class="label" [ngClass]="{'label-focus' : isFocus==2}">Last name</label>
+                                <input class="input-style" id="lastName" matInput formControlName="lastName" type="text" 
+                                       (focus)="focus(2)" (blur)="blur(2)">
+                            </div>
+                        </div>
+                
+                        <div class="full-input" [ngClass]="{'full-input-focus' : isFocus==3}" for="dob">
+                            <label for="dob" class="label" [ngClass]="{'label-focus' : isFocus==3}">Birthdate</label>
+                            <input class="input-style date-picker" id="dob" matInput formControlName="dob" type="date" 
+                                   (focus)="focus(3)" (blur)="blur(3)">
+                        </div>
+                        
+                        <div class="full-input long-field" [ngClass]="{'full-input-focus' : isFocus==4}" for="dob">
+                            <label for="email" class="label" [ngClass]="{'label-focus' : isFocus==4}">Email</label>
+                            <input class="input-style long-field-input" id="email" matInput formControlName="email" type="email" 
+                                   (focus)="focus(4)" (blur)="blur(4)">
+                        </div>    
+                        
+                        <div class="full-input long-field" [ngClass]="{'full-input-focus' : isFocus==5}">
+                            <label for="password" class="label" [ngClass]="{'label-focus' : isFocus==5}">Password</label>
+                            <input class="input-style long-field-input" id="password" matInput formControlName="password" type="password" 
+                                   (focus)="focus(5)" (blur)="blur(5)">
+                        </div>
+                        
+                    </form>                       
+                </div>      
+            </div>
+        </div>
+    </div>
+</div>
