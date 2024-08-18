@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CredentialDto, LoginRequest } from '../../api/models';
 import { AuthControllerService } from '../../api/services';
 
+
 @Component({
   selector: 'app-authentication',
   templateUrl: './authentication.component.html',

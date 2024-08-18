@@ -22,20 +22,17 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { RouterOutlet } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/login/login.component';
 import { LogoutDialogComponent } from './components/logout-dialog/logout-dialog.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { RegisterComponent } from './components/register/register.component';
 import { SideNavComponent } from './components/sidenav/sidenav.component';
-import { AuthComponent } from './pages/auth/auth.component';
+import { AuthenticationComponent } from './pages/authentication/authentication.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { DeleteVaultDialogComponent } from './pages/vaults/delete-vault-dialog/delete-vault-dialog.component';
+import { EditVaultDialogComponent } from './pages/vaults/edit-vault-dialog/edit-vault-dialog.component';
 import { VaultDialogComponent } from './pages/vaults/vault-dialog/vault-dialog.component';
 import { VaultsComponent } from './pages/vaults/vaults.component';
 import { headersInterceptor } from './security/headers.interceptor';
-import { EditVaultDialogComponent } from './pages/vaults/edit-vault-dialog/edit-vault-dialog.component';
-import { DeleteVaultDialogComponent } from './pages/vaults/delete-vault-dialog/delete-vault-dialog.component';
-import { AuthenticationComponent } from './pages/authentication/authentication.component';
 
 
 
@@ -43,13 +40,10 @@ import { AuthenticationComponent } from './pages/authentication/authentication.c
 @NgModule({
   declarations: [
     AppComponent,
-    AuthComponent,
     NotFoundComponent,
     SideNavComponent,
     MainPageComponent,
     UserProfileComponent,
-    LoginComponent,
-    RegisterComponent,
     LogoutDialogComponent,
     VaultsComponent,
     VaultDialogComponent,
