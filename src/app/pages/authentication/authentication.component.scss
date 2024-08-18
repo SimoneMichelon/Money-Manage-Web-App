@@ -11,7 +11,11 @@
     background-repeat: no-repeat;
     background-size: cover;
     color: rgb(255, 255, 255);
+    overflow: hidden;
 
+    @media (max-width: 1600px) {
+        overflow: auto;
+    }
 
     .unselectable {
         -webkit-touch-callout: none;
@@ -100,25 +104,19 @@
                     text-decoration: underline rgb(33, 138, 231, 1) 3px;
                     pointer-events: none;
                 }
+
+                .not-clickable{
+                    pointer-events: none;
+                }
             }
         }
 
         .body-container{
             margin: 90px 0px 0px 40px;
+            display: flex;
 
-            
-            .disable_animation{
-                animation: slideOut 0.6s forwards;
-                
-            }
 
-            .active_animation{
-                animation: slideIn 0.6s forwards;
-                animation-delay: 1s;
-            }
-
-            .disable_template{
-                animation-delay: 0.4s;
+            .not-active{
                 display: none;
             }
 
@@ -127,25 +125,33 @@
                     transform: translateX(0);
                     opacity: 1;
                 }
-                99% {
-                    transform: translateX(100vw);
+                100%{
+                    transform: translateX(2000px);
                     opacity: 0;
-                }
-                100% {
                     display: none;
                 }
             }
 
-            // @keyframes slideIn {
-            //     1% {
-            //         transform: translateX(-100vw);
-            //         opacity: 0;
-            //     }
-            //     99% {
-            //         transform: translateX(0vw);
-            //         opacity: 1;
-            //     }  
-            // }
+            @keyframes slideIn {
+                0% {
+                    // transform: translateX(-100vw);
+                    opacity: 0;
+                }
+                100% {
+                    // transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+
+            .slideOut{
+                animation: slideOut 1s forwards;
+            }
+
+            .slideIn{
+                animation: slideIn 1s forwards;
+            }
+
+            
 
             .form-header{
 

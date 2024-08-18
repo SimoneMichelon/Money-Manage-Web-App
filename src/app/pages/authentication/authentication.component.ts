@@ -12,6 +12,7 @@ import { AuthControllerService } from '../../api/services';
 export class AuthenticationComponent implements OnInit{
 
   ngOnInit(): void {
+    this.firstOrder();
   }
 
   constructor(private authControllerService : AuthControllerService,
@@ -21,6 +22,7 @@ export class AuthenticationComponent implements OnInit{
   isFocus : number | null = null;
   isBlur: number | null = null;
   isVisible : boolean = false;
+  counter : number = 0;
 
   
   loginForm = new FormGroup({
@@ -90,6 +92,52 @@ export class AuthenticationComponent implements OnInit{
 
   changeMethod(){
     this.login = !this.login;
+
+    let registration = document.getElementById("registration") as HTMLElement;
+    let login = document.getElementById("login") as HTMLElement;
+    let routeElements = document.querySelectorAll(".route");
+
+    routeElements.forEach((element) => {
+      element.classList.add("not-clickable");
+    });
+
+    setTimeout(() => {
+      routeElements.forEach((element) => {
+        element.classList.remove("not-clickable");
+      });
+    }, 1000);
+    
+
+    if(this.counter == 0){
+      this.counter++;
+      setTimeout(() => {
+        registration.classList.remove("not-active");
+      }, 1000);
+    }
+
+    if(this.login == true){
+      registration.classList.remove("slideIn");
+      registration.classList.add("slideOut");
+      // login.classList.remove("slideOut");
+      setTimeout(() => {
+        login.classList.remove("slideOut");
+        login.classList.add("slideIn");
+      }, 1000);
+
+    }
+    else {
+      login.classList.remove("slideIn");
+      login.classList.add("slideOut");
+      setTimeout(() => {
+        registration.classList.remove("slideOut");
+        registration.classList.add("slideIn");
+      }, 1000);
+    }
+  }
+
+  firstOrder(){
+    let registration = document.getElementById("registration") as HTMLElement;
+    registration.classList.add("not-active");
   }
 
   focus(inputNumber: number) {
@@ -122,6 +170,7 @@ export class AuthenticationComponent implements OnInit{
         passwordInput.type = "password";
       }
     }
-    
   }
+
+
 }
