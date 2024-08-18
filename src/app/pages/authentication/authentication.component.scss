@@ -264,6 +264,8 @@
                             width: auto;
                         }
 
+
+
                         .inner-div{
                            display: flex;
 
@@ -282,6 +284,21 @@
                         .long-field-input{
                             width: 100%;
                         }
+
+                        @keyframes shake {
+                            0% { transform: translate(1px, 1px) rotate(0deg); }
+                            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+                            20% { transform: translate(-3px, 0px) rotate(1deg); }
+                            30% { transform: translate(3px, 2px) rotate(0deg); }
+                            40% { transform: translate(1px, -1px) rotate(1deg); }
+                            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+                            60% { transform: translate(-3px, 1px) rotate(0deg); }
+                            70% { transform: translate(3px, 1px) rotate(-1deg); }
+                            80% { transform: translate(-1px, -1px) rotate(1deg); }
+                            90% { transform: translate(1px, 2px) rotate(0deg); }
+                            100% { transform: translate(1px, -2px) rotate(-1deg); }
+                        }
+
                     }
                     
                     .full-input-focus{
@@ -318,6 +335,36 @@
                             margin: auto;
                         }
                     }
+
+                    .error-box{
+                        width: auto;
+                        height: auto;
+                        // background-color: rgba(255, 0, 0, 0.186);
+                        // border: 1px solid rgba(255, 0, 0, 0.624);
+                        border-radius: 10px;
+                        display: flex;
+                        justify-content: start;
+                        margin: 0;
+                        padding: 4px 0px 4px 20px;
+                    }
+
+                    .error-text{
+                        animation: shake 0.5s;
+                        font-weight: bold;
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                        font-size: 17px;
+                        color: red;
+                        margin: 0;
+                    }
+
+                    .error-field {
+                        animation: shake 0.5s;
+                        animation-timing-function: ease-in-out;
+                        animation-iteration-count: 1;
+                        border: 1px solid red;
+                        background-color: rgba(255, 0, 0, 0.411);
+                    }
+
 
                     .disabled{
                         background-color: #40404036;

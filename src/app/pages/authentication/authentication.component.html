@@ -57,7 +57,7 @@
                             </div>
                         </div>
                         
-                        <div class="full-input long-field" [ngClass]="{'full-input-focus' : isFocus==4}" for="dob">
+                        <div class="full-input long-field" id="email-error-id" [ngClass]="{'full-input-focus' : isFocus==4}" for="dob">
                             <label for="email" class="label" [ngClass]="{'label-focus' : isFocus==4}">Email</label>
 
                             <div class="inner-div">
@@ -82,7 +82,9 @@
                                 </label>
                             </div>
                         </div>
-
+                        <div class="error-box" *ngIf="appendingError">
+                            <p class="error-text" >Email address already in use</p>
+                        </div>
                         <button class="button-style" mat-button type="submit" [disabled]="registrationForm.invalid" [ngClass]="{disabled : registrationForm.invalid}">
                             <p class="button-title">Create account</p>
                         </button> 
@@ -99,7 +101,7 @@
                 </div>  
                 <div class="form-container">
                     <form [formGroup]="loginForm" (submit)="loginHandler()" class="form" autocomplete="off">
-                        <div class="full-input long-field" [ngClass]="{'full-input-focus' : isFocus==4}" for="dob">
+                        <div class="full-input long-field login-check" [ngClass]="{'full-input-focus' : isFocus==4}" for="dob">
                             <label for="email-login" class="label" [ngClass]="{'label-focus' : isFocus==4}">Email</label>
 
                             <div class="inner-div">
@@ -111,7 +113,7 @@
                             </div>
                         </div>    
                         
-                        <div class="full-input long-field" [ngClass]="{'full-input-focus' : isFocus==5}">
+                        <div class="full-input long-field login-check" [ngClass]="{'full-input-focus' : isFocus==5}">
                             <label for="password-login" class="label" [ngClass]="{'label-focus' : isFocus==5}">Password</label>
                             <div class="inner-div">
                                 <input class="input-style long-field-input" id="password-login" matInput formControlName="password" type="password" 
@@ -124,7 +126,9 @@
                                 </label>
                             </div>
                         </div>
-
+                        <div class="error-box" *ngIf="appendingError">
+                            <p class="error-text" >Incorrect email or password</p>
+                        </div>
                         <button class="button-style" mat-button type="submit" [disabled]="loginForm.invalid" [ngClass]="{disabled : loginForm.invalid}">
                             <p class="button-title">Login</p>
                         </button> 

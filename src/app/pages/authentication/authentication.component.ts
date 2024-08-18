@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -24,6 +25,7 @@ export class AuthenticationComponent implements OnInit{
   isBlur: number | null = null;
   isVisible : boolean = false;
   counter : number = 0;
+  appendingError : boolean = false;
 
   
   loginForm = new FormGroup({
@@ -40,10 +42,7 @@ export class AuthenticationComponent implements OnInit{
   })
 
   registerHandler(){
-    if(this.registrationForm.invalid == true){
-      this.errorHandler();
-      return;
-    }
+    this.appendingError = false;
 
     let registerRequest : CredentialDto = {
       email : this.registrationForm.value.email!,
@@ -62,13 +61,19 @@ export class AuthenticationComponent implements OnInit{
         localStorage.setItem("jwt", response.jwt!);
         this.router.navigateByUrl('/dashboard');
       },
-      error: (error) => {
+      error: (error : HttpErrorResponse) => {
+        if(error.status == 409){
+          this.emailDisplayError();
+          this.appendingError = true;
+        }
         console.log(error);
       }
     })
   }
 
   loginHandler() {
+    this.appendingError = false;
+
     let loginData: LoginRequest =
     {
       email: this.loginForm.value.email!,
@@ -83,16 +88,17 @@ export class AuthenticationComponent implements OnInit{
         this.router.navigateByUrl('/dashboard');
       },
       error: (error) => {
+        this.appendingError = true;
+        console.log(this.appendingError);
+
+        this.setErrorsField();
       }
     });
   }
 
-  errorHandler(){
-
-  }
-
   changeMethod(){
     this.login = !this.login;
+    this.appendingError = false;
 
     let registration = document.getElementById("registration") as HTMLElement;
     let login = document.getElementById("login") as HTMLElement;
@@ -119,7 +125,6 @@ export class AuthenticationComponent implements OnInit{
     if(this.login == true){
       registration.classList.remove("slideIn");
       registration.classList.add("slideOut");
-      // login.classList.remove("slideOut");
       setTimeout(() => {
         login.classList.remove("slideOut");
         login.classList.add("slideIn");
@@ -173,5 +178,22 @@ export class AuthenticationComponent implements OnInit{
     }
   }
 
+  setErrorsField(){
+    let allDiv = document.querySelectorAll(".login-check");
+    allDiv.forEach(element => {
+        element.classList.add("error-field");
+        setTimeout(() => {
+          element.classList.remove("error-field");
+        }, 500);
+    });
+  }
 
+  emailDisplayError(){
+    let emailField = document.getElementById("email-error-id") as HTMLElement;
+
+    emailField.classList.add("error-field");
+    setTimeout(() => {
+      emailField.classList.remove("error-field");
+    }, 500);
+  }
 }
