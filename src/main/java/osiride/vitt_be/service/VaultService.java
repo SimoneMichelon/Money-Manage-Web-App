@@ -119,7 +119,6 @@ public class VaultService {
 	 * @throws SQLException
 	 */
 
-	//FIXME CREARE UN METODO CHE CERCA SE IL VAULT ESISTE GIA CON QUEL NOME PER NON ROMPERE NEL DB
 	public VaultDTO create(VaultDTO vaultDTO) throws BadRequestException, NotFoundException, DuplicatedValueException, InvalidTokenException{
 		if(vaultDTO == null || !isDataValid(vaultDTO)) {
 			log.error("SERVICE - Vault Data given is null - CREATE");
