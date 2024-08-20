@@ -22,7 +22,7 @@ public class JwtProviderService {
 	public String generateToken(Authentication auth) {
 		String jwt = Jwts.builder()
 				.setIssuedAt(new Date())
-				.setExpiration(new Date(new Date().getTime()+600000))
+				.setExpiration(new Date(new Date().getTime()+6000000))
 				.claim("email", auth.getName()).signWith(key).compact();
 		return jwt;
 	}
