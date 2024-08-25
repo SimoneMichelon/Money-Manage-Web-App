@@ -165,7 +165,7 @@
                 .title{
                     font-size: 64px;
                     min-width: fit-content;
-                    margin-bottom: 26px;
+                    margin-bottom: 30px;
                     font-weight: 600;
                     font-family: Verdana, Geneva, Tahoma, sans-serif;
                     letter-spacing: 2px;
@@ -339,8 +339,6 @@
                     .error-box{
                         width: auto;
                         height: auto;
-                        // background-color: rgba(255, 0, 0, 0.186);
-                        // border: 1px solid rgba(255, 0, 0, 0.624);
                         border-radius: 10px;
                         display: flex;
                         justify-content: start;
