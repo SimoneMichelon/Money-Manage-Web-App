@@ -74,7 +74,7 @@ export class VaultsComponent implements OnInit {
       height: "auto"
     }).afterClosed().subscribe({
      next : (result) => {
-      if(result.delete)
+      if(result.delete == true)
         this.getVaultsByPrincipal();
       }
     });

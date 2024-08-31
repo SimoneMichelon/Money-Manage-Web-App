@@ -25,8 +25,10 @@ import { AppComponent } from './app.component';
 import { LogoutDialogComponent } from './components/logout-dialog/logout-dialog.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { SideNavComponent } from './components/sidenav/sidenav.component';
+import { ActivitiesComponent } from './pages/activities/activities.component';
 import { AuthenticationComponent } from './pages/authentication/authentication.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { DeleteVaultDialogComponent } from './pages/vaults/delete-vault-dialog/delete-vault-dialog.component';
 import { EditVaultDialogComponent } from './pages/vaults/edit-vault-dialog/edit-vault-dialog.component';
@@ -50,6 +52,8 @@ import { headersInterceptor } from './security/headers.interceptor';
     EditVaultDialogComponent,
     DeleteVaultDialogComponent,
     AuthenticationComponent,
+    ActivitiesComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
