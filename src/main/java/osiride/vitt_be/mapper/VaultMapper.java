@@ -22,6 +22,7 @@ public class VaultMapper {
 	    dto.setName(object.getName());
 	    dto.setUserDTO(userMapper.toDto(object.getUser()));
 	    dto.setCapital(object.getCapital());
+	    dto.setImage(object.getImage());
 	    return dto;
 	}
 	
@@ -35,6 +36,7 @@ public class VaultMapper {
 	    entity.setName(object.getName());
 	    entity.setUser(userMapper.toEntity(object.getUserDTO()));
 	    entity.setCapital(object.getCapital());
+	    entity.setImage(object.getImage());
 	    return entity;
 	}
 }

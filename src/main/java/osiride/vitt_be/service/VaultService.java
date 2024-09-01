@@ -126,15 +126,9 @@ public class VaultService {
 		}
 
 		Vault vault = vaultMapper.toEntity(vaultDTO);
-
-//		UserDTO user = authService.isAdmin() ? 
-//				userService.findById(vaultDTO.getUserDTO().getId()) : 
-//					authService.getPrincipal();
-		
 		UserDTO user = authService.getPrincipal();
-
 		vault.setUser(userMapper.toEntity(user));
-
+		
 		vault.setId(null);
 		try {			
 			return vaultMapper.toDto(vaultRepository.save(vault));
@@ -347,7 +341,8 @@ public class VaultService {
 	private boolean isDataValid(VaultDTO vaultDTO) {
 		return (vaultDTO.getName() == null || 
 				vaultDTO.getUserDTO() == null || 
-				vaultDTO.getCapital() == null) 
+				vaultDTO.getCapital() == null || 
+				vaultDTO.getImage() == null) 
 				? false 
 						: true;
 	}
