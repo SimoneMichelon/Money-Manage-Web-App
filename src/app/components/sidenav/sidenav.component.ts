@@ -54,7 +54,7 @@ export class SideNavComponent implements OnInit{
     this.dialog.open(LogoutDialogComponent, {
       width:'fit-content',
       height:'fit-content',
-      autoFocus : false,
+      autoFocus : true
       
     }).afterClosed().subscribe({
       next: (response) => {

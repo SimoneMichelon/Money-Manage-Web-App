@@ -7,16 +7,16 @@ import { MatIconModule } from '@angular/material/icon';
 
 
 import {
-  HttpClientModule,
-  provideHttpClient,
-  withInterceptors,
+    HttpClientModule,
+    provideHttpClient,
+    withInterceptors,
 } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogTitle
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogContent,
+    MatDialogTitle
 } from '@angular/material/dialog';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { RouterOutlet } from '@angular/router';
@@ -27,6 +27,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { SideNavComponent } from './components/sidenav/sidenav.component';
 import { ActivitiesComponent } from './pages/activities/activities.component';
 import { AuthenticationComponent } from './pages/authentication/authentication.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
@@ -54,6 +55,7 @@ import { headersInterceptor } from './security/headers.interceptor';
     AuthenticationComponent,
     ActivitiesComponent,
     SettingsComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

@@ -89,7 +89,7 @@
       .route{
         cursor: pointer;
         color: #C3C3C3;
-        border: 2px solid transparent;
+        border: 1px solid transparent;
         display: flex;
         justify-content: start;
         align-items: center;
@@ -106,8 +106,15 @@
         background-color: #323645;
       }
 
+      .route:focus{
+        background-color: #323645;
+        // border: 1px solid #218AE7;
+        // box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        outline: none;
+      }
+
       .route:active{
-        border: 2px solid #037ee9a8;
+        border: 1px solid #037ee9a8;
 
         .route-label{
           color: #ffffff;
@@ -120,13 +127,13 @@
         color: #C3C3C3;
         font-size: 22px;
         margin-top: auto;
-        padding-bottom: 3px;
+        padding-bottom: 8px;
         width: 100%;
       }
 
       .selected{
         background-color: #323645;
-        border: 2px solid #218AE7;
+        border: 1px solid #218AE7;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
 
         .route-icon{
@@ -144,7 +151,6 @@
         margin-bottom: 100px;
 
         .route-icon{
-          color: #b80d0d;
           font-weight: 500px;
         }
       }
@@ -152,7 +158,11 @@
       
       #logout:active{
         background-color: #323645;
-        border: 2px solid rgb(156, 20, 20);
+        border: 1px solid transparent;
+
+        .route-icon{
+          color: #b80d0d;
+        }
 
         .route-label{
           color: #ffffff;
@@ -160,13 +170,12 @@
       }
 
 
-      .logout-active{
+      #logout.logout-active{
         background-color: #323645;
 
 
         .route-icon{
           color: #b80d0d;
-          font-weight: 500;
         }
 
         .route-label{
