@@ -1,103 +1,188 @@
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .main-container{
-  height: 70px;
-  width: auto;
-  color: white;
-  display: flex;
-  justify-content: center;
-  color: rgb(255, 255, 255);
-  text-shadow: 2px 0 #00000090, -2px 0 #00000090, 0 2px #00000090, 0 -2px #00000090,
-  1px 1px #00000090, -1px -1px #00000090, 1px -1px #00000090, -1px 1px #00000090;
-}
-
-.navbar-container{
-  margin: 0.5% 1% 0 1%;
-  height: auto;
-  width: 100%;
-  display: flex;
-  background-color: rgb(47, 47, 128);
-  justify-content: space-evenly;
-  padding: 0px;
-  align-items: center;
-  box-shadow: 0px 2px 3px rgb(19, 19, 40);
-  border: 1px solid rgba(255, 255, 255, 0.800); 
-}
-
-.all-routes{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
+  background-color: #282A37;
   height: 100%;
-  margin: 0px;
+  width: fit-content;
+  padding: 15px;
+  overflow: auto;
+
+  .logo-container{
+    width: fit;
+    height: fit-content;
+    padding: 30px 15px;
+    display: flex;
+    align-items: center;
+    background-color: #323645;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgb(0, 0, 0,0.5);
+
+
+    .logo-ball{
+      min-width: 46px;
+      min-height: 46px;
+      background-color: #218AE7;
+      border-radius: 50px;
+    }
+
+    .logo-writer{
+      width: fit-content;
+      height: fit-content;
+      display: flex;
+
+
+      .logo-text{
+        color: #FEFFFF;
+        font-size: 100px;
+        padding: 0;
+
+      }
+
+      .plaster-regular {
+        font-family: "Plaster", system-ui;
+        font-weight: 400;
+        font-style: normal;
+      }
+    }
+  }
+
+  .line{
+    background-color: rgba(16, 16, 16, 0.5);
+    width: 100%;
+    height: 2px;
+    margin-top: 12px;
+    margin-bottom: 20px;
+  }
+
+  .menu-container{
+
+    .menu-box{
+      margin-bottom: 10px;
+      width: 100%;
+      height: fit-content;
+    
+      .menu-title{
+        color: #FEFFFF;
+        font-size: 24px;
+        font-weight: 500;
+      }
+    }
+
+
+    .routes-container{
+      display: flex;
+      flex-direction: column;
+
+      .routes-wrapper{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .route{
+        cursor: pointer;
+        color: #C3C3C3;
+        border: 1px solid transparent;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        gap: 15px;
+        border-radius: 8px;
+        padding: 8px 0px 8px 15px;
+  
+        .route-icon{
+          font-size: 40px;
+        }
+      }
+
+      .route:hover{
+        background-color: #323645;
+      }
+
+      .route:focus{
+        background-color: #323645;
+        // border: 1px solid #218AE7;
+        // box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        outline: none;
+      }
+
+      .route:active{
+        border: 1px solid #037ee9a8;
+
+        .route-label{
+          color: #ffffff;
+        }
+      }
+
+
+      .route-label{
+        text-decoration: none;
+        color: #C3C3C3;
+        font-size: 22px;
+        margin-top: auto;
+        padding-bottom: 8px;
+        width: 100%;
+      }
+
+      .selected{
+        background-color: #323645;
+        border: 1px solid #218AE7;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+
+        .route-icon{
+          color: #218AE7;
+          font-weight: 500;
+        }
+
+        .route-label{
+          color: #FEFFFF;
+        }
+      }
+
+      #logout{
+        margin-top: 90%;
+        margin-bottom: 100px;
+
+        .route-icon{
+          font-weight: 500px;
+        }
+      }
+
+      
+      #logout:active{
+        background-color: #323645;
+        border: 1px solid transparent;
+
+        .route-icon{
+          color: #b80d0d;
+        }
+
+        .route-label{
+          color: #ffffff;
+        }
+      }
+
+
+      #logout.logout-active{
+        background-color: #323645;
+
+
+        .route-icon{
+          color: #b80d0d;
+        }
+
+        .route-label{
+          color: #FEFFFF;
+        }
+      }
+    }
+  }
 }
 
-.logo-container{
-  width: auto;
-  height: 70%;
-}
-
-img{
-  width: auto;
-  height: 100%;
-}
-
-
-.route-container{
-  min-width: 100px;
-  width: 10%;
-  height: 70%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  margin: 0px 1%;
-  background-color:  rgb(67, 67, 180);
-}
-
-.route-container:hover{
-  background-color:  rgb(60, 60, 161);
-}
-
-.nav-link{
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center; 
-  justify-content: center;
-  text-transform: uppercase;
-  font-weight: bold;
-  color: rgb(243, 243, 243);
-  text-decoration: none;
-}
-
-.nav-link:hover{
-  font-size: larger;
-}
-
-.nav-link-title{
-  text-align: center;
-  justify-content: center;
-}
-
-.router-logout{
-  min-width: 100px;
-  width: 20px;
-  height: 70%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  margin: 0px 1%;
-  background-color:  rgb(67, 67, 180);
-}
-
-
-a.logout{
-  border-radius: 4px;
-  background-color:  rgb(134, 49, 49);
-  cursor: pointer;
-}
-
-.logout:hover{
-  background: linear-gradient(rgb(179, 64, 64), rgb(134, 49, 49))
-}

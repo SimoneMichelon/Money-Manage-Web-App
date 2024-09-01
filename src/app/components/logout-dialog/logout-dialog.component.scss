@@ -1,67 +1,95 @@
-.mat-dialog-container{
-  background-color: rgb(48, 48, 154),;
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
+
+.electrolize-regular {
+  font-family: "Electrolize", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+::ng-deep .cdk-overlay-container {
+  background-color: rgba(40, 42, 55, 0.63) ; 
+}
+
+.mat-dialog-container {
+  background-color: #282A37;
   display: flex;
   flex-direction: column;
   text-align: center;
-
-  width: 300px;
-  height: auto;
-  border: 3px solid rgb(153, 153, 176);
-  padding: 15px;
-}
-
-.dialog-title{
-  color: rgb(255, 255, 255);
-  text-transform: uppercase;
-  text-shadow: 2px 0 #00000090, -2px 0 #00000090, 0 2px #00000090, 0 -2px #00000090,
-  1px 1px #00000090, -1px -1px #00000090, 1px -1px #00000090, -1px 1px #00000090;
-}
-
-
-.dialog-actions{
-  display: flex;
-  justify-content: space-around
-}
-
-.dialog-button{
-  background: linear-gradient(rgb(47, 47, 128), rgb(36, 36, 99));
-  border-radius: 4px;
-  color: white;
-  height: 30px;
-  width: 30%;
-  border: none;
-  padding: 0px 0px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
-  cursor: pointer;
-  font-weight: bolder;
+  width: 600px;
+  height: fit-content;
+  border: 2px solid #282A37;
+  padding: 60px 20px 20px 20px;
 
   
-}
-button{
-  border: none;
-}
+  .dialog-content{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 
-.dialog-button:hover{
-  box-shadow: 0px 2px 7px #000000;
-}
+    .dialog-title{
+      margin: 0;
+      color: #FFFFFF;
+      font-size: 45px;
+      letter-spacing: 1px;
+      line-height: 50px;
+      width: 57%;
+      text-align: start;
+    }
 
-.cancel:hover{
-  background: linear-gradient(rgb(66, 66, 179), rgb(48, 48, 131));
-}
+    .dialog-actions{
+      display: flex;
+      gap: 20px;
+      justify-content: end;
+
+      .dialog-button{
+        height: 45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        font-size: 16px;
+        border: none;
+        border-radius: 3px;
+        background-color: #333545;
+        color: #A7A7A7;
+      }
+
+      .cancel{
+        width: 180px;
+       
+      }
+
+      .logout{
+        width: 70px;
+      }
+
+      
+      .dialog-button:hover{
+        outline: none;
+        border: none !important;
+        background-color: #1b83de8a;
+        color: #ffffffe7 ;
+      }
+
+      .dialog-button:active{
+        outline: none;
+        border: none !important;
+        background-color: #1B82DE;
+        color: #FFFFFF ;
+      }
+
+      .dialog-button:focus{
+        outline: none;
+        border: none !important;
+        background-color: #1B82DE;
+        color: #FFFFFF ;
+      }
 
 
-.logout{
-  background: rgb(118, 23, 23);
-}
 
-.logout:hover{
-  background: linear-gradient(rgb(183, 36, 36),  rgb(138, 26, 26));
-  font-weight: bolder;
-}
 
-.material-symbols-outlined{
-  font-size: 80px;
-  color: rgb(142, 27, 27);
-  text-shadow: 2px 0 rgba(255, 255, 255, 0.281), -2px 0 rgba(255, 255, 255, 0.609), 0 2px rgba(255, 255, 255, 0.609), 0 -2px rgba(255, 255, 255, 0.609),
-  1px 1px rgba(255, 255, 255, 0.609), -1px -1px rgba(255, 255, 255, 0.609), 1px -1px rgba(255, 255, 255, 0.609), -1px 1px rgba(255, 255, 255, 0.609);
+    }
+  }
 }

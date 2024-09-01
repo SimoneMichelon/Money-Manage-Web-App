@@ -1,0 +1,143 @@
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,1,200" />
+<div class="main-container unselectable">
+    <div class="content unselectable">
+        <div class="header">
+            <div class="blue-ball"></div>
+            <p class="title">Manager app<span class="special-detail">.</span></p>
+            <div class="routes ">
+                <a class="route" [ngClass]="{active : login}" (click)="changeMethod()">Login</a>
+                <a class="route" [ngClass]="{active : !login}" (click)="changeMethod()">Register</a>
+            </div>
+        </div>
+        <div class="body-container">
+
+            <!---------------- REGISTRATION SECTION ----------------------->
+            <div id="registration" [ngClass]="{disable : login}">
+                <div class="form-header" >
+                    <p class="first-title">MANAGE YOUR MONEY</p>
+                    <h1 class="title">Create new account<span class="special-detail">.</span></h1>
+                    <p class="second-title">Already A Member? <span class="special-detail route" (click)="changeMethod()">Log In</span></p>
+                </div>  
+                <div class="form-container">
+                    <form [formGroup]="registrationForm" (submit)="registerHandler()" class="form" autocomplete="off">
+                        <div class="double-field">
+                            <div class="full-input first" [ngClass]="{'full-input-focus' : isFocus==1}">
+                                <label for="firstName" class="label" [ngClass]="{'label-focus': isFocus==1}">First name</label>
+                                <div class="inner-div">
+                                    <input class="input-style" id="firstName" matInput formControlName="firstName" type="text" 
+                                       (focus)="focus(1)" (blur)="blur(1)">
+                                        <label for="firstName" class="label-icon">
+                                            <span class="material-symbols-outlined">contact_mail</span>
+                                        </label>
+                                </div>
+                               
+
+                            </div>
+                            <div class="full-input" [ngClass]="{'full-input-focus' : isFocus==2}">
+                                <label for="lastName" class="label" [ngClass]="{'label-focus' : isFocus==2}">Last name</label>
+                                <div class="inner-div">
+                                    <input class="input-style" id="lastName" matInput formControlName="lastName" type="text" 
+                                       (focus)="focus(2)" (blur)="blur(2)">
+                                    <label for="lastName" class="label-icon">
+                                        <span class="material-symbols-outlined">contact_mail</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div class="full-input" [ngClass]="{'full-input-focus' : isFocus==3}" for="dob">
+                            <label for="dob" class="label" [ngClass]="{'label-focus' : isFocus==3}">Birthdate</label>
+                            <div class="inner-div">
+                            <input class="input-style date-picker" id="dob" matInput formControlName="dob" type="date" 
+                                   (focus)="focus(3)" (blur)="blur(3)" >
+                                   <label for="dob" class="label-icon">
+                                    <span class="material-symbols-outlined">calendar_month</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="full-input long-field" id="email-error-id" [ngClass]="{'full-input-focus' : isFocus==4}" for="dob">
+                            <label for="email" class="label" [ngClass]="{'label-focus' : isFocus==4}">Email</label>
+
+                            <div class="inner-div">
+                            <input class="input-style long-field-input" id="email" matInput formControlName="email" type="email" 
+                                   (focus)="focus(4)" (blur)="blur(4)">
+                                   <label for="email" class="label-icon long-label-input">
+                                    <span class="material-symbols-outlined">mail</span>
+                                </label>
+                            </div>
+                        </div>    
+                        
+                        <div class="full-input long-field" [ngClass]="{'full-input-focus' : isFocus==5}">
+                            <label for="password" class="label" [ngClass]="{'label-focus' : isFocus==5}">Password</label>
+                            <div class="inner-div">
+                                <input class="input-style long-field-input" id="password" matInput formControlName="password" type="password" 
+                                   (focus)="focus(5)" (blur)="blur(5)">
+                                <label for="password" class="label-icon long-label-input" (click)="changeVisibility()" *ngIf="isVisible">
+                                    <span class="material-symbols-outlined">visibility</span>
+                                </label> 
+                                <label for="password" class="label-icon long-label-input" (click)="changeVisibility()" *ngIf="!isVisible">
+                                    <span class="material-symbols-outlined">visibility_off</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="error-box" *ngIf="appendingError">
+                            <p class="error-text" >Email address already in use</p>
+                        </div>
+                        <button class="button-style" mat-button type="submit" [disabled]="registrationForm.invalid" [ngClass]="{disabled : registrationForm.invalid}">
+                            <p class="button-title">Create account</p>
+                        </button> 
+                    </form>                  
+                </div>  
+            </div>
+
+            <!---------------- LOGIN SECTION ----------------------->
+            <div id="login" [ngClass]="{disable : !login}">
+                <div class="form-header" >
+                    <p class="first-title">MANAGE YOUR LIFE</p>
+                    <h1 class="title">Login to your account<span class="special-detail">.</span></h1>
+                    <p class="second-title">Not A Member? <span class="special-detail route" (click)="changeMethod()">Register</span></p>
+                </div>  
+                <div class="form-container">
+                    <form [formGroup]="loginForm" (submit)="loginHandler()" class="form" autocomplete="off">
+                        <div class="full-input long-field login-check" [ngClass]="{'full-input-focus' : isFocus==4}" for="dob">
+                            <label for="email-login" class="label" [ngClass]="{'label-focus' : isFocus==4}">Email</label>
+
+                            <div class="inner-div">
+                            <input class="input-style long-field-input" id="email-login" matInput formControlName="email" type="email" 
+                                   (focus)="focus(4)" (blur)="blur(4)">
+                                   <label for="email-login" class="label-icon long-label-input">
+                                    <span class="material-symbols-outlined">mail</span>
+                                </label>
+                            </div>
+                        </div>    
+                        
+                        <div class="full-input long-field login-check" [ngClass]="{'full-input-focus' : isFocus==5}">
+                            <label for="password-login" class="label" [ngClass]="{'label-focus' : isFocus==5}">Password</label>
+                            <div class="inner-div">
+                                <input class="input-style long-field-input" id="password-login" matInput formControlName="password" type="password" 
+                                   (focus)="focus(5)" (blur)="blur(5)">
+                                <label for="password-login" class="label-icon long-label-input" (click)="changeVisibility()" *ngIf="isVisible">
+                                    <span class="material-symbols-outlined">visibility</span>
+                                </label> 
+                                <label for="password-login" class="label-icon long-label-input" (click)="changeVisibility()" *ngIf="!isVisible">
+                                    <span class="material-symbols-outlined">visibility_off</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="error-box" *ngIf="appendingError">
+                            <p class="error-text" >Incorrect email or password</p>
+                        </div>
+                        <button class="button-style" mat-button type="submit" [disabled]="loginForm.invalid" [ngClass]="{disabled : loginForm.invalid}">
+                            <p class="button-title">Login</p>
+                        </button> 
+                    </form>                  
+                </div>  
+            </div>
+        </div>
+        <div class="logo">
+            <p class="plaster-regular">MA</p>                  
+        </div> 
+    </div>
+</div>
