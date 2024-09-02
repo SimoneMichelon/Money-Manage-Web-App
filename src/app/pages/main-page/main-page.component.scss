@@ -17,3 +17,9 @@ app-sidenav{
   width: fit-content;
   height: auto;
 }
+
+@media screen and (max-width: 600px) {
+  app-sidenav {
+    display: none;
+  }
+}

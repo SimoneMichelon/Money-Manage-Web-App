@@ -1183,6 +1183,9 @@
           },
           "capital": {
             "type": "number"
+          },
+          "image": {
+            "type": "string"
           }
         }
       },
