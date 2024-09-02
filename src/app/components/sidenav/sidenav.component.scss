@@ -25,7 +25,7 @@ a {
   .logo-container{
     width: fit;
     height: fit-content;
-    padding: 30px 15px;
+    padding: 25px 12px;
     display: flex;
     align-items: center;
     background-color: #323645;
@@ -34,8 +34,8 @@ a {
 
 
     .logo-ball{
-      min-width: 46px;
-      min-height: 46px;
+      min-width: 43px;
+      min-height: 43px;
       background-color: #218AE7;
       border-radius: 50px;
     }
@@ -48,7 +48,7 @@ a {
 
       .logo-text{
         color: #FEFFFF;
-        font-size: 100px;
+        font-size: 90px;
         padding: 0;
 
       }
@@ -78,7 +78,7 @@ a {
     
       .menu-title{
         color: #FEFFFF;
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 600;
       }
     }
@@ -91,7 +91,7 @@ a {
       .routes-wrapper{
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 8px;
       }
 
       .route{
@@ -116,8 +116,6 @@ a {
 
       .route:focus{
         background-color: #323645;
-        // border: 1px solid #218AE7;
-        // box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
         outline: none;
       }
 
@@ -133,7 +131,7 @@ a {
       .route-label{
         text-decoration: none;
         color: #C3C3C3;
-        font-size: 22px;
+        font-size: 20px;
         margin-top: auto;
         padding-bottom: 8px;
         width: 100%;
@@ -146,7 +144,7 @@ a {
 
         .route-icon{
           color: #218AE7;
-          font-weight: 500;
+          font-weight: 400;
         }
 
         .route-label{

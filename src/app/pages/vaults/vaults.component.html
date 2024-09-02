@@ -14,7 +14,7 @@
                 </div>
                 <div class="wrapper-one">
                     <div class="card-delete">
-                        <button class="material-symbols-outlined">delete</button>
+                        <button class="delete material-symbols-outlined" (click)="openDeleteDialog(card)">delete</button>
                     </div>
                     <div class="card-image">
                         <img src="{{ card.image }}" alt="IMG">
@@ -26,15 +26,15 @@
                 <a><span class="euro">€</span> {{card.capital}} <span class="capital-text">current balance</span></a>
             </div>
             <div class="card-actions">
-                <button class="activities"><a>Watch Activites</a></button>
-                <button class="edit"><a>Edit</a></button>
+                <button class="activities" (click)="goToActivities()"><a>Watch Activites</a></button>
+                <button class="edit" id="{{card.name}}" (click)="openEditDialog(card.id!, card.name!)"><a>Edit</a></button>
             </div>
 
         </div>
-        <div class="card unselectable">
+        <div class="card unselectable dummy" (click)="openCreateDialog()">
             <div class="dummy-add">
                 <div class="dummy-plus">
-                    <a class="summy-text">+</a>
+                    <i class="summy-text material-symbols-outlined">add</i>
                 </div>
             </div>
         </div>

@@ -33,6 +33,7 @@ export class EditVaultDialogComponent implements OnInit {
       let data: VaultDto = {
         id: this.vaultDto.id,
         name: this.vaultForm.value.name!,
+        image: this.vaultForm.value.image,
         userDTO: this.vaultDto.userDTO,
         capital: this.vaultForm.value.capital!
       };
@@ -57,7 +58,8 @@ export class EditVaultDialogComponent implements OnInit {
 
         this.vaultForm = new FormGroup({
           name: new FormControl(this.vaultDto.name, [Validators.minLength(3), Validators.required]),
-          capital: new FormControl(this.vaultDto.capital, [Validators.min(0), Validators.required])
+          image: new FormControl(this.vaultDto.image, [Validators.minLength(1), Validators.required]),
+          capital: new FormControl(this.vaultDto.capital, [Validators.min(0), Validators.max(99999999),Validators.required])
         });
       },
       error: (error) => {

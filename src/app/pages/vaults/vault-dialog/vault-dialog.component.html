@@ -1,7 +1,49 @@
-<div class="form-container">
+<div class="main" *ngIf="vaultForm">
+    <form [formGroup]="vaultForm" (submit)="createVault()" class="vault-form">
+        <div class="header">
+            <div class="card-title">
+                <textarea class="input-style" matInput formControlName="name" type="text" maxlength="22" placeholder="Bank Account ...">
+                </textarea>
+            </div>
+            
+            <div class="card-image">
+                <div class="image-wrapper unselectable">
+                    <img [src]="vaultForm.value.image" alt="Image" draggable="false" >
+                    <label class="material-symbols-outlined edit-image" for="image">edit</label>
+                </div>
+                <input class="input-style" matInput formControlName="image" type="text" placeholder="Image url.." id="image">
+            </div >
+        </div>
+        <div class="card-capital">
+            <span class="euro">€</span>
+            <input class="input-style" matInput formControlName="capital" type="number">
+            <span class="capital-text">current balance</span>
+        </div>
+        <div class="footer">
+            <div class="type-dialog">
+                <a>NEW CARD</a>
+            </div>
+            <div class="card-action">
+                <button class="save" [disabled]="vaultForm.invalid" type="submit">Create</button>
+                <button class="cancel" matDialogClose>Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+<!-- <div class="form-container">
     <h1>Create Vault</h1>
     <form [formGroup]="vaultForm" (submit)="createVault()" class="vault-form">
         <input class="input-style" matInput formControlName="name" type="text" placeholder="Balance Account 1 ...">
+        <input class="input-style" matInput formControlName="image" type="text" placeholder="Image url..">
+        
         <input class="input-style" matInput formControlName="capital" type="number" placeholder="0 €...">
 
         <button class="input-style" mat-button matDialogClose type="submit" [disabled]="vaultForm.invalid"
@@ -10,4 +52,4 @@
         </button>
     </form>
 
-</div>
+</div> -->

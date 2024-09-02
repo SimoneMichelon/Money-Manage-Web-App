@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
 
-h1,a, span{
+h1, a, span{
   font-family: "Electrolize", sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -22,6 +22,7 @@ h1,a, span{
     display: flex;
     flex-direction: column;
     gap: 60px;
+    overflow: auto;
 
     .title{
         display: flex;
@@ -42,73 +43,44 @@ h1,a, span{
         width:fit-content;
         height: auto;
         gap: 30px;
-        overflow: auto;
         padding: 30px;
 
         .card{
-            width: 350px;
-            height: 200px;
+            width: 330px;
+            height: 180px;
             background-color: #282A37;
             color: #FFFFFF;
-            padding: 25px;
+            padding: 20px;
             border-radius: 8px;
             box-shadow: -5px 15px 20px #000000;
 
-                        
-            .dummy-add{
-                height: 100%;
-                width: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                .dummy-plus{
-                    // border: 1px solid wheat;
-                    width: fit-content;
-                    height: fit-content;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    
-                    a{
-                        width: 50px;
-                        height: 50px;
-                        display: flex;
-                        text-align: center;
-                        align-items: center;
-                        justify-content: center;
-                        font-size: 100px;
-                        color: #C3C3C3;
-                    }
-                }
-                
-            }
-            
             .card-header{
                 display: flex;
+                justify-content: space-between;
+                
                 .card-title{
-                    width: 270px;
+                    width: 230px;
     
                     h1{
-                        font-size: 36px;
+                        font-size: 34px;
                     }
                 }
 
                 .wrapper-one{
                     display: flex;
                     flex-direction: column;
-                    margin-left: 20px;
+                    align-items: end;
 
                     .card-image{
-                        width: 72px;
-                        height: 72px;
+                        width: 70px;
+                        height: 70px;
                         align-self: center;
 
                         img{
                             width: 100%;
                             height: 100%;
-                            height: auto;
                             border-radius: 15px;
+                            margin-bottom: 20px;
                         }
                     }
                     .card-delete{
@@ -117,14 +89,34 @@ h1,a, span{
                         display: flex;
                         justify-content: end;
                         align-items: center;
-                        margin-bottom: 15px;
-                    }
+                        margin-bottom: 10px;
+                        
 
+                        .delete{
+                            cursor: pointer;
+                            background-color: transparent;
+                            border: none;
+                            color: #828B98;
+
+                        }
+                        .delete:hover{
+                            color: #c8d2df;
+                        }
+
+                        .delete:active{
+                            color: #757575;
+                            border-radius: 20px;
+                        }
+                        .delete:focus{
+                            outline: none;
+                        }
+                    }
                 }
             }
 
             .card-capital{
-                margin: 10px 0px 15px 0px;
+                margin: 5px 0px 8px 0px;
+                width: fit-content;
 
                 a{
                     font-size: 24px;
@@ -140,8 +132,6 @@ h1,a, span{
                     .capital-text{
                         color: #5F5F5F;
                     }
-
-                    
                 }
             }
 
@@ -150,21 +140,37 @@ h1,a, span{
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                gap: 20px;
 
                 button{
                     border-radius: 3px;
                     height: 40px;
                     border: none;
                     font-size: 16px;
+                    cursor: pointer;
+                }
 
+                button:focus{
+                    outline: none;
                 }
 
                 .activities{
-                    background-color: #1B82DE ;
+                    background-color: #218AE7 ;
                     color: #FFFFFF;
                     width: 60%;
                 }
+
+                .activities:hover{
+                    background-color: #4eacff ;
+                    color: #FFFFFF;
+                    width: 60%;
+                }
+
+                .activities:active{
+                    background-color: #1B82DE;
+                    color: #FFFFFF;
+                    width: 60%;
+                }
+
 
                 .edit{
                     background-color: #FFFFFF ;
@@ -172,12 +178,61 @@ h1,a, span{
                     width: 30%;
                 }
 
+                
+                .edit:hover{
+                    background-color: #52556e ;
+                    color: #FFFFFF;
+                    width: 30%;
+                }
 
-
+                .selected{
+                    background-color: #333545 ;
+                    color: #A7A7A7;
+                    width: 30%;
+                }
             }
+        }
 
+        .dummy{
+            cursor: pointer;
+            .dummy-add{
+                height: 100%;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+    
+                .dummy-plus{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                    cursor: pointer;
+                    border-radius: 10px;
+                    padding: 10px;
+                    
+                    i{  
+                        font-size: 60px;
+                        color: #e2e2e2;
+                    }
+                }                
+            }
+        }
+
+        .dummy:hover{
+            background-color: #1b1b1b;
             
-            
+            .dummy-add{
+                .dummy-plus{
+                    i{
+                        color: #8d8d8d;
+                    }
+                }
+            }
+        }
+
+        .dummy:active{
+            box-shadow: none;
         }
     }
 }

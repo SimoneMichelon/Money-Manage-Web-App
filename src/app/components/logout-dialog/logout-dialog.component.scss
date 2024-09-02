@@ -54,42 +54,50 @@
         border-radius: 3px;
         background-color: #333545;
         color: #A7A7A7;
+        cursor: pointer;
       }
 
       .cancel{
         width: 180px;
-       
+        color: #FFFFFF ;
       }
 
       .logout{
         width: 70px;
+        border: none !important;
+        background-color: #1B82DE;
+        color: #FFFFFF ;
+      }
+
+      .logout:hover{
+        outline: none;
+        border: none !important;
+        background-color: #8bc9ff;
+        color: #2c2c2c  ;
+      }
+
+      .cancel:hover{
+        outline: none;
+        border: none !important;
+        background-color: #a2d3fd;
+        color: #000000  ;
+      }
+
+      .logout:active{
+        outline: none;
+        border: none !important;
+        background-color: #0088ff;
+        color: #FFFFFF  ;
+      }
+
+      .logout:focus{
+        outline: none;
       }
 
       
-      .dialog-button:hover{
+      .cancel:focus{
         outline: none;
-        border: none !important;
-        background-color: #1b83de8a;
-        color: #ffffffe7 ;
       }
-
-      .dialog-button:active{
-        outline: none;
-        border: none !important;
-        background-color: #1B82DE;
-        color: #FFFFFF ;
-      }
-
-      .dialog-button:focus{
-        outline: none;
-        border: none !important;
-        background-color: #1B82DE;
-        color: #FFFFFF ;
-      }
-
-
-
-
     }
   }
 }
