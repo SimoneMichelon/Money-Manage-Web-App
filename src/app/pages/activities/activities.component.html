@@ -7,6 +7,44 @@
         <h1>ACTIVITIES.</h1>
     </div>
     <div class="content-container">
-        
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>causal</th>
+                    <th>amount</th>
+                    <th>isProgrammed</th>
+                    <th>startDate</th>
+                    <th>endDate</th>
+                    <th>vault</th>
+                    <th>category</th>
+                    <th>thirdPartys</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let revenue of operations?.listRevenue" class="revenue-row">
+                    <td>{{ revenue.id }}</td>
+                    <td>{{ revenue.causal }}</td>
+                    <td>{{ revenue.amount }}</td>
+                    <td>{{ revenue.isProgrammed }}</td>
+                    <td>{{ revenue.startDate }}</td>
+                    <td>{{ revenue.endDate }}</td>
+                    <td>{{ revenue.vaultDTO.name }}</td>
+                    <td>{{ revenue.categoryDTO.categoryName }}</td>
+                    <td>{{ revenue.thirdPartyDTO.thirdPartyName }}</td>
+                </tr>
+                <tr *ngFor="let expense of operations?.listExpense" class="expense-row">
+                    <td>{{ expense.id }}</td>
+                    <td>{{ expense.causal }}</td>
+                    <td>{{ expense.amount }}</td>
+                    <td>{{ expense.isProgrammed }}</td>
+                    <td>{{ expense.startDate }}</td>
+                    <td>{{ expense.endDate }}</td>
+                    <td>{{ expense.vaultDTO.name }}</td>
+                    <td>{{ expense.categoryDTO.categoryName }}</td>
+                    <td>{{ expense.thirdPartyDTO.thirdPartyName }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>

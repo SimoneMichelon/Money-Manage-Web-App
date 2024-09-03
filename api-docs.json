@@ -1008,6 +1008,97 @@
         }
       }
     },
+    "/api/revenue-management/revenues/vault/{id}": {
+      "get": {
+        "tags": [
+          "revenue-controller"
+        ],
+        "summary": "Get revenues by vault",
+        "description": "Get revenues by vault",
+        "operationId": "getRevenuesByVault",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RevenueDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/operation-management/operations": {
+      "get": {
+        "tags": [
+          "operation-controller"
+        ],
+        "summary": "Get all Operations - ADMIN",
+        "description": "Get all Operations ",
+        "operationId": "getAllOperations",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationListsWrapper"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/operation-management/operations/vault/{id}": {
+      "get": {
+        "tags": [
+          "operation-controller"
+        ],
+        "summary": "Get all Operations by Vault Id - ADMIN",
+        "description": "Get all Operations by Vault given",
+        "operationId": "getAllOperationsByVaultId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationListsWrapper"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/expense-management/expenses/{id}": {
       "get": {
         "tags": [
@@ -1065,6 +1156,42 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ExpenseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/expense-management/expenses/vault/{id}": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "summary": "Get expenses by vault",
+        "description": "Get expenses by vault",
+        "operationId": "getExpensesByVault",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExpenseDTO"
+                  }
                 }
               }
             }
@@ -1342,6 +1469,23 @@
           },
           "password": {
             "type": "string"
+          }
+        }
+      },
+      "OperationListsWrapper": {
+        "type": "object",
+        "properties": {
+          "listExpense": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExpenseDTO"
+            }
+          },
+          "listRevenue": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RevenueDTO"
+            }
           }
         }
       }
