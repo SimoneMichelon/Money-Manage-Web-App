@@ -25,7 +25,8 @@ export class VaultDialogComponent implements OnInit{
 
   vaultForm = new FormGroup({
       name: new FormControl("", [Validators.minLength(3), Validators.required]),
-      capital: new FormControl(0,[Validators.min(0) ,Validators.required])
+      image: new FormControl("https://png.pngtree.com/png-vector/20190507/ourlarge/pngtree-vector-question-mark-icon-png-image_1024598.jpg", [Validators.minLength(1), Validators.required]),
+      capital: new FormControl(0.01,[Validators.min(0) ,Validators.required])
     }
   )
 
@@ -33,6 +34,7 @@ export class VaultDialogComponent implements OnInit{
     let data : VaultDto = {
       id : 0,
       name : this.vaultForm.value.name!,
+      image : this.vaultForm.value.image!,
       userDTO : this.principal,
       capital : this.vaultForm.value.capital!
 

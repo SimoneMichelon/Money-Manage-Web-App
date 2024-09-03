@@ -1,12 +1,32 @@
-<div *ngIf="vaultForm" class="form-container">
-    <h1>Edit Vault</h1>
+<div class="main" *ngIf="vaultForm">
     <form [formGroup]="vaultForm" (submit)="editVault()" class="vault-form">
-        <input class="input-style" matInput formControlName="name" type="text" placeholder="Balance Account 1 ...">
-        <input class="input-style" matInput formControlName="capital" type="number" placeholder="0 €...">
-
-        <button class="input-style" mat-button matDialogClose type="submit" [disabled]="vaultForm.invalid"
-            [ngClass]="{disabled : vaultForm.invalid , active : !vaultForm.invalid}">
-            <h5>Add Vault</h5>
-        </button>
+        <div class="header">
+            <div class="card-title">
+                <textarea class="input-style" matInput formControlName="name" type="text" maxlength="22">
+                </textarea>
+            </div>
+            
+            <div class="card-image">
+                <div class="image-wrapper unselectable">
+                    <img [src]="vaultForm.value.image" alt="Image" draggable="false" >
+                    <label class="material-symbols-outlined edit-image" for="image">edit</label>
+                </div>
+                <input class="input-style" matInput formControlName="image" type="text" placeholder="Image url.." id="image">
+            </div >
+        </div>
+        <div class="card-capital">
+            <span class="euro">€</span>
+            <input class="input-style" matInput formControlName="capital" type="number">
+            <span class="capital-text">current balance</span>
+        </div>
+        <div class="footer">
+            <div class="type-dialog">
+                <a>OLD CARD</a>
+            </div>
+            <div class="card-action">
+                <button class="save" [disabled]="vaultForm.invalid" type="submit">Save</button>
+                <button class="cancel" matDialogClose>Cancel</button>
+            </div>
+        </div>
     </form>
 </div>

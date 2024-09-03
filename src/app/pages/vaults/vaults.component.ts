@@ -44,8 +44,9 @@ export class VaultsComponent implements OnInit {
 
   openCreateDialog(): void {
     this.dialog.open(VaultDialogComponent, {
-      width: "30%",
-      height: "auto"
+      width: "fit-content",
+      height: "fit-content",
+      autoFocus: false
     }).afterClosed().subscribe({
       next : (result) => {
        if(result.delete)
@@ -54,15 +55,19 @@ export class VaultsComponent implements OnInit {
     });
   }
 
-  openEditDialog(id : number): void {
+  openEditDialog(id : number, name : string): void {
+    let editButton = document.getElementById(name);
+    editButton?.classList.add("selected");
+
     this.dialog.open(EditVaultDialogComponent, {
       data : {vault_id : id},
-      width: "30%",
-      height: "auto"
+      width: "fit-content",
+      height: "fit-content",
+      autoFocus: false
     }).afterClosed().subscribe({
       next : (result) => {
-       if(result.delete)
-         this.getVaultsByPrincipal();
+        editButton?.classList.remove("selected");
+        this.getVaultsByPrincipal();
        }
     });
   }
@@ -73,11 +78,14 @@ export class VaultsComponent implements OnInit {
       width: "auto",
       height: "auto"
     }).afterClosed().subscribe({
-     next : (result) => {
-      if(result.delete == true)
-        this.getVaultsByPrincipal();
+     next : () => {
+      this.getVaultsByPrincipal();
       }
     });
+  }
+
+  goToActivities(){
+
   }
 
 }
