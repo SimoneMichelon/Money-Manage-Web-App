@@ -49,7 +49,7 @@ public class VaultController {
 				return ResponseEntity.status(HttpStatus.OK).body(result);
 			}
 			else {
-				log.error("SERVICE - Vault Operation not allowed - DELETE");
+				log.error("REST - Vault Operation not allowed - READ ALL");
 				throw new NotAuthorizedException();
 			}
 		} catch (BadRequestException e) {

@@ -1,5 +1,6 @@
 package osiride.vitt_be.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.error.OperationNotPermittedException;
 import osiride.vitt_be.mapper.RevenueMapper;
+import osiride.vitt_be.mapper.VaultMapper;
 import osiride.vitt_be.repository.RevenueRepository;
 
 @Slf4j
@@ -30,16 +32,20 @@ public class RevenueService {
 	private final VaultService vaultService;
 	private final CategoryService categoryService;
 	private final ThirdPartyService thirdPartyService;
+	private final VaultMapper vaultMapper;
+
 
 	public RevenueService(RevenueRepository revenueRepository, 
 			RevenueMapper revenueMapper,
 			VaultService vaultService, CategoryService categoryService,
-			ThirdPartyService thirdPartyService) {
+			ThirdPartyService thirdPartyService,
+			VaultMapper vaultMapper) {
 		this.revenueRepository = revenueRepository;
 		this.revenueMapper = revenueMapper;
 		this.vaultService = vaultService;
 		this.categoryService = categoryService;
 		this.thirdPartyService = thirdPartyService;
+		this.vaultMapper = vaultMapper;
 	}
 
 
@@ -232,15 +238,17 @@ public class RevenueService {
 	 * @implNote Ensure the services and repositories are properly injected.
 	 * 
 	 * @author Simone
+	 * @throws NotAuthorizedException 
+	 * @throws InvalidTokenException 
 	 */
-	public RevenueDTO update(RevenueDTO revenueDTO) throws BadRequestException, OperationNotPermittedException, NotFoundException {
+	public RevenueDTO update(RevenueDTO revenueDTO) throws BadRequestException, OperationNotPermittedException, NotFoundException, InvalidTokenException, NotAuthorizedException {
 		if(revenueDTO == null || revenueDTO.getId() == null || !isDataValid(revenueDTO) ) {
 			log.error("SERVICE - Revenue data is invalid - UPDATE");
 			throw new BadRequestException();
 		}
-
+		
+		revenueDTO.setVaultDTO(vaultService.findById(revenueDTO.getVaultDTO().getId()));
 		RevenueDTO oldRevenue = findById(revenueDTO.getId());
-
 
 		if(oldRevenue.getVaultDTO().getId() != revenueDTO.getVaultDTO().getId()) {
 			log.error("SERVICE - Revenue data is invalid - UPDATE");
@@ -251,6 +259,8 @@ public class RevenueService {
 		}
 
 		Revenue revenue = revenueMapper.toEntity(revenueDTO);
+		revenue = revenueRepository.save(revenue);
+
 		return revenueMapper.toDto(revenue);
 	}
 
@@ -295,6 +305,29 @@ public class RevenueService {
 			log.error("SERVICE - Revenue Not Deleted due to Unknown Error - DELETE");
 			throw new InternalServerException();
 		}
+	}
+	
+	
+	/**
+	 * Get all Revenue By Vault
+	 * @param vaultDTO
+	 * @return
+	 * @throws NotAuthorizedException 
+	 * @throws InvalidTokenException 
+	 * @throws NotFoundException 
+	 * @throws BadRequestException 
+	 */
+	public List<RevenueDTO> getByVault(Long id) throws BadRequestException, NotFoundException, InvalidTokenException, NotAuthorizedException{
+		List<RevenueDTO> list = new ArrayList<RevenueDTO>();
+		VaultDTO vaultDTO = vaultService.findById(id);
+		
+		log.info("SERVICE - Get All Revenues by Vault ID - READ VAULT");
+		list = revenueRepository.findByVault(vaultMapper.toEntity(vaultDTO))
+				.stream()
+				.map( revenue -> revenueMapper.toDto(revenue))
+				.toList();
+
+		return list;
 	}
 
 	private boolean isDataValid(RevenueDTO object) {

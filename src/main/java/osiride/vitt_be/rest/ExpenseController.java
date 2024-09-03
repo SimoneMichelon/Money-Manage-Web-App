@@ -25,6 +25,7 @@ import osiride.vitt_be.error.InvalidTokenException;
 import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.error.OperationNotPermittedException;
+import osiride.vitt_be.service.AuthService;
 import osiride.vitt_be.service.ExpenseService;
 
 @Slf4j
@@ -35,14 +36,17 @@ public class ExpenseController {
 	@Autowired
 	private ExpenseService expenseService;
 
+	@Autowired
+	private AuthService authService;
+
 	@Operation(summary = "Get all Expense", description = "Get all Expense")
 	@GetMapping(value = "/expenses", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ExpenseDTO>> getAllExpense() {
 		List<ExpenseDTO> result = expenseService.getAll();
-		log.info("REST - Third Party list size: {} - READ ALL", result.size());
+		log.info("REST - Expense list size: {} - READ ALL", result.size());
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
-	
+
 	@Operation(summary = "Find Expense by id", description = "Get a Expense by ID")
 	@GetMapping(value = "/expenses/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ExpenseDTO> getExpenseById(@PathVariable Long id){
@@ -59,7 +63,7 @@ public class ExpenseController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@Operation(summary = "Create expense", description = "Creation expense by given data")
 	@PostMapping(value = "/expenses", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ExpenseDTO> createExpense(@Valid @RequestBody ExpenseDTO expenseDTO){
@@ -74,14 +78,14 @@ public class ExpenseController {
 			log.error("REST - Expense Data NOT found - CREATE");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (OperationNotPermittedException e) {
-			log.error("REST - Operation Not Permitted Error - UPDATE");
+			log.error("REST - Operation Not Permitted Error - CREATE");
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		} catch (NotAuthorizedException | InvalidTokenException e) {
-			log.error("REST - Not Authorized || Invalid Token - UPDATE");
+			log.error("REST - Not Authorized || Invalid Token - CREATE");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
-	
+
 	@Operation(summary = "Update expense", description = "Update expense by given data")
 	@PutMapping(value = "/expenses", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<ExpenseDTO> updateExpense(@Valid @RequestBody ExpenseDTO expenseDTO){
@@ -98,9 +102,12 @@ public class ExpenseController {
 		} catch (OperationNotPermittedException e) {
 			log.error("REST - Operation Not Permitted Error - UPDATE");
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		} catch (NotAuthorizedException | InvalidTokenException e) {
+			log.error("REST - Not Authorized || Invalid Token - UPDATE");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
-	
+
 	@Operation(summary = "Delete expense by id", description = "Delete expense by id")
 	@DeleteMapping(value = "/expenses/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ExpenseDTO> deleteExpenseById(@PathVariable Long id){
@@ -119,6 +126,36 @@ public class ExpenseController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
+	@Operation(summary = "Get expenses by vault", description = "Get expenses by vault")
+	@GetMapping(value = "/expenses/vault/{id}")
+	public ResponseEntity<List<ExpenseDTO>> getExpensesByVault(@PathVariable Long id){
+		try {
+			if(authService.isAdmin()) 
+			{
+				List<ExpenseDTO> result = expenseService.getByVault(id);
+				log.info("REST - Expense list size: {} - READ ALL", result.size());
+				return ResponseEntity.status(HttpStatus.OK).body(result);
+			}
+			else {
+				log.error("REST - Expense Operation not allowed - READ VAULT");
+				throw new NotAuthorizedException();
+			}
+		} catch (BadRequestException e) {
+			log.error("REST - User Bad Info - READ VAULT");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException e) {
+			log.error("REST - User NOT found - READ VAULT");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - READ VAULT");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch (NotAuthorizedException e) {
+			log.error("REST - Not Authorized  - READ VAULT");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+
+	}
+
 
 }
