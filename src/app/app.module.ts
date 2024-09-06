@@ -7,17 +7,20 @@ import { MatIconModule } from '@angular/material/icon';
 
 
 import {
-    HttpClientModule,
-    provideHttpClient,
-    withInterceptors,
+  HttpClientModule,
+  provideHttpClient,
+  withInterceptors,
 } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogContent,
-    MatDialogTitle
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle
 } from '@angular/material/dialog';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { RouterOutlet } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
@@ -40,6 +43,9 @@ import { headersInterceptor } from './security/headers.interceptor';
 
 
 
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,6 +62,7 @@ import { headersInterceptor } from './security/headers.interceptor';
     ActivitiesComponent,
     SettingsComponent,
     DashboardComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -70,7 +77,11 @@ import { headersInterceptor } from './security/headers.interceptor';
     MatDialogTitle,
     MatButtonModule,
     MatDividerModule,
-    MatIconModule
+    MatIconModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSort,
+    MatSortModule
   ],
   providers: [provideHttpClient(withInterceptors([headersInterceptor])), provideAnimationsAsync()],
   bootstrap: [AppComponent],

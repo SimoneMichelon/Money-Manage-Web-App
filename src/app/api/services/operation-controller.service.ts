@@ -11,9 +11,11 @@ import { StrictHttpResponse } from '../strict-http-response';
 
 import { getAllOperations } from '../fn/operation-controller/get-all-operations';
 import { GetAllOperations$Params } from '../fn/operation-controller/get-all-operations';
+import { getAllOperationsByPrincipal } from '../fn/operation-controller/get-all-operations-by-principal';
+import { GetAllOperationsByPrincipal$Params } from '../fn/operation-controller/get-all-operations-by-principal';
 import { getAllOperationsByVaultId } from '../fn/operation-controller/get-all-operations-by-vault-id';
 import { GetAllOperationsByVaultId$Params } from '../fn/operation-controller/get-all-operations-by-vault-id';
-import { OperationListsWrapper } from '../models/operation-lists-wrapper';
+import { OperationDto } from '../models/operation-dto';
 
 @Injectable({ providedIn: 'root' })
 export class OperationControllerService extends BaseService {
@@ -34,7 +36,7 @@ export class OperationControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllOperations$Response(params?: GetAllOperations$Params, context?: HttpContext): Observable<StrictHttpResponse<OperationListsWrapper>> {
+  getAllOperations$Response(params?: GetAllOperations$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OperationDto>>> {
     return getAllOperations(this.http, this.rootUrl, params, context);
   }
 
@@ -48,9 +50,9 @@ export class OperationControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllOperations(params?: GetAllOperations$Params, context?: HttpContext): Observable<OperationListsWrapper> {
+  getAllOperations(params?: GetAllOperations$Params, context?: HttpContext): Observable<Array<OperationDto>> {
     return this.getAllOperations$Response(params, context).pipe(
-      map((r: StrictHttpResponse<OperationListsWrapper>): OperationListsWrapper => r.body)
+      map((r: StrictHttpResponse<Array<OperationDto>>): Array<OperationDto> => r.body)
     );
   }
 
@@ -58,32 +60,65 @@ export class OperationControllerService extends BaseService {
   static readonly GetAllOperationsByVaultIdPath = '/api/operation-management/operations/vault/{id}';
 
   /**
-   * Get all Operations by Vault Id - ADMIN.
+   * Get all Operations by Vault Id.
    *
-   * Get all Operations by Vault given
+   * Get all Operations by Vault
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `getAllOperationsByVaultId()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getAllOperationsByVaultId$Response(params: GetAllOperationsByVaultId$Params, context?: HttpContext): Observable<StrictHttpResponse<OperationListsWrapper>> {
+  getAllOperationsByVaultId$Response(params: GetAllOperationsByVaultId$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OperationDto>>> {
     return getAllOperationsByVaultId(this.http, this.rootUrl, params, context);
   }
 
   /**
-   * Get all Operations by Vault Id - ADMIN.
+   * Get all Operations by Vault Id.
    *
-   * Get all Operations by Vault given
+   * Get all Operations by Vault
    *
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `getAllOperationsByVaultId$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getAllOperationsByVaultId(params: GetAllOperationsByVaultId$Params, context?: HttpContext): Observable<OperationListsWrapper> {
+  getAllOperationsByVaultId(params: GetAllOperationsByVaultId$Params, context?: HttpContext): Observable<Array<OperationDto>> {
     return this.getAllOperationsByVaultId$Response(params, context).pipe(
-      map((r: StrictHttpResponse<OperationListsWrapper>): OperationListsWrapper => r.body)
+      map((r: StrictHttpResponse<Array<OperationDto>>): Array<OperationDto> => r.body)
+    );
+  }
+
+  /** Path part for operation `getAllOperationsByPrincipal()` */
+  static readonly GetAllOperationsByPrincipalPath = '/api/operation-management/operations/principal';
+
+  /**
+   * Get all Operations by principal.
+   *
+   * Get all Operations by principal
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getAllOperationsByPrincipal()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllOperationsByPrincipal$Response(params?: GetAllOperationsByPrincipal$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OperationDto>>> {
+    return getAllOperationsByPrincipal(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Get all Operations by principal.
+   *
+   * Get all Operations by principal
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getAllOperationsByPrincipal$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllOperationsByPrincipal(params?: GetAllOperationsByPrincipal$Params, context?: HttpContext): Observable<Array<OperationDto>> {
+    return this.getAllOperationsByPrincipal$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<OperationDto>>): Array<OperationDto> => r.body)
     );
   }
 

@@ -8,11 +8,11 @@ import { RequestBuilder } from '../../request-builder';
 
 import { OperationDto } from '../../models/operation-dto';
 
-export interface GetAllOperations$Params {
+export interface GetAllOperationsByPrincipal$Params {
 }
 
-export function getAllOperations(http: HttpClient, rootUrl: string, params?: GetAllOperations$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OperationDto>>> {
-  const rb = new RequestBuilder(rootUrl, getAllOperations.PATH, 'get');
+export function getAllOperationsByPrincipal(http: HttpClient, rootUrl: string, params?: GetAllOperationsByPrincipal$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OperationDto>>> {
+  const rb = new RequestBuilder(rootUrl, getAllOperationsByPrincipal.PATH, 'get');
   if (params) {
   }
 
@@ -26,4 +26,4 @@ export function getAllOperations(http: HttpClient, rootUrl: string, params?: Get
   );
 }
 
-getAllOperations.PATH = '/api/operation-management/operations';
+getAllOperationsByPrincipal.PATH = '/api/operation-management/operations/principal';
