@@ -40,12 +40,6 @@ import { VaultDialogComponent } from './pages/vaults/vault-dialog/vault-dialog.c
 import { VaultsComponent } from './pages/vaults/vaults.component';
 import { headersInterceptor } from './security/headers.interceptor';
 
-
-
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,

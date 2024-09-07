@@ -25,6 +25,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
     'thirdPartyName',
     'startDate',
     'endDate',
+    'status',
     'actions'
   ];
   operations?: Array<OperationDto>;
