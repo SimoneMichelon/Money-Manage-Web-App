@@ -1558,6 +1558,13 @@
           },
           "thirdPartys": {
             "$ref": "#/components/schemas/ThirdParty"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "REVENUE",
+              "EXPENSE"
+            ]
           }
         }
       },

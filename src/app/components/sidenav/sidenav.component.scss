@@ -192,3 +192,21 @@ a {
   }
 }
 
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #282A37;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  background-color: #1a6cb4;
+  border: 3px solid #282A37;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #218AE7;
+}

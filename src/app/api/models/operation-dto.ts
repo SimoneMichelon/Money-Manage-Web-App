@@ -12,5 +12,6 @@ export interface OperationDto {
   isProgrammed?: boolean;
   startDate?: string;
   thirdPartys?: ThirdParty;
+  type?: 'REVENUE' | 'EXPENSE';
   vault?: Vault;
 }

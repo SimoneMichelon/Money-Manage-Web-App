@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
-
-h1, a, span, .styled-table{
+h1, a, span, .table{
   font-family: "Electrolize", sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -21,13 +19,13 @@ h1, a, span, .styled-table{
     padding: 60px 0px 0px 0px;
     display: flex;
     flex-direction: column;
-    gap: 60px;
-
+    gap: 20px;
 
     .title{
         display: flex;
         flex-direction: row;
         margin-left: 30px;
+        
         h1{
             color: #FFFFFF;
             font-size: 48px;
@@ -39,39 +37,109 @@ h1, a, span, .styled-table{
     }
 
     .content-container {
-        height: 600px; 
-        min-height: 500px; 
-        margin: 0px 30px;      
-        padding:  0px 15px;   
-        overflow-y: auto; 
         background-color: #282A37;
-
-    
-        table {
-            width: 100%;
-            min-width: 600px;
-            font-size: 16px;
-            color: #FFFFFF;
-            background-color: transparent;
-            border-collapse: collapse;
-            overflow: scroll;
-    
-            th, td {
-                height: 40px; 
-                padding: 10px;
-                border-left: 1px solid #0022ff ;
-                border-bottom: none;
-            }
-
-        }
+        margin: 0px 30px 0px 30px;
+        color: #FFFFFF;
+        width:auto;
+        height: auto; 
+        overflow-y: auto;
     }
     
-    .mat-row, .mat-header-row {
-
+    .table {
+        width: 100%;
+        border-collapse: collapse;
     }
     
-    .mat-paginator {
-
+    thead th {
+        background-color: #282A37;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        padding: 10px;
+        text-align: left;
+        height: 50px;
+        font-size: 18px;
     }
     
+    tbody td {
+        padding: 10px;
+        text-align: left;
+        background-color: #00000013;
+    }
+    
+    tbody tr{
+        background-color: #282A37;
+        border: 4px solid #282A37;
+        
+    }
+    
+    .material-symbols-outlined {
+        font-size: 20px;
+        cursor: pointer;
+    }
+    
+    th input[type="checkbox"],
+    td input[type="checkbox"] {
+        margin: 0;
+    }
+    
+    td, th {
+        padding: 12px 8px;
+    }
+
+    .order{
+        cursor: pointer;
+    }
+
+    .type{
+        width: 3px;
+        height: 30px;
+        border-radius: 10px;
+    }
+
+    .type-revenue{
+        background-color: rgba(33,231,156,1);
+    }
+
+    .type-expense{
+        background-color: rgba(231,33,104,1);
+    }
+
+    .price{
+        font-weight: 500;
+    }
+
+    .price-revenue{
+        color: rgba(33,231,156,1);
+    }
+
+    .price-expense{
+        color: rgb(255, 43, 120);
+    }
+
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: #282A37;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        cursor: pointer;
+        background-color: #1a6cb4;
+        border: 3px solid #282A37;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #218AE7;
+    }
+
+    .options{
+        background-color: transparent;
+        color: #FFFFFF;
+        text-align: end;
+        margin: 0px 30px 0px 0px;
+    }
 }

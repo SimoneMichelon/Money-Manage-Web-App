@@ -1,23 +1,19 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit } from '@angular/core';
 import { OperationDto } from '../../api/models';
 import { OperationControllerService } from '../../api/services';
 import { AuthService } from '../../security/auth.service';
 
-
-
+type SortOrder = 'ASC' | 'DESC';
 
 @Component({
   selector: 'app-activities',
   templateUrl: './activities.component.html',
-  styleUrl: './activities.component.scss'
+  styleUrls: ['./activities.component.scss'] // Modificato 'styleUrl' in 'styleUrls'
 })
-export class ActivitiesComponent implements OnInit, AfterViewInit {
+export class ActivitiesComponent implements OnInit {
 
-  displayedColumns: string[] = 
-  ['checkbox',
+  displayedColumns: string[] = [
+    'checkbox',
     'causal',
     'amount',
     'vaultName',
@@ -28,22 +24,16 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
     'status',
     'actions'
   ];
+  
   operations?: Array<OperationDto>;
-  dataSource = new MatTableDataSource<OperationDto>();  
-  _liveAnnouncer: any;
+  private sortState: { [key: string]: SortOrder } = {};
 
-
-  constructor(private operationControllerService : OperationControllerService,
+  constructor(
+    private operationControllerService: OperationControllerService,
     private authService: AuthService,
-  ){}
+  ) {}
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
+  options: boolean = false;
 
   ngOnInit(): void {
     this.getOperationsByPrincipal();
@@ -53,26 +43,62 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
     this.operationControllerService.getAllOperationsByPrincipal().subscribe({
       next: (response) => {
         this.operations = response;
-        this.dataSource.data = this.operations;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
       },
       error: () => {
         this.authService.logout();
       }
-    })
-  };
-
-  announceSortChange(sortState: Sort) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
-    // if (sortState.direction) {
-    //   this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    // } else {
-    //   this._liveAnnouncer.announce('Sorting cleared');
-    // }
+    });
   }
 
+  isRevenue(operation: OperationDto): boolean {
+    return operation.type === 'REVENUE';
+  }
+
+  refresh(){
+    this.getOperationsByPrincipal();
+  }
+
+  
+  openOptions(){
+    this.options = !this.options;
+  }
+
+  orderBy(header: string): void {
+    if (!this.sortState[header]) {
+      this.sortState[header] = 'ASC';
+    } else {
+      this.sortState[header] = this.sortState[header] === 'ASC' ? 'DESC' : 'ASC';
+    }
+
+    if (this.operations) {
+      this.operations = this.applySort(header);
+    }
+  }
+
+  private applySort(header: string): OperationDto[] {
+    if (!this.sortState[header]) {
+      return this.operations!;
+    }
+
+    return [...this.operations!].sort((a, b,) => {
+      const fieldA = a[header as keyof OperationDto];
+      const fieldB = b[header as keyof OperationDto];
+
+      if (typeof fieldA === 'number' && typeof fieldB === 'number') {
+        return this.sortState[header] === 'ASC' ? fieldA - fieldB : fieldB - fieldA;
+      }
+      
+      if (typeof fieldA === 'string' && typeof fieldB === 'string') {
+        return this.sortState[header] === 'ASC' ? fieldA.localeCompare(fieldB) : fieldB.localeCompare(fieldA);
+      }
+  
+      if (header === 'startDate' || header === 'endDate') {
+        const dateA = new Date(fieldA as string);
+        const dateB = new Date(fieldB as string);
+        return this.sortState[header] === 'ASC' ? dateA.getTime() - dateB.getTime() : dateB.getTime() - dateA.getTime();
+      }
+
+      return 0;
+    });
+  }
 }
