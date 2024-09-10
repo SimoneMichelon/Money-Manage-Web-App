@@ -3,6 +3,7 @@
         <h1>ACTIVITIES.</h1>
     </div>
     <div class="options unselectable">
+        <i class="material-symbols-outlined">add_circle</i>
         <i class="material-symbols-outlined" (click)="openOptions()">settings</i>
     </div>
     <div class="content-container">
@@ -18,7 +19,7 @@
                     <th class="order" (click)="orderBy('startDate')">Start Date.</th>
                     <th class="order" (click)="orderBy('endDate')">End Date.</th>
                     <th (click)="orderBy('status')">Status.</th>
-                    <th><i class="material-symbols-outlined refresh" (click)="refresh()">refresh</i></th>
+                    <th class="icon"><i class="material-symbols-outlined refresh" (click)="refresh()">refresh</i></th>
                 </tr>
             </thead>    
             <tbody >
@@ -41,8 +42,11 @@
                             <a>Scheduled</a>
                         </div>
                     </td>
-                    <td>
-                        <i class="material-symbols-outlined">more_vert</i>
+                    <td class="unselectable actions">
+                        <div>
+                            <i class="material-symbols-outlined">edit</i>
+                            <i class="material-symbols-outlined">delete</i>
+                        </div>
                     </td>
                 </tr>
             </tbody>
