@@ -1,0 +1,17 @@
+<div class="main" *ngIf="activityForm">
+    <form [formGroup]="activityForm" (submit)="activityVault()" class="vault-form">
+        <div >
+
+
+        </div>
+        <div class="footer">
+            <div class="type-dialog">
+                <a>NEW ACTIVITY</a>
+            </div>
+            <div class="card-action">
+                <button class="save" [disabled]="activityForm.invalid" type="submit">Create</button>
+                <button class="cancel" matDialogClose>Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>

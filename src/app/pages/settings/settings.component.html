@@ -1,1 +1,80 @@
-<p>settings works!</p>
+<div class="main" *ngIf="activityForm">
+    <form [formGroup]="activityForm" (submit)="activityVault()" class="form" autocomplete="off">
+        <div class="body">
+            <div class="first-column">
+                <div class="top-wrapper">
+                    <div class="amount full-input">
+                        <label for="amount">Amount</label>
+                        <input type="number" class="input-style" id="amount"  matInput formControlName="amount">
+                    </div>
+                    <div class="scheduler">
+                        <label for="scheduler">Schedule</label>
+                        <input type="checkbox" id="scheduler" matInput formControlName="isProgrammed">
+                    </div>
+                </div>
+                <div class="causal full-input">
+                    <label for="causal">Causal</label>
+                    <input type="text" class="input-style" id="causal" matInput formControlName="causal">
+                </div>
+                <div class="start-date full-input">
+                    <label for="start-date">Start Date</label>
+                    <input type="date" class="input-style" id="start-date" matInput formControlName="startDate">
+                </div>
+                <div class="end-date full-input">
+                    <label for="end-date">End Date</label>
+                    <input type="date" class="input-style" id="end-date" matInput formControlName="endDate">
+                </div>
+            </div>
+            <div class="second-column">
+                <div class="vault full-input">
+                  <label for="vault">Card</label>
+                  <select id="vault" class="input-style" formControlName="vault">
+                    <option disabled selected>Select an option</option>
+                    <option *ngFor="let vault of vaults" [value]="vault.name">
+                            <img src="{{vault.image}}" alt="a">
+                    
+                        
+                    
+                    </option>
+                  </select>
+                </div>
+                
+                <div class="category full-input">
+                  <label for="category">Category</label>
+                  <select id="category" class="input-style" formControlName="category">
+                    <option disabled selected>Select an option</option>
+                    <option *ngFor="let category of categories" [value]="category.categoryName">{{category.categoryName}}</option>
+                  </select>
+                </div>
+                
+                <div class="thirdPartys full-input">
+                  <label for="thirdParty">Third Party</label>
+                  <select id="thirdParty" class="input-style" formControlName="thirdParty">
+                    <option disabled selected>Select an option</option>
+                    <option *ngFor="let thirdParty of thirdParties" [value]="thirdParty.thirdPartyName">{{thirdParty.thirdPartyName}}</option>
+                  </select>
+                </div>
+                
+                <div class="type full-input">
+                  <label for="type">Operation Type</label>
+                  <select id="type" class="input-style" formControlName="type">
+                    <option disabled selected>Select an option</option>
+                    <option *ngFor="let type of operationTypes" [value]="type">{{type}}</option>
+                  </select>
+                </div>
+              </div>
+              
+        </div>
+
+
+        <div class="footer">
+            <div class="type-dialog">
+                <a>NEW ACTIVITY</a>
+            </div>
+            <div class="dialog-action">
+                <button class="save" [disabled]="activityForm.invalid" type="submit">Create</button>
+                <button class="cancel" matDialogClose>Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>

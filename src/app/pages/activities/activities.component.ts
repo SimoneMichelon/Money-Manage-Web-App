@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { OperationDto } from '../../api/models';
 import { OperationControllerService } from '../../api/services';
 import { AuthService } from '../../security/auth.service';
+import { ActivityDialogComponent } from './activity-dialog/activity-dialog.component';
+import { DeleteActivityDialogComponent } from './delete-activity-dialog/delete-activity-dialog.component';
+import { EditActivityDialogComponent } from './edit-activity-dialog/edit-activity-dialog.component';
 
 type SortOrder = 'ASC' | 'DESC';
 
@@ -31,6 +35,7 @@ export class ActivitiesComponent implements OnInit {
   constructor(
     private operationControllerService: OperationControllerService,
     private authService: AuthService,
+    private dialog: MatDialog
   ) {}
 
   options: boolean = false;
@@ -100,5 +105,40 @@ export class ActivitiesComponent implements OnInit {
 
       return 0;
     });
+  }
+
+  openEditDialog(operation : OperationDto){
+    this.dialog.open(EditActivityDialogComponent, {
+      data : {operation : operation},
+      width: "auto",
+      height: "auto"
+    }).afterClosed().subscribe({
+     next : () => {
+      this.getOperationsByPrincipal();
+      }
+    });
+  }
+
+  openDeleteDialog(operation : OperationDto){
+    this.dialog.open(DeleteActivityDialogComponent, {
+      data : {operation : operation},
+      width: "auto",
+      height: "auto"
+    }).afterClosed().subscribe({
+     next : () => {
+      this.getOperationsByPrincipal();
+      }
+    });
+  }
+
+  openCreateDialog(){
+    this.dialog.open(ActivityDialogComponent, {
+      width : "auto",
+      height : "auto"
+    }).afterClosed().subscribe({
+      next : () => {
+        this.getOperationsByPrincipal();
+      }
+    })
   }
 }

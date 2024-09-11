@@ -39,6 +39,9 @@ import { EditVaultDialogComponent } from './pages/vaults/edit-vault-dialog/edit-
 import { VaultDialogComponent } from './pages/vaults/vault-dialog/vault-dialog.component';
 import { VaultsComponent } from './pages/vaults/vaults.component';
 import { headersInterceptor } from './security/headers.interceptor';
+import { DeleteActivityDialogComponent } from './pages/activities/delete-activity-dialog/delete-activity-dialog.component';
+import { EditActivityDialogComponent } from './pages/activities/edit-activity-dialog/edit-activity-dialog.component';
+import { ActivityDialogComponent } from './pages/activities/activity-dialog/activity-dialog.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +59,9 @@ import { headersInterceptor } from './security/headers.interceptor';
     ActivitiesComponent,
     SettingsComponent,
     DashboardComponent,
+    DeleteActivityDialogComponent,
+    EditActivityDialogComponent,
+    ActivityDialogComponent,
     
   ],
   imports: [

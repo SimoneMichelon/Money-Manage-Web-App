@@ -3,7 +3,7 @@
         <h1>ACTIVITIES.</h1>
     </div>
     <div class="options unselectable">
-        <i class="material-symbols-outlined">add_circle</i>
+        <i class="material-symbols-outlined" (click)="openCreateDialog()">add_circle</i>
         <i class="material-symbols-outlined" (click)="openOptions()">settings</i>
     </div>
     <div class="content-container">
@@ -44,8 +44,8 @@
                     </td>
                     <td class="unselectable actions">
                         <div>
-                            <i class="material-symbols-outlined">edit</i>
-                            <i class="material-symbols-outlined">delete</i>
+                            <i class="material-symbols-outlined" (click)="openEditDialog(operation)">edit</i>
+                            <i class="material-symbols-outlined" (click)="openDeleteDialog(operation)" >delete</i>
                         </div>
                     </td>
                 </tr>
