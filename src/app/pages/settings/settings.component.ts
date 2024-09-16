@@ -6,7 +6,8 @@ import { CategoryControllerService, ExpenseControllerService, RevenueControllerS
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrl: './settings.component.scss'
+  styleUrl: './settings.component.scss',
+
 })
 export class SettingsComponent {
 
@@ -41,7 +42,7 @@ export class SettingsComponent {
     isProgrammed : new FormControl(false, [Validators.required])
   })
 
-  async loadInformations(){
+  loadInformations(){
     this.getCategories();
     this.getThirdParties();
     this.getVaultsByPrincipal();
@@ -78,6 +79,7 @@ export class SettingsComponent {
     this.vaultControllerService.getAllVaultsByPrincipal().subscribe({
       next: (response) => {
         this.vaults = response;
+        return response;
       },
       error: (error) => {
         console.log("Error : ", error);
@@ -89,17 +91,20 @@ export class SettingsComponent {
 
 
   activityVault(){
+
+    console.log(this.activityForm.value);
+
     // let data : ExpenseDto | RevenueDto = {
-    //   amount?
-    //   category?
-    //   causal?
-    //   endDate?:
-    //   id?:
-    //   isProgrammed
-    //   startDate?
-    //   thirdPartys?
-    //   type?
-    //   vault?:
+      // amount?
+      // category?
+      // causal?
+      // endDate?:
+      // id?:
+      // isProgrammed
+      // startDate?
+      // thirdPartys?
+      // type?
+      // vault?:
     // };
 
     // this.vaultControllerService.createVault({body : data}).subscribe({

@@ -12,17 +12,26 @@
                         <input type="checkbox" id="scheduler" matInput formControlName="isProgrammed">
                     </div>
                 </div>
-                <div class="causal full-input">
-                    <label for="causal">Causal</label>
-                    <input type="text" class="input-style" id="causal" matInput formControlName="causal">
+                <div class="causal-wrapper" >
+                  <div class="causal full-input">
+                      <label for="causal">Causal</label>
+                      <input type="text" class="input-style" id="causal" matInput formControlName="causal" maxlength="30">
+                      <a class="word-counter">{{activityForm.value.causal?.length}} /30</a>
+                  </div>
                 </div>
-                <div class="start-date full-input">
-                    <label for="start-date">Start Date</label>
-                    <input type="date" class="input-style" id="start-date" matInput formControlName="startDate">
+                
+                <div class="full-input start-date" for="dob">
+                  <label for="start-date" class="label">Start Date</label>
+                  <div class="inner-div">
+                  <input class="input-style date-picker" id="start-date" matInput formControlName="startDate" type="date" >
+                  </div>
                 </div>
-                <div class="end-date full-input">
-                    <label for="end-date">End Date</label>
-                    <input type="date" class="input-style" id="end-date" matInput formControlName="endDate">
+
+                <div class="full-input end-date" for="dob">
+                  <label for="end-date" class="label">End Date</label>
+                  <div class="inner-div">
+                  <input class="input-style date-picker" id="end-date" matInput formControlName="endDate" type="date" >
+                  </div>
                 </div>
             </div>
             <div class="second-column">
@@ -30,11 +39,8 @@
                   <label for="vault">Card</label>
                   <select id="vault" class="input-style" formControlName="vault">
                     <option disabled selected>Select an option</option>
-                    <option *ngFor="let vault of vaults" [value]="vault.name">
-                            <img src="{{vault.image}}" alt="a">
-                    
-                        
-                    
+                    <option *ngFor="let vault of vaults" [value]="vault">
+                            {{vault.name}}
                     </option>
                   </select>
                 </div>
@@ -63,16 +69,15 @@
                   </select>
                 </div>
               </div>
-              
         </div>
 
 
-        <div class="footer">
+        <div class="footer unselectable">
             <div class="type-dialog">
                 <a>NEW ACTIVITY</a>
             </div>
             <div class="dialog-action">
-                <button class="save" [disabled]="activityForm.invalid" type="submit">Create</button>
+                <button class="save" [disabled]="activityForm.invalid" [ngClass]="{ 'disabled' : activityForm.invalid }" type="submit">Create</button>
                 <button class="cancel" matDialogClose>Cancel</button>
             </div>
         </div>
