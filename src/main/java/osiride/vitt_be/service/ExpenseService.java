@@ -1,5 +1,6 @@
 package osiride.vitt_be.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import osiride.vitt_be.domain.Expense;
 import osiride.vitt_be.dto.CategoryDTO;
 import osiride.vitt_be.dto.ExpenseDTO;
 import osiride.vitt_be.dto.ThirdPartyDTO;
+import osiride.vitt_be.dto.UserDTO;
 import osiride.vitt_be.dto.VaultDTO;
 import osiride.vitt_be.error.BadRequestException;
 import osiride.vitt_be.error.DuplicatedValueException;
@@ -19,6 +21,7 @@ import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.error.OperationNotPermittedException;
 import osiride.vitt_be.mapper.ExpenseMapper;
+import osiride.vitt_be.mapper.VaultMapper;
 import osiride.vitt_be.repository.ExpenseRepository;
 
 @Slf4j
@@ -30,17 +33,23 @@ public class ExpenseService {
 	private final VaultService vaultService;
 	private final CategoryService categoryService;
 	private final ThirdPartyService thirdPartyService;
-
+	private final VaultMapper vaultMapper;
+	private final AuthService authService;
+	
 	public ExpenseService(ExpenseRepository expenseRepository, 
 			ExpenseMapper expenseMapper,
 			VaultService vaultService, 
 			CategoryService categoryService,
-			ThirdPartyService thirdPartyService) {
+			ThirdPartyService thirdPartyService,
+			VaultMapper vaultMapper,
+			AuthService authService) {
 		this.expenseRepository = expenseRepository;
 		this.expenseMapper = expenseMapper;
 		this.vaultService = vaultService;
 		this.categoryService = categoryService;
 		this.thirdPartyService = thirdPartyService;
+		this.vaultMapper = vaultMapper;
+		this.authService = authService;
 	}
 
 	/**
@@ -237,13 +246,16 @@ public class ExpenseService {
 	 * </p>
 	 * 
 	 * @author Simone
+	 * @throws NotAuthorizedException 
+	 * @throws InvalidTokenException 
 	 */
-	public ExpenseDTO update(ExpenseDTO expenseDTO) throws BadRequestException, OperationNotPermittedException, NotFoundException {
+	public ExpenseDTO update(ExpenseDTO expenseDTO) throws BadRequestException, OperationNotPermittedException, NotFoundException, InvalidTokenException, NotAuthorizedException {
 		if(expenseDTO == null || expenseDTO.getId() == null || !isDataValid(expenseDTO) ) {
 			log.error("SERVICE - Expense data is invalid - UPDATE");
 			throw new BadRequestException();
 		}
 
+		expenseDTO.setVaultDTO(vaultService.findById(expenseDTO.getVaultDTO().getId()));
 		ExpenseDTO oldExpense = findById(expenseDTO.getId());
 
 
@@ -256,6 +268,7 @@ public class ExpenseService {
 		}
 
 		Expense expense = expenseMapper.toEntity(expenseDTO);
+		expense = expenseRepository.save(expense);
 		return expenseMapper.toDto(expense);
 	}
 
@@ -298,13 +311,50 @@ public class ExpenseService {
 		ExpenseDTO expenseDTO = findById(id);
 		expenseRepository.deleteById(id);
 
-		if(expenseRepository.existsById(id)) {
+		if(!expenseRepository.existsById(id)) {
 			return expenseDTO;
 		}
 		else {
 			log.error("SERVICE - Expense Not Deleted due to Unknown Error - DELETE");
 			throw new InternalServerException();
 		}
+	}
+	
+	
+	/**
+	 * Get all Expense By Vault
+	 * @param vaultDTO
+	 * @return
+	 * @throws NotAuthorizedException 
+	 * @throws InvalidTokenException 
+	 * @throws NotFoundException 
+	 * @throws BadRequestException 
+	 */
+	public List<ExpenseDTO> getByVault(Long id) throws BadRequestException, NotFoundException, InvalidTokenException, NotAuthorizedException{
+		List<ExpenseDTO> list = new ArrayList<ExpenseDTO>();
+		VaultDTO vaultDTO = vaultService.findById(id);
+		
+		log.info("SERVICE - Get All Expenses by Vault ID - READ VAULT");
+		list = expenseRepository.findByVault(vaultMapper.toEntity(vaultDTO))
+				.stream()
+				.map( expense -> expenseMapper.toDto(expense))
+				.toList();
+
+		return list;
+	}
+	
+	
+	public List<ExpenseDTO> getAllByPrincipal() throws BadRequestException, NotFoundException, InvalidTokenException, NotAuthorizedException{
+		List<ExpenseDTO> list = new ArrayList<ExpenseDTO>();
+		UserDTO userDTO = authService.getPrincipal();
+		
+		log.info("SERVICE - Get All Expenses by Principal - READ USER");
+		list = expenseRepository.findExpensesByVaultUserId(userDTO.getId())
+				.stream()
+				.map( expense -> expenseMapper.toDto(expense))
+				.toList();
+
+		return list;
 	}
 
 
