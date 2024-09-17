@@ -7,17 +7,20 @@ import { MatIconModule } from '@angular/material/icon';
 
 
 import {
-    HttpClientModule,
-    provideHttpClient,
-    withInterceptors,
+  HttpClientModule,
+  provideHttpClient,
+  withInterceptors,
 } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogContent,
-    MatDialogTitle
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle
 } from '@angular/material/dialog';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { RouterOutlet } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
@@ -36,9 +39,9 @@ import { EditVaultDialogComponent } from './pages/vaults/edit-vault-dialog/edit-
 import { VaultDialogComponent } from './pages/vaults/vault-dialog/vault-dialog.component';
 import { VaultsComponent } from './pages/vaults/vaults.component';
 import { headersInterceptor } from './security/headers.interceptor';
-
-
-
+import { DeleteActivityDialogComponent } from './pages/activities/delete-activity-dialog/delete-activity-dialog.component';
+import { EditActivityDialogComponent } from './pages/activities/edit-activity-dialog/edit-activity-dialog.component';
+import { ActivityDialogComponent } from './pages/activities/activity-dialog/activity-dialog.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +59,10 @@ import { headersInterceptor } from './security/headers.interceptor';
     ActivitiesComponent,
     SettingsComponent,
     DashboardComponent,
+    DeleteActivityDialogComponent,
+    EditActivityDialogComponent,
+    ActivityDialogComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -70,7 +77,11 @@ import { headersInterceptor } from './security/headers.interceptor';
     MatDialogTitle,
     MatButtonModule,
     MatDividerModule,
-    MatIconModule
+    MatIconModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSort,
+    MatSortModule
   ],
   providers: [provideHttpClient(withInterceptors([headersInterceptor])), provideAnimationsAsync()],
   bootstrap: [AppComponent],

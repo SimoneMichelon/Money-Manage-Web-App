@@ -1,0 +1,79 @@
+<div class="main" *ngIf="activityForm">
+    <form [formGroup]="activityForm" (submit)="editActivity()" class="form" autocomplete="off">
+        <div class="body">
+            <div class="first-column">
+                <div class="top-wrapper">
+                    <div class="amount full-input">
+                        <label for="amount">Amount</label>
+                        <input type="number" class="input-style" id="amount"  matInput formControlName="amount">
+                    </div>
+                    <div class="scheduler">
+                        <label for="scheduler">Schedule</label>
+                        <input type="checkbox" id="scheduler" matInput formControlName="isProgrammed">
+                    </div>
+                </div>
+                <div class="causal-wrapper" >
+                  <div class="causal full-input">
+                      <label for="causal">Causal</label>
+                      <input type="text" class="input-style" id="causal" matInput formControlName="causal" maxlength="30">
+                      <a class="word-counter">{{activityForm.value.causal?.length}} /30</a>
+                  </div>
+                </div>
+                
+                <div class="full-input start-date" for="dob">
+                  <label for="start-date" class="label">Start Date</label>
+                  <div class="inner-div">
+                  <input class="input-style date-picker" id="start-date" matInput formControlName="startDate" type="date" >
+                  </div>
+                </div>
+
+                <div class="full-input end-date" for="dob">
+                  <label for="end-date" class="label">End Date</label>
+                  <div class="inner-div">
+                  <input class="input-style date-picker" id="end-date" matInput formControlName="endDate" type="date" >
+                  </div>
+                </div>
+            </div>
+            <div class="second-column">
+              <div class="vault full-input">
+                <label for="vault">Card</label>
+                <select id="vault" class="input-style" formControlName="vault">
+                  <option *ngFor="let vault of vaults" [ngValue]="vault">{{vault.name}}</option>
+                </select>
+              </div>
+              
+              <div class="category full-input">
+                <label for="category">Category</label>
+                <select id="category" class="input-style" formControlName="category">
+                  <option *ngFor="let category of categories" [ngValue]="category">{{category.categoryName}}</option>
+                </select>
+              </div>
+              
+              <div class="thirdPartys full-input">
+                <label for="thirdParty">Third Party</label>
+                <select id="thirdParty" class="input-style" formControlName="thirdParty">
+                  <option *ngFor="let thirdParty of thirdParties" [ngValue]="thirdParty">{{thirdParty.thirdPartyName}}</option>
+                </select>
+              </div>
+              
+              <div class="type full-input disabled unselectable">
+                <label for="type">Operation Type</label>
+                <select id="type" class="input-style" formControlName="type">
+                  <option *ngFor="let type of operationTypes" [ngValue]="type" >{{type}}</option>
+                </select>
+              </div>                           
+            </div>
+        </div>
+
+
+        <div class="footer unselectable">
+            <div class="type-dialog">
+                <a>OLD ACTIVITY</a>
+            </div>
+            <div class="dialog-action">
+                <button class="save" [disabled]="activityForm.invalid" [ngClass]="{ 'disabled' : activityForm.invalid }" type="submit">Edit</button>
+                <button class="cancel" matDialogClose>Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>

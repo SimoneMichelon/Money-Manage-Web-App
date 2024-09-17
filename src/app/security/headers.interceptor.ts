@@ -3,6 +3,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const headersInterceptor: HttpInterceptorFn = (req, next) => {
+
   const authToken = req.url.startsWith(`http://localhost:8080/api/`) ?
     localStorage.getItem("jwt") :
     "NO-TOKEN";

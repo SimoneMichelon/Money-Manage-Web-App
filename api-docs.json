@@ -1008,6 +1008,128 @@
         }
       }
     },
+    "/api/revenue-management/revenues/vault/{id}": {
+      "get": {
+        "tags": [
+          "revenue-controller"
+        ],
+        "summary": "Get revenues by vault",
+        "description": "Get revenues by vault",
+        "operationId": "getRevenuesByVault",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RevenueDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/operation-management/operations": {
+      "get": {
+        "tags": [
+          "operation-controller"
+        ],
+        "summary": "Get all Operations - ADMIN",
+        "description": "Get all Operations ",
+        "operationId": "getAllOperations",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OperationDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/operation-management/operations/vault/{id}": {
+      "get": {
+        "tags": [
+          "operation-controller"
+        ],
+        "summary": "Get all Operations by Vault Id",
+        "description": "Get all Operations by Vault ",
+        "operationId": "getAllOperationsByVaultId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OperationDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/operation-management/operations/principal": {
+      "get": {
+        "tags": [
+          "operation-controller"
+        ],
+        "summary": "Get all Operations by principal",
+        "description": "Get all Operations by principal",
+        "operationId": "getAllOperationsByPrincipal",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OperationDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/expense-management/expenses/{id}": {
       "get": {
         "tags": [
@@ -1065,6 +1187,42 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ExpenseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/expense-management/expenses/vault/{id}": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "summary": "Get expenses by vault",
+        "description": "Get expenses by vault",
+        "operationId": "getExpensesByVault",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExpenseDTO"
+                  }
                 }
               }
             }
@@ -1341,6 +1499,164 @@
             "type": "string"
           },
           "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Category": {
+        "required": [
+          "categoryName"
+        ],
+        "type": "object",
+        "properties": {
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "categoryName": {
+            "type": "string"
+          }
+        }
+      },
+      "OperationDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "causal": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "isProgrammed": {
+            "type": "boolean"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "vault": {
+            "$ref": "#/components/schemas/Vault"
+          },
+          "category": {
+            "$ref": "#/components/schemas/Category"
+          },
+          "thirdParty": {
+            "$ref": "#/components/schemas/ThirdParty"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "REVENUE",
+              "EXPENSE"
+            ]
+          }
+        }
+      },
+      "ThirdParty": {
+        "required": [
+          "thirdPartyName"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "thirdPartyName": {
+            "type": "string"
+          }
+        }
+      },
+      "User": {
+        "required": [
+          "dob",
+          "firstName",
+          "imgProfile",
+          "lastName",
+          "role"
+        ],
+        "type": "object",
+        "properties": {
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "dob": {
+            "type": "string",
+            "format": "date"
+          },
+          "imgProfile": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "GUEST",
+              "ADMIN"
+            ]
+          }
+        }
+      },
+      "Vault": {
+        "required": [
+          "capital",
+          "image",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "capital": {
+            "type": "number"
+          },
+          "image": {
             "type": "string"
           }
         }

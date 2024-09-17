@@ -6,3 +6,4 @@ export { ExpenseControllerService } from './services/expense-controller.service'
 export { CategoryControllerService } from './services/category-controller.service';
 export { AuthControllerService } from './services/auth-controller.service';
 export { CredentialControllerService } from './services/credential-controller.service';
+export { OperationControllerService } from './services/operation-controller.service';

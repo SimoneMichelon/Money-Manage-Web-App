@@ -9,9 +9,7 @@ import { VaultControllerService } from '../../../api/services';
 })
 export class DeleteVaultDialogComponent {
   data: any = inject<number>(MAT_DIALOG_DATA);
-
-
-
+  
   constructor(private vaultControllerService : VaultControllerService,
     private dialogRef : MatDialogRef<DeleteVaultDialogComponent>
   ){}

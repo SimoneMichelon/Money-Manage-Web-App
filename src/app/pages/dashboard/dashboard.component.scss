@@ -1,3 +1,77 @@
-p{
-    color: wheat;
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
+
+h1, a, span{
+  font-family: "Electrolize", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.main-container{
+    width: auto;
+    height: 100%;
+    padding: 60px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    overflow: auto;
+
+    .title{
+        display: flex;
+        flex-direction: row;
+        margin-left: 30px;
+        h1{
+            color: #FFFFFF;
+            font-size: 48px;
+            font-weight: 600;
+            text-decoration: underline #218AE7;
+            letter-spacing: 1px;
+        }
+
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+    }
+    
+    .table-container {
+        width: 100%;
+        max-width: 600px;
+        height: 300px; /* Altezza che vuoi per l'area scrollabile */
+        overflow-y: auto;
+        margin: 20px auto;
+        border: 1px solid #ccc;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    thead th {
+        position: sticky;
+        top: 0;
+        background-color: #f2f2f2;
+        z-index: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+    
+    tbody td {
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+    
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    
 }

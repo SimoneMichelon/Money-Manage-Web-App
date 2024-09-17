@@ -12,6 +12,7 @@ import { ExpenseControllerService } from './services/expense-controller.service'
 import { CategoryControllerService } from './services/category-controller.service';
 import { AuthControllerService } from './services/auth-controller.service';
 import { CredentialControllerService } from './services/credential-controller.service';
+import { OperationControllerService } from './services/operation-controller.service';
 
 /**
  * Module that provides all services and configuration.
@@ -29,6 +30,7 @@ import { CredentialControllerService } from './services/credential-controller.se
     CategoryControllerService,
     AuthControllerService,
     CredentialControllerService,
+    OperationControllerService,
     ApiConfiguration
   ],
 })
