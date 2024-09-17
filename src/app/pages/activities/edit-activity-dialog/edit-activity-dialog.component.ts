@@ -104,7 +104,6 @@ export class EditActivityDialogComponent implements OnInit {
     });
   }
 
-
   editActivity() {
     if (this.activityForm.valid) {
       let data: RevenueDto | ExpenseDto = {
@@ -119,7 +118,7 @@ export class EditActivityDialogComponent implements OnInit {
         isProgrammed: this.activityForm.value.isProgrammed
 
       };
-      
+
       let type = this.activityForm.value.type;
 
       if (type == "REVENUE") {
