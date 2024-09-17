@@ -49,10 +49,6 @@ export class SettingsComponent {
     this.getUser();
   }
 
-
-
-
-
   getCategories(){
     this.categoryControllerService.getAllCategories().subscribe({
       next : (response) => {

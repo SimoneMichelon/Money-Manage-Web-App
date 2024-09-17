@@ -30,11 +30,11 @@
                     </td>
                     <td>{{ operation.causal }}</td>
                     <td class="price" [ngClass]="{'price-revenue' : isRevenue(operation), 'price-expense' : !isRevenue(operation)}"   >
-                        {{ operation.amount | currency:'EUR':true:'1.2-2' }}
+                        {{ operation.amount | currency :'EUR':'symbol':'1.2-2' }}
                     </td>
                     <td>{{ operation.vault?.name }}</td>
                     <td>{{ operation.category?.categoryName }}</td>
-                    <td>{{ operation.thirdPartys?.thirdPartyName }}</td>
+                    <td>{{ operation.thirdParty?.thirdPartyName }}</td>
                     <td>{{ operation.startDate }}</td>
                     <td>{{ operation.endDate }}</td>
                     <td>

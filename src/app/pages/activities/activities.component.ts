@@ -40,14 +40,14 @@ export class ActivitiesComponent implements OnInit {
 
   options: boolean = false;
 
-  ngOnInit(): void {
-    this.getOperationsByPrincipal();
+  async ngOnInit() {
+    await this.getOperationsByPrincipal();
   }
 
   getOperationsByPrincipal() {
     this.operationControllerService.getAllOperationsByPrincipal().subscribe({
       next: (response) => {
-        this.operations = response;
+         this.operations = response;
       },
       error: () => {
         this.authService.logout();
@@ -66,6 +66,8 @@ export class ActivitiesComponent implements OnInit {
   
   openOptions(){
     this.options = !this.options;
+
+    console.log("Incoming Load Functions Soon!!!")
   }
 
   orderBy(header: string): void {

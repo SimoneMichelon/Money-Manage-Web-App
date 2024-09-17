@@ -61,7 +61,7 @@
                   </select>
                 </div>
                 
-                <div class="type full-input">
+                <div class="type full-input unselectable">
                   <label for="type">Operation Type</label>
                   <select id="type" class="input-style" formControlName="type">
                     <option disabled selected>Select an option</option>
@@ -74,10 +74,10 @@
 
         <div class="footer unselectable">
             <div class="type-dialog">
-                <a>NEW ACTIVITY</a>
+                <a>OLD ACTIVITY</a>
             </div>
             <div class="dialog-action">
-                <button class="save" [disabled]="activityForm.invalid" [ngClass]="{ 'disabled' : activityForm.invalid }" type="submit">Create</button>
+                <button class="save" [disabled]="activityForm.invalid" [ngClass]="{ 'disabled' : activityForm.invalid }" type="submit">Edit</button>
                 <button class="cancel" matDialogClose>Cancel</button>
             </div>
         </div>

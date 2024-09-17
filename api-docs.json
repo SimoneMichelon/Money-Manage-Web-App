@@ -1556,7 +1556,7 @@
           "category": {
             "$ref": "#/components/schemas/Category"
           },
-          "thirdPartys": {
+          "thirdParty": {
             "$ref": "#/components/schemas/ThirdParty"
           },
           "type": {

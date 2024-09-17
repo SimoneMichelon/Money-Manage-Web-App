@@ -50,7 +50,6 @@ export class ActivityDialogComponent implements OnInit{
     this.getCategories();
     this.getThirdParties();
     this.getVaultsByPrincipal();
-    this.getUser();
   }
 
   getCategories(){
