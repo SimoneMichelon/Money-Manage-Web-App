@@ -1,5 +1,8 @@
 package osiride.vitt_be.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -7,21 +10,25 @@ import osiride.vitt_be.error.BadRequestException;
 import osiride.vitt_be.error.InvalidTokenException;
 import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
-import osiride.vitt_be.utils.OperationListsWrapper;
+import osiride.vitt_be.mapper.OperationMapper;
+import osiride.vitt_be.utils.OperationDTO;
 
 @Slf4j
 @Service
 public class OperationService {
-	
+
 	private final RevenueService revenueService;
 	private final ExpenseService expenseService;
+	private final OperationMapper operationMapper;
 
 	public OperationService(RevenueService revenueService,
-			ExpenseService expenseService) {
+			ExpenseService expenseService,
+			OperationMapper operationMapper) {
 		this.revenueService = revenueService;
 		this.expenseService = expenseService;
+		this.operationMapper = operationMapper;
 	}
-	
+
 	/**
 	 * Retrieves all operations related to expenses and revenues.
 	 * <p>
@@ -46,17 +53,26 @@ public class OperationService {
 	 * }
 	 * </pre>
 	 */
-	public OperationListsWrapper getAllOperations(){
-		OperationListsWrapper operListWrapper = new OperationListsWrapper();
-		
+	public List<OperationDTO> getAllOperations(){
+		List<OperationDTO> operationList = new ArrayList<OperationDTO>();
+
 		log.info("SERVICE - Get All Operation - READ ALL");
-		
-		operListWrapper.setListExpense(expenseService.getAll());		
-		operListWrapper.setListRevenue(revenueService.getAll());
-		
-		return operListWrapper;
+
+		operationList.addAll(expenseService.getAll()
+				.stream()
+				.map(expense -> operationMapper
+						.toOperationDTO(expense))
+				.toList());
+
+		operationList.addAll(revenueService.getAll()
+				.stream()
+				.map(revenue -> operationMapper
+						.toOperationDTO(revenue))
+				.toList());
+
+		return operationList;
 	}
-	
+
 
 	/**
 	 * Retrieves all operations (expenses and revenues) associated with a specific vault.
@@ -90,15 +106,44 @@ public class OperationService {
 	 * }
 	 * </pre>
 	 */
-	public OperationListsWrapper getAllOperationsByVault(Long id) throws BadRequestException, NotFoundException, InvalidTokenException, NotAuthorizedException{
-		OperationListsWrapper operListWrapper = new OperationListsWrapper();
-		
+	public List<OperationDTO> getAllOperationsByVaultId(Long id) throws BadRequestException, NotFoundException, InvalidTokenException, NotAuthorizedException{
+		List<OperationDTO> operationList = new ArrayList<OperationDTO>();
+
 		log.info("SERVICE - Get All Operation By Vault - READ VAULT");
-		
-		operListWrapper.setListExpense(expenseService.getByVault(id));		
-		operListWrapper.setListRevenue(revenueService.getByVault(id));
-		
-		return operListWrapper;
+
+		operationList.addAll(expenseService.getByVault(id)
+				.stream()
+				.map(expense -> operationMapper
+						.toOperationDTO(expense))
+				.toList());
+
+		operationList.addAll(revenueService.getByVault(id)
+				.stream()
+				.map(revenue -> operationMapper
+						.toOperationDTO(revenue))
+				.toList());
+
+		return operationList;
+	}
+	
+	public List<OperationDTO> getAllOperationsByPrincipal() throws BadRequestException, NotFoundException, InvalidTokenException, NotAuthorizedException{
+		List<OperationDTO> operationList = new ArrayList<OperationDTO>();
+
+		log.info("SERVICE - Get All Operation By Vault - READ VAULT");
+
+		operationList.addAll(expenseService.getAllByPrincipal()
+				.stream()
+				.map(expense -> operationMapper
+						.toOperationDTO(expense))
+				.toList());
+
+		operationList.addAll(revenueService.getAllByPrincipal()
+				.stream()
+				.map(revenue -> operationMapper
+						.toOperationDTO(revenue))
+				.toList());
+
+		return operationList;
 	}
 
 }

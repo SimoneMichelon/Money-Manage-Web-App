@@ -11,6 +11,7 @@ import osiride.vitt_be.domain.Expense;
 import osiride.vitt_be.dto.CategoryDTO;
 import osiride.vitt_be.dto.ExpenseDTO;
 import osiride.vitt_be.dto.ThirdPartyDTO;
+import osiride.vitt_be.dto.UserDTO;
 import osiride.vitt_be.dto.VaultDTO;
 import osiride.vitt_be.error.BadRequestException;
 import osiride.vitt_be.error.DuplicatedValueException;
@@ -33,19 +34,22 @@ public class ExpenseService {
 	private final CategoryService categoryService;
 	private final ThirdPartyService thirdPartyService;
 	private final VaultMapper vaultMapper;
+	private final AuthService authService;
 	
 	public ExpenseService(ExpenseRepository expenseRepository, 
 			ExpenseMapper expenseMapper,
 			VaultService vaultService, 
 			CategoryService categoryService,
 			ThirdPartyService thirdPartyService,
-			VaultMapper vaultMapper) {
+			VaultMapper vaultMapper,
+			AuthService authService) {
 		this.expenseRepository = expenseRepository;
 		this.expenseMapper = expenseMapper;
 		this.vaultService = vaultService;
 		this.categoryService = categoryService;
 		this.thirdPartyService = thirdPartyService;
 		this.vaultMapper = vaultMapper;
+		this.authService = authService;
 	}
 
 	/**
@@ -307,7 +311,7 @@ public class ExpenseService {
 		ExpenseDTO expenseDTO = findById(id);
 		expenseRepository.deleteById(id);
 
-		if(expenseRepository.existsById(id)) {
+		if(!expenseRepository.existsById(id)) {
 			return expenseDTO;
 		}
 		else {
@@ -332,6 +336,20 @@ public class ExpenseService {
 		
 		log.info("SERVICE - Get All Expenses by Vault ID - READ VAULT");
 		list = expenseRepository.findByVault(vaultMapper.toEntity(vaultDTO))
+				.stream()
+				.map( expense -> expenseMapper.toDto(expense))
+				.toList();
+
+		return list;
+	}
+	
+	
+	public List<ExpenseDTO> getAllByPrincipal() throws BadRequestException, NotFoundException, InvalidTokenException, NotAuthorizedException{
+		List<ExpenseDTO> list = new ArrayList<ExpenseDTO>();
+		UserDTO userDTO = authService.getPrincipal();
+		
+		log.info("SERVICE - Get All Expenses by Principal - READ USER");
+		list = expenseRepository.findExpensesByVaultUserId(userDTO.getId())
 				.stream()
 				.map( expense -> expenseMapper.toDto(expense))
 				.toList();

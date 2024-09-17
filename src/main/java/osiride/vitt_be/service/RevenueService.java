@@ -11,6 +11,7 @@ import osiride.vitt_be.domain.Revenue;
 import osiride.vitt_be.dto.CategoryDTO;
 import osiride.vitt_be.dto.RevenueDTO;
 import osiride.vitt_be.dto.ThirdPartyDTO;
+import osiride.vitt_be.dto.UserDTO;
 import osiride.vitt_be.dto.VaultDTO;
 import osiride.vitt_be.error.BadRequestException;
 import osiride.vitt_be.error.DuplicatedValueException;
@@ -33,19 +34,22 @@ public class RevenueService {
 	private final CategoryService categoryService;
 	private final ThirdPartyService thirdPartyService;
 	private final VaultMapper vaultMapper;
+	private final AuthService authService;
 
 
 	public RevenueService(RevenueRepository revenueRepository, 
 			RevenueMapper revenueMapper,
 			VaultService vaultService, CategoryService categoryService,
 			ThirdPartyService thirdPartyService,
-			VaultMapper vaultMapper) {
+			VaultMapper vaultMapper,
+			AuthService authService) {
 		this.revenueRepository = revenueRepository;
 		this.revenueMapper = revenueMapper;
 		this.vaultService = vaultService;
 		this.categoryService = categoryService;
 		this.thirdPartyService = thirdPartyService;
 		this.vaultMapper = vaultMapper;
+		this.authService = authService;
 	}
 
 
@@ -298,7 +302,7 @@ public class RevenueService {
 		RevenueDTO revenueDTO = findById(id);
 		revenueRepository.deleteById(id);
 
-		if(revenueRepository.existsById(id)) {
+		if(!revenueRepository.existsById(id)) {
 			return revenueDTO;
 		}
 		else {
@@ -329,6 +333,20 @@ public class RevenueService {
 
 		return list;
 	}
+	
+	public List<RevenueDTO> getAllByPrincipal() throws BadRequestException, NotFoundException, InvalidTokenException, NotAuthorizedException{
+		List<RevenueDTO> list = new ArrayList<RevenueDTO>();
+		UserDTO userDTO = authService.getPrincipal();
+		
+		log.info("SERVICE - Get All Revenues by Principal - READ USER");
+		list = revenueRepository.findRevenueByVaultUserId(userDTO.getId())
+				.stream()
+				.map( revenue -> revenueMapper.toDto(revenue))
+				.toList();
+
+		return list;
+	}
+
 
 	private boolean isDataValid(RevenueDTO object) {
 		if (object == null) {
