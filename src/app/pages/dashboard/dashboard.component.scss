@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
 
-h1, a, span{
-  font-family: "Electrolize", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+h1,
+a,
+span {
+    font-family: "Electrolize", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .unselectable {
@@ -15,26 +17,115 @@ h1, a, span{
     user-select: none;
 }
 
-.main-container{
+.main-container {
     width: auto;
     height: 100%;
-    padding: 60px 0px 0px 0px;
     display: flex;
     flex-direction: column;
-    gap: 60px;
     overflow: auto;
 
-    .title{
+    .h-1 {
+        height: fit-content;
+        width: auto;
+        margin: 60px 30px 0px 30px;
         display: flex;
-        flex-direction: row;
-        margin-left: 30px;
-        h1{
-            color: #FFFFFF;
-            font-size: 48px;
-            font-weight: 600;
-            text-decoration: underline #218AE7;
-            letter-spacing: 1px;
+        justify-content: space-between;
+
+        .title {
+            display: flex;
+            flex-direction: row;
+
+            h1 {
+                color: #FFFFFF;
+                font-size: 48px;
+                font-weight: 600;
+                text-decoration: underline #218AE7;
+                letter-spacing: 1px;
+            }
+
+        }
+
+        .card-selector {
+
+            .custom-select {
+                border-radius: 4px;
+                padding: 10px;
+                position: relative;
+                cursor: pointer;
+                background-color: #282A37;
+                width: 300px;
+                height: fit-content;
+            }
+
+            img {
+                width: 30px;
+                height: 30px;
+            }
+
+            .selected {
+                color: #ffffff;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                font-size: 20px;
+            
+                span {
+                    display: block; /* Comportamento come blocco */
+                    width: 150px;  /* Imposta una larghezza fissa */
+                    white-space: nowrap; /* Impedisce il wrapping del testo */
+                    overflow: hidden; /* Nasconde il contenuto che trabocca */
+                    text-overflow: ellipsis; /* Aggiunge i puntini di sospensione */
+                    padding: 5px; /* Padding per rendere il testo più leggibile */
+                    border-radius: 4px; /* Angoli arrotondati */
+                }
+                .price{
+                    text-align: end;
+                    width: fit-content;
+                }
+
+                .name{
+                    align-self: flex-start;
+                    width: 150px;
+                }
+            
+                .no-image {
+                    width: 30px;
+                    height: 30px;
+                    background-color: #218AE7;
+                }
+            }
+
+            
+
+            .options {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                border: 1px solid #ccc;
+                background-color: white;
+                z-index: 1000;
+            }
+
+            .option {
+                cursor: pointer;
+            }
+
+            .option:hover {
+                background-color: #3f51b5;
+                color: white;
+            }
+
+            .option.selected {
+                background-color: #3f51b5;
+                color: white;
+            }
+
+
+
         }
 
     }
+
+
 }

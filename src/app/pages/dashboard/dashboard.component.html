@@ -3,17 +3,45 @@
 <link href="https://fonts.googleapis.com/css2?family=Plaster&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <div class="main-container">
-    <div class="title unselectable">
-        <h1>DASHBOARD.</h1>
+    <div class="h-1">
+        <div class="title unselectable">
+            <h1>DASHBOARD.</h1>
+        </div>
+        <div class="card-selector">
+            <div class="custom-select" (click)="toggleDropdown()">
+                <div class="selected">
+                    <ng-container *ngIf="selected?.image; else placeholder">
+                        <img [src]="selected?.image" alt="">
+                    </ng-container>
+                    <ng-template #placeholder>
+                        <div class="no-image"></div>
+                    </ng-template>
+                    <span class="name">{{ selected?.name || 'Select an option' }}</span>
+                    <span class="price">{{ selected?.capital | currency :'EUR':'symbol':'1.2-2' }}</span>
+                </div>
+                <div class="options" *ngIf="isOpen">
+                  <div class="option vault" (click)="selectOption(item)" *ngFor="let item of vaults">
+                    <img [src]="item.image" alt="">
+                    <span class="name">{{ item?.name   || 'Select an option' }}</span>
+                    <span class="price">{{ item?.capital | currency :'EUR':'symbol':'1.2-2' }}</span>
+                  </div>
+                </div>
+              </div>
+              
+        </div>
     </div>
+
+    
+
 
     <div class="wrapper">
         <div class="w-1">
-            <div class="recap-wrapper">
+            <div class="rec-1">
                 <div class="income">
-
+                    <i class="material-symbols-outlined"></i>
                 </div>
                 <div class="my_balance">
+                    
                     
                 </div>
 
