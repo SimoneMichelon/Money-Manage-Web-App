@@ -1,15 +1,24 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plaster&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <div class="main-container">
-  <div class="profile-card">
-    <h1>USER PROFILE</h1>
-    <div *ngIf="principal; else loading">
-      <img class="profile-img" *ngIf="principal.imgProfile" [src]="principal.imgProfile" alt="Profile Image">
-      <p><strong>First Name:</strong> {{ principal.firstName }}</p>
-      <p><strong>Last Name:</strong> {{ principal.lastName }}</p>
-      <p><strong>Date of Birth:</strong> {{ principal.dob | date }}</p>
-      <p><strong>Role:</strong> {{ principal.role }}</p>
+    <div class="title unselectable">
+        <h1>PROFILE.</h1>
     </div>
-    <ng-template #loading>
-      <p>Loading...</p>
-    </ng-template>
+  <div class="container">
+    <div class="profile-card">
+      <h1>USER PROFILE</h1>
+      <div *ngIf="principal; else loading">
+        <img class="profile-img" *ngIf="principal.imgProfile" [src]="principal.imgProfile" alt="Profile Image">
+        <p><strong>First Name:</strong> {{ principal.firstName }}</p>
+        <p><strong>Last Name:</strong> {{ principal.lastName }}</p>
+        <p><strong>Date of Birth:</strong> {{ principal.dob | date }}</p>
+        <p><strong>Role:</strong> {{ principal.role }}</p>
+      </div>
+      <ng-template #loading>
+        <p>Loading...</p>
+      </ng-template>
+    </div>
   </div>
 </div>

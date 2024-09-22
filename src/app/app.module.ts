@@ -42,6 +42,8 @@ import { headersInterceptor } from './security/headers.interceptor';
 import { DeleteActivityDialogComponent } from './pages/activities/delete-activity-dialog/delete-activity-dialog.component';
 import { EditActivityDialogComponent } from './pages/activities/edit-activity-dialog/edit-activity-dialog.component';
 import { ActivityDialogComponent } from './pages/activities/activity-dialog/activity-dialog.component';
+import { CategoryDialogComponent } from './components/category-dialog/category-dialog.component';
+import { ThirdPartyDialogComponent } from './components/third-party-dialog/third-party-dialog.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import { ActivityDialogComponent } from './pages/activities/activity-dialog/acti
     DeleteActivityDialogComponent,
     EditActivityDialogComponent,
     ActivityDialogComponent,
+    CategoryDialogComponent,
+    ThirdPartyDialogComponent,
     
   ],
   imports: [

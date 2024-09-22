@@ -4,6 +4,14 @@
     </div>
     <div class="options unselectable">
         <i class="material-symbols-outlined" (click)="openCreateDialog()">add_circle</i>
+        <div *ngIf="options" class="arrows-section">
+            <i class="material-symbols-outlined arrow unselectable">chevron_left</i>
+            <div class="option-section" >
+                <i class="material-symbols-outlined" (click)="openThirdPartyDialog()">add_business</i>
+                <i class="material-symbols-outlined" (click)="openCategoryDialog()">group_add</i>
+            </div>
+            <i class="material-symbols-outlined arrow unselectable">chevron_right</i>
+        </div>
         <i class="material-symbols-outlined" (click)="openOptions()">settings</i>
     </div>
     <div class="content-container">

@@ -1,0 +1,24 @@
+<div class="main" *ngIf="itemForm">
+    <form [formGroup]="itemForm" (submit)="createItem()" class="item-form" autocomplete="off">
+        <div class="item-name">
+            <input class="input-style" matInput formControlName="name" type="text" maxlength="22" placeholder="New Category...">
+        </div>
+        <div class="scrollable-item">
+            <ul>
+              <li *ngFor="let item of items">
+                {{ item.categoryName }}
+              </li>
+            </ul>
+          </div>
+
+        <div class="footer">
+            <div class="type-dialog">
+                <a>NEW CATEGORY</a>
+            </div>
+            <div class="card-action">
+                <button class="save" [disabled]="itemForm.invalid" type="submit">Create</button>
+                <button class="cancel" matDialogClose>Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>

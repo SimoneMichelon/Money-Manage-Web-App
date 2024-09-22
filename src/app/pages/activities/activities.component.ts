@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { OperationDto } from '../../api/models';
 import { OperationControllerService } from '../../api/services';
+import { CategoryDialogComponent } from '../../components/category-dialog/category-dialog.component';
+import { ThirdPartyDialogComponent } from '../../components/third-party-dialog/third-party-dialog.component';
 import { AuthService } from '../../security/auth.service';
 import { ActivityDialogComponent } from './activity-dialog/activity-dialog.component';
 import { DeleteActivityDialogComponent } from './delete-activity-dialog/delete-activity-dialog.component';
@@ -40,8 +42,8 @@ export class ActivitiesComponent implements OnInit {
 
   options: boolean = false;
 
-  async ngOnInit() {
-    await this.getOperationsByPrincipal();
+  ngOnInit() {
+    this.getOperationsByPrincipal();
   }
 
   getOperationsByPrincipal() {
@@ -140,6 +142,29 @@ export class ActivitiesComponent implements OnInit {
     }).afterClosed().subscribe({
       next : () => {
         this.getOperationsByPrincipal();
+      }
+    })
+  }
+
+
+  openCategoryDialog(){
+    this.dialog.open(CategoryDialogComponent, {
+      width : "auto",
+      height : "auto"
+    }).afterClosed().subscribe({
+      next : () => {
+        // this.getOperationsByPrincipal();
+      }
+    })
+  }
+
+  openThirdPartyDialog(){
+    this.dialog.open(ThirdPartyDialogComponent, {
+      width : "auto",
+      height : "auto"
+    }).afterClosed().subscribe({
+      next : () => {
+        // this.getOperationsByPrincipal();
       }
     })
   }

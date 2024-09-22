@@ -37,41 +37,4 @@ h1, a, span{
         }
 
     }
-
-    body {
-        font-family: Arial, sans-serif;
-    }
-    
-    .table-container {
-        width: 100%;
-        max-width: 600px;
-        height: 300px; /* Altezza che vuoi per l'area scrollabile */
-        overflow-y: auto;
-        margin: 20px auto;
-        border: 1px solid #ccc;
-    }
-    
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    
-    thead th {
-        position: sticky;
-        top: 0;
-        background-color: #f2f2f2;
-        z-index: 1;
-        padding: 10px;
-        border: 1px solid #ccc;
-    }
-    
-    tbody td {
-        padding: 10px;
-        border: 1px solid #ccc;
-    }
-    
-    tbody tr:nth-child(even) {
-        background-color: #f9f9f9;
-    }
-    
 }
