@@ -56,4 +56,8 @@ export class DashboardComponent implements OnInit{
     }
   }
 
+  chosen(chosenId : number) : boolean{
+    return chosenId == this.selected?.id;
+  }
+
 }
