@@ -31,33 +31,47 @@
 
     </div>
 
-
-
-
     <div class="wrapper">
         <div class="w-1">
             <div class="rec-1">
-                <div class="income">
-                    <i class="material-symbols-outlined"></i>
+                <div class="recap income">
+                    <div class="r-w-1">
+                        <i class="material-symbols-outlined">moving</i>
+                        <span>Income</span>
+                        <i class="material-symbols-outlined">more_vert</i>
+                    </div>
+                    <div class="r-w-2">
+                        <span>{{ selected?.capital | currency :'EUR':'symbol':'1.2-2' }}</span>
+                    </div>
                 </div>
-                <div class="my_balance">
-
-
+                <div class="recap my_balance ">
+                    <div class="r-w-1">
+                        <i class="material-symbols-outlined">moving</i>
+                        <span>Balance</span>
+                        <i class="material-symbols-outlined">more_vert</i>
+                    </div>
+                    <div class="r-w-2">
+                        <span>{{ selected?.capital | currency :'EUR':'symbol':'1.2-2' }}</span>
+                    </div>
                 </div>
 
-                <div class="expense">
-
+                <div class="recap expense">
+                    <div class="r-w-1">
+                        <i class="material-symbols-outlined">moving</i>
+                        <span>Expense</span>
+                        <i class="material-symbols-outlined">more_vert</i>
+                    </div>
+                    <div class="r-w-2">
+                        <span>{{ selected?.capital | currency :'EUR':'symbol':'1.2-2' }}</span>
+                    </div>
                 </div>
             </div>
             <div class="big-chart">
 
             </div>
         </div>
-        <div class="activities">
+        <div class="d-acts">
 
         </div>
-    </div>
-
-    <div class="content-container">
     </div>
 </div>
