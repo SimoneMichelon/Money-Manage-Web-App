@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { OperationDto, VaultDto, VaultSummary } from '../../api/models';
 import { OperationControllerService, VaultControllerService } from '../../api/services';
 import { AuthService } from '../../security/auth.service';
@@ -19,55 +20,55 @@ export class DashboardComponent implements OnInit{
   dataReport : VaultSummary | null = null;
   isOpen = false;
 
-  ngOnInit(): void {
-    this.getVaultsByPrincipal();
-    this.getOperationsByPrincipal();
-    this.getSummaryReport();
+  
+
+  async ngOnInit(): Promise<void> {
+    try {
+      await this.getSummaryReport();  // Prima ottieni il report
+      await this.getVaultsByPrincipal(); // Poi le vaults
+      await this.getOperationsByPrincipal(); // Infine le operations
+    } catch (error) {
+      console.error('Error during initialization:', error);
+    }
   }
+  vaults?: Array<VaultDto>;
+  operations?: Array<OperationDto>;
+  report?: Array<VaultSummary> = [];
 
-  vaults!: Array<VaultDto>;
-  operations!: Array<OperationDto>;
-  report!: Array<VaultSummary>;
-
-  getVaultsByPrincipal() {
-     this.vaultControllerService.getAllVaultsByPrincipal().subscribe({
-      next: (response) => {
-        this.vaults = response;
-
-        if (this.vaults.length > 0) {
-          this.selected = this.vaults[0];
-        }
-      },
-      error: () => {
-        this.authService.logout();
+  async getVaultsByPrincipal() {
+    try {
+      this.vaults = await firstValueFrom(this.vaultControllerService.getAllVaultsByPrincipal());
+  
+      if (this.vaults.length > 0) {
+        this.selected = this.vaults[0];
       }
-    })
-  };
-
-  getOperationsByPrincipal() {
-    this.operationControllerService.getAllOperationsByPrincipal().subscribe({
-      next : (response) => {
-        this.operations = response;
-      },
-      error : (error) => {
-        this.authService.logout();
+  
+      if (this.report && this.report.length > 0) {
+        this.dataReport = this.report.find(a => a.vaultId == this.selected?.id)!;
+      } else {
+        console.error('Report is undefined or empty.');
       }
-    })
+    } catch (error) {
+      this.authService.logout();
+    }
   }
-
-  getSummaryReport(){
-    this.vaultControllerService.getVaultsReport().subscribe({
-      next : (response) =>{
-        this.report = response;
-        console.log(this.report);
-
-
-      },
-      error : (error) => {
-        console.log("Error: Report not Available")
-      }
-    })
+  
+  async getOperationsByPrincipal() {
+    try {
+      this.operations = await firstValueFrom(this.operationControllerService.getAllOperationsByPrincipal());
+    } catch (error) {
+      this.authService.logout();
+    }
   }
+  
+  async getSummaryReport() {
+    try {
+      this.report = await firstValueFrom(this.vaultControllerService.getVaultsReport());
+    } catch (error) {
+      console.log("Error: Report not Available");
+    }
+  }
+  
 
   
   toggleDropdown() {
@@ -78,9 +79,11 @@ export class DashboardComponent implements OnInit{
     this.selected = option;
     this.isOpen = false; 
 
-    this.dataReport = this.report.find(a => a.vaultId === this.selected?.id)!;
-
-    console.log(this.dataReport)
+    if (this.report && this.report.length > 0) {
+      this.dataReport = this.report.find(a => a.vaultId == this.selected?.id)!;
+    } else {
+      console.error('Report is undefined or empty.');
+    }
   }
 
   @HostListener('document:click', ['$event'])
