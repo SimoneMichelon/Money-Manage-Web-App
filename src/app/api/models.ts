@@ -14,3 +14,4 @@ export { User } from './models/user';
 export { UserDto } from './models/user-dto';
 export { Vault } from './models/vault';
 export { VaultDto } from './models/vault-dto';
+export { VaultSummary } from './models/vault-summary';

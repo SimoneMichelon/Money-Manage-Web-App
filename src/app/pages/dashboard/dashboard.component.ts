@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { VaultDto } from '../../api/models';
-import { VaultControllerService } from '../../api/services';
+import { OperationDto, VaultDto, VaultSummary } from '../../api/models';
+import { OperationControllerService, VaultControllerService } from '../../api/services';
 import { AuthService } from '../../security/auth.service';
 
 @Component({
@@ -11,17 +11,23 @@ import { AuthService } from '../../security/auth.service';
 export class DashboardComponent implements OnInit{
 
   constructor(private vaultControllerService : VaultControllerService,
+    private operationControllerService : OperationControllerService,
     private authService: AuthService,
   ){}
 
   selected: VaultDto | null = null;
+  dataReport : VaultSummary | null = null;
   isOpen = false;
 
   ngOnInit(): void {
     this.getVaultsByPrincipal();
+    this.getOperationsByPrincipal();
+    this.getSummaryReport();
   }
-  vaults!: Array<VaultDto>;
 
+  vaults!: Array<VaultDto>;
+  operations!: Array<OperationDto>;
+  report!: Array<VaultSummary>;
 
   getVaultsByPrincipal() {
      this.vaultControllerService.getAllVaultsByPrincipal().subscribe({
@@ -38,6 +44,31 @@ export class DashboardComponent implements OnInit{
     })
   };
 
+  getOperationsByPrincipal() {
+    this.operationControllerService.getAllOperationsByPrincipal().subscribe({
+      next : (response) => {
+        this.operations = response;
+      },
+      error : (error) => {
+        this.authService.logout();
+      }
+    })
+  }
+
+  getSummaryReport(){
+    this.vaultControllerService.getVaultsReport().subscribe({
+      next : (response) =>{
+        this.report = response;
+        console.log(this.report);
+
+
+      },
+      error : (error) => {
+        console.log("Error: Report not Available")
+      }
+    })
+  }
+
   
   toggleDropdown() {
     this.isOpen = !this.isOpen;
@@ -46,6 +77,10 @@ export class DashboardComponent implements OnInit{
   selectOption(option: VaultDto | null) {
     this.selected = option;
     this.isOpen = false; 
+
+    this.dataReport = this.report.find(a => a.vaultId === this.selected?.id)!;
+
+    console.log(this.dataReport)
   }
 
   @HostListener('document:click', ['$event'])

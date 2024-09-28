@@ -21,7 +21,8 @@
                 <span class="price">{{ selected?.capital | currency :'EUR':'symbol':'1.2-2' || ''}}</span>
             </div>
             <div class="options" *ngIf="isOpen">
-                <div class="option vault" (click)="selectOption(item)" *ngFor="let item of vaults" [ngClass]="{ chosen : chosen(item.id!)}">
+                <div class="option vault" (click)="selectOption(item)" *ngFor="let item of vaults"
+                    [ngClass]="{ chosen : chosen(item.id!)}">
                     <img [src]="item.image" alt="">
                     <span class="name">{{ item?.name || 'Select an option' }}</span>
                     <span class="price">{{ item?.capital | currency :'EUR':'symbol':'1.2-2' }}</span>
@@ -32,45 +33,56 @@
     </div>
 
     <div class="wrapper">
-        <div class="w-1">
-            <div class="rec-1">
-                <div class="recap income">
-                    <div class="r-w-1">
+        <div class="stats unselectable">
+            <div class="recap income">
+                <div class="r-w-1">
+                    <div class="s-head">
                         <i class="material-symbols-outlined">moving</i>
                         <span>Income</span>
-                        <i class="material-symbols-outlined">more_vert</i>
                     </div>
-                    <div class="r-w-2">
-                        <span>{{ selected?.capital | currency :'EUR':'symbol':'1.2-2' }}</span>
-                    </div>
+                    <i class="material-symbols-outlined opt">more_vert</i>
                 </div>
-                <div class="recap my_balance ">
-                    <div class="r-w-1">
-                        <i class="material-symbols-outlined">moving</i>
+                <div class="r-w-2">
+                    <span>{{ dataReport?.totalRevenue | currency :'EUR':'symbol':'1.2-2' }}</span>
+                </div>
+            </div>
+            <div class="recap my_balance ">
+                <div class="r-w-1">
+                    <div class="s-head">
+                        <i class="material-symbols-outlined">payments</i>
                         <span>Balance</span>
-                        <i class="material-symbols-outlined">more_vert</i>
                     </div>
-                    <div class="r-w-2">
-                        <span>{{ selected?.capital | currency :'EUR':'symbol':'1.2-2' }}</span>
-                    </div>
+                    <i class="material-symbols-outlined opt">more_vert</i>
                 </div>
+                <div class="r-w-2">
+                    <span>{{ dataReport?.balance | currency :'EUR':'symbol':'1.2-2' }}</span>
+                </div>
+            </div>
 
-                <div class="recap expense">
-                    <div class="r-w-1">
-                        <i class="material-symbols-outlined">moving</i>
+            <div class="recap expense">
+                <div class="r-w-1">
+                    <div class="s-head">
+                        <i class="material-symbols-outlined">trending_down</i>
                         <span>Expense</span>
-                        <i class="material-symbols-outlined">more_vert</i>
                     </div>
-                    <div class="r-w-2">
-                        <span>{{ selected?.capital | currency :'EUR':'symbol':'1.2-2' }}</span>
-                    </div>
+                    <i class="material-symbols-outlined opt">more_vert</i>
                 </div>
-            </div>
-            <div class="big-chart">
-
-            </div>
+                <div class="r-w-2">
+                    <span>{{ dataReport?.totalExpenses | currency :'EUR':'symbol':'1.2-2' }}</span>
+                </div>
+            </div>     
         </div>
-        <div class="d-acts">
+        <div class="chart">
+
+        </div>
+        <div class="acts">
+
+        </div>
+
+        <div class="cake">
+
+        </div>
+        <div class="transactions">
 
         </div>
     </div>

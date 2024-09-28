@@ -794,6 +794,31 @@
         }
       }
     },
+    "/api/vault-management/vaults/report": {
+      "get": {
+        "tags": [
+          "vault-controller"
+        ],
+        "summary": "Get vaults Report",
+        "description": "Get vaults Report",
+        "operationId": "getVaultsReport",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VaultSummary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/user-management/users/{id}": {
       "get": {
         "tags": [
@@ -1500,6 +1525,24 @@
           },
           "password": {
             "type": "string"
+          }
+        }
+      },
+      "VaultSummary": {
+        "type": "object",
+        "properties": {
+          "vaultId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "balance": {
+            "type": "number"
+          },
+          "totalExpenses": {
+            "type": "number"
+          },
+          "totalRevenue": {
+            "type": "number"
           }
         }
       },
