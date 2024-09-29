@@ -5,6 +5,7 @@ import { OperationDto, PriceHistoryObj, VaultDto, VaultSummary } from '../../api
 import { OperationControllerService, VaultControllerService } from '../../api/services';
 import { AuthService } from '../../security/auth.service';
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -18,7 +19,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   operations?: Array<OperationDto>;
   report?: Array<VaultSummary> = [];
   reportSet?: Array<PriceHistoryObj>;
-  private chart: ApexCharts | null = null; // Riferimento al grafico
+  private areaChart: ApexCharts | null = null; // Riferimento al grafico
   priceData: { date: number, price: number }[] = [];
 
   constructor(
@@ -44,8 +45,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.transformData(this.reportSet);
 
       // Distruggi il grafico precedente se esiste
-      if (this.chart) {
-        this.chart.destroy();
+      if (this.areaChart) {
+        this.areaChart.destroy();
       }
 
       // Inizializza il grafico con i nuovi dati
@@ -187,8 +188,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     };
 
-    this.chart = new ApexCharts(document.querySelector("#chart") as HTMLElement, options);
-    this.chart.render();
+    this.areaChart = new ApexCharts(document.querySelector("#areaChart") as HTMLElement, options);
+    this.areaChart.render();
   }
 
   transformData(reportSet: Array<PriceHistoryObj>): void {
@@ -203,8 +204,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.chart) {
-      this.chart.destroy();
+    if (this.areaChart) {
+      this.areaChart.destroy();
     }
   }
 }
