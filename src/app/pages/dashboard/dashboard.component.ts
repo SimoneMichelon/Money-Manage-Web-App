@@ -1,17 +1,41 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import ApexCharts from 'apexcharts';
 import { firstValueFrom } from 'rxjs';
 import { OperationDto, PriceHistoryObj, VaultDto, VaultSummary } from '../../api/models';
 import { OperationControllerService, VaultControllerService } from '../../api/services';
 import { AuthService } from '../../security/auth.service';
 
+import { ChartComponent } from "ng-apexcharts";
+
+import {
+  ApexChart,
+  ApexNonAxisChartSeries,
+  ApexResponsive
+} from "ng-apexcharts";
+
+export type ChartOptions = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  responsive: ApexResponsive[];
+  labels: any;
+  colors?: string[]; // Aggiungi la proprietà colors (opzionale)
+  dataLabels?: any;
+  plotOptions?: any;
+  stroke?: any;
+};
+
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'], // Corretto 'styleUrl' in 'styleUrls'
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+
+  @ViewChild("chart") donutChart!: ChartComponent;
+  public donutChartOptions!: Partial<ChartOptions>;
+  private areaChart: ApexCharts | null = null;
+
   selected: VaultDto | null = null;
   dataReport: VaultSummary | null = null;
   isOpen = false;
@@ -19,14 +43,88 @@ export class DashboardComponent implements OnInit, OnDestroy {
   operations?: Array<OperationDto>;
   report?: Array<VaultSummary> = [];
   reportSet?: Array<PriceHistoryObj>;
-  private areaChart: ApexCharts | null = null; // Riferimento al grafico
   priceData: { date: number, price: number }[] = [];
+  categoryList?: string[];
+  costList?: number[];
+
 
   constructor(
     private vaultControllerService: VaultControllerService,
     private operationControllerService: OperationControllerService,
     private authService: AuthService,
-  ) {}
+  ) {
+    this.donutChartOptions = {
+      series: [44, 55, 13],
+      chart: {
+        type: "donut",
+        width: '350px',
+        height: '350px'
+      },
+      labels: this.categoryList,
+      colors: [
+        '#2E6F9E', 
+        '#3C8CBB', 
+        '#4DA3D7', 
+        '#5BB7E3', 
+        '#69C6E9',
+        '#77D6F0', 
+        '#85E1F7', 
+        '#93EBFF',
+        '#A1E6FF',
+        '#B3F1FF',
+        '#C4F5FF',
+        '#D1FAFF',
+        '#E0FDFF',
+        '#E8FFFF',
+        '#F0FFFF',
+        '#F6FFFF',
+        '#D8E6E6'
+      ],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: '200px',
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ],
+      dataLabels: {
+        enabled: true
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            size: '70%',
+            labels: {
+              show: true,
+              name: {
+                show: true,
+                fontSize: '16px',
+                fontWeight: 800,
+                color: '#D8E6E6'
+              },
+              value: {
+                show: true,
+                fontSize: '16px',
+                fontWeight: 400,
+                color: '#D8E6E6'
+              }
+            }
+          }
+        }
+      },
+      stroke: {
+        show: true,
+        width: 3,
+        colors: ['']
+      }
+    };    
+  }
 
   async ngOnInit(): Promise<void> {
     try {
@@ -43,18 +141,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
     await this.getReportHistory();
     if (this.reportSet && this.reportSet.length > 0) {
       this.transformData(this.reportSet);
-
-      // Distruggi il grafico precedente se esiste
+      this.getCategoryListFromOperation(); 
+  
+      this.donutChartOptions.labels = this.categoryList;
+  
       if (this.areaChart) {
         this.areaChart.destroy();
       }
-
-      // Inizializza il grafico con i nuovi dati
+  
       this.initChart();
     } else {
       console.error('No data available for the chart.');
+      this.authService.logout();
     }
   }
+  
 
   async getVaultsByPrincipal() {
     try {
@@ -76,6 +177,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   async getOperationsByPrincipal() {
     try {
       this.operations = await firstValueFrom(this.operationControllerService.getAllOperationsByPrincipal());
+      this.getCategoryListFromOperation();
+
     } catch (error) {
       console.log("Operazioni Non Disponibili");
     }
@@ -96,6 +199,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
       console.log("Error: Report not Available");
     }
   }
+
+  getCategoryListFromOperation() {
+    const uniqueCategories = new Set<string>();
+  
+    this.operations?.forEach(operation => {
+      if (operation.category) {
+        uniqueCategories.add(operation.category.categoryName);
+      }
+    });
+  
+    this.categoryList = Array.from(uniqueCategories) as string[]; 
+
+    console.log(this.categoryList)
+  }
+
 
   toggleDropdown() {
     this.isOpen = !this.isOpen;

@@ -283,9 +283,14 @@ span {
         }
 
         .cake{
+            padding: 20px;
             grid-area: 5 / 1 / 7 / 4; 
             background-color: #282A37;
             border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            color: white;
+
         }
 
         .transactions{

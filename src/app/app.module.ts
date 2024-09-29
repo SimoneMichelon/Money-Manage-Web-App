@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { NgApexchartsModule } from "ng-apexcharts";
+
+
 
 
 
@@ -90,9 +94,12 @@ import { headersInterceptor } from './security/headers.interceptor';
     MatSort,
     MatSortModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
+    NgApexchartsModule
   ],
   providers: [provideHttpClient(withInterceptors([headersInterceptor])), provideAnimationsAsync()],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class AppModule {}

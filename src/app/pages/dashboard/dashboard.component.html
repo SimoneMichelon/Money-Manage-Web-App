@@ -80,7 +80,41 @@
         </div>
 
         <div class="cake">
+            <div>
+                <h1>Incomes Categories</h1>
 
+                <div id="donutChart">
+                    <apx-chart 
+                    [series]="donutChartOptions.series"
+                    [chart]="donutChartOptions.chart"
+                    [labels]="donutChartOptions.labels"
+                    [colors]="donutChartOptions.colors"
+                    [responsive]="donutChartOptions.responsive"
+                    [dataLabels]="donutChartOptions.dataLabels"
+                    [plotOptions]="donutChartOptions.plotOptions"
+                    [stroke]="donutChartOptions.stroke"
+                    >
+                </apx-chart>
+                </div>
+            </div>
+            <div>
+                <h1>OutComes Categories</h1>
+
+                <div id="donutChart">
+                    <apx-chart 
+                    [series]="donutChartOptions.series"
+                    [chart]="donutChartOptions.chart"
+                    [labels]="donutChartOptions.labels"
+                    [colors]="donutChartOptions.colors"
+                    [responsive]="donutChartOptions.responsive"
+                    [dataLabels]="donutChartOptions.dataLabels"
+                    [plotOptions]="donutChartOptions.plotOptions"
+                    [stroke]="donutChartOptions.stroke"
+                    >
+                </apx-chart>
+                </div>
+            </div>
+            
         </div>
         <div class="transactions">
 
