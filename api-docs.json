@@ -1069,6 +1069,42 @@
         }
       }
     },
+    "/api/operation-management/report/vault/{id}": {
+      "get": {
+        "tags": [
+          "operation-controller"
+        ],
+        "summary": "Get the vault report",
+        "description": "Get the vault report",
+        "operationId": "getVaultHistoryReport",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PriceHistoryObj"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/operation-management/operations": {
       "get": {
         "tags": [
@@ -1542,6 +1578,18 @@
             "type": "number"
           },
           "totalRevenue": {
+            "type": "number"
+          }
+        }
+      },
+      "PriceHistoryObj": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "capital": {
             "type": "number"
           }
         }
