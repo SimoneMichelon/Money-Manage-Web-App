@@ -199,11 +199,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onScroll(event: WheelEvent): void {
-    event.preventDefault(); // Previene il comportamento di scroll della pagina
+    event.preventDefault(); 
   }
 
   ngOnDestroy() {
-    // Distruggi il grafico quando il componente viene distrutto
     if (this.chart) {
       this.chart.destroy();
     }
