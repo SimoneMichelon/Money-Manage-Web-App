@@ -130,7 +130,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     try {
       await this.getSummaryReport();
       await this.getVaultsByPrincipal();
-      await this.getOperationsByPrincipal();
+      await this.getOperationsByVault();
       await this.loadChart();
     } catch (error) {
       console.error('Error during initialization:', error);
@@ -152,7 +152,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.initChart();
     } else {
       console.error('No data available for the chart.');
-      this.authService.logout();
+      // this.authService.logout();
     }
   }
   
@@ -174,9 +174,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  async getOperationsByPrincipal() {
+  // async getOperationsByPrincipal() {
+  //   try {
+  //     this.operations = await firstValueFrom(this.operationControllerService.getAllOperationsByPrincipal());
+  //     this.getCategoryListFromOperation();
+
+  //   } catch (error) {
+  //     console.log("Operazioni Non Disponibili");
+  //   }
+  // }
+
+  async getOperationsByVault() {
     try {
-      this.operations = await firstValueFrom(this.operationControllerService.getAllOperationsByPrincipal());
+      this.operations = await firstValueFrom(this.operationControllerService.getAllOperationsByVaultId({ id : this.selected?.id!}));
       this.getCategoryListFromOperation();
 
     } catch (error) {
@@ -195,6 +205,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   async getReportHistory() {
     try {
       this.reportSet = await firstValueFrom(this.operationControllerService.getVaultHistoryReport({ id: this.selected?.id! }));
+
     } catch (error) {
       console.log("Error: Report not Available");
     }
@@ -210,8 +221,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   
     this.categoryList = Array.from(uniqueCategories) as string[]; 
-
-    console.log(this.categoryList)
   }
 
 
@@ -230,6 +239,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     await this.loadChart();
+    await this.getOperationsByVault();
   }
 
   @HostListener('document:click', ['$event'])
@@ -313,7 +323,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   transformData(reportSet: Array<PriceHistoryObj>): void {
     this.priceData = reportSet.map(data => ({
       date: new Date(data.date!).getTime(),
-      price: data.capital !== undefined ? data.capital : 0
+      price: data.capital!
     }));
   }
 
@@ -325,5 +335,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (this.areaChart) {
       this.areaChart.destroy();
     }
+  }
+
+  isExpense(operation : OperationDto) : boolean{
+    return operation.type == 'EXPENSE'
   }
 }

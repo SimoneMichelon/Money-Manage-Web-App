@@ -76,8 +76,44 @@
             <div id="areaChart"></div>
         </div>
         <div class="acts">
-
+            <div class="title">
+                <h1>Recent Activities</h1>
+                <i class="material-symbols-outlined opt">more_vert</i>
+            </div>
+            <div class="operations">
+                <div class="no-data unselectable" *ngIf="operations?.length == 0">
+                    <h3>No Data Available</h3>
+                </div>
+                <div *ngFor="let operation of operations" class="operation" [ngClass]="{'expense' : isExpense(operation), 'revenue' : !isExpense(operation)}">
+                    <div class="icon" >
+                        <i class="material-symbols-outlined" [ngClass]="{'type-expense' : isExpense(operation), 'type-revenue' : !isExpense(operation)}" *ngIf="isExpense(operation)">
+                            attach_money
+                        </i>
+                        <i class="material-symbols-outlined" [ngClass]="{'type-expense' : isExpense(operation), 'type-revenue' : !isExpense(operation)}" *ngIf="!isExpense(operation)">
+                            attach_money
+                        </i>
+                    </div>
+                    <div class="cap">
+                        <div class="row">
+                            <h3 class="causal">{{operation.causal}}</h3>
+                            <h3 class="amount" [ngClass]="{'sell' : isExpense(operation), 'buy' : !isExpense(operation)}" >
+                            <span *ngIf="isExpense(operation) ; else revenue">- </span>
+                            <ng-template #revenue>
+                                <span >+ </span>
+                            </ng-template>
+                            
+                            {{ operation.amount| currency :'EUR':'symbol':'1.2-2' }}
+                            </h3>
+                        </div>
+                        <div class="row">
+                            <h3 class="category">{{operation.category?.categoryName}}</h3>
+                            <h3 class="date">{{operation.startDate | date: 'MMM d, yyyy'}}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        
 
         <div class="cake">
             <div>
