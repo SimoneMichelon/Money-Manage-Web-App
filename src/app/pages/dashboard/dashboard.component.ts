@@ -261,7 +261,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         type: 'area',
         stacked: false,
         height: '100%',
-        zoom: { type: 'x', enabled: true, autoScaleYaxis: true },
+        zoom: { type: 'x', enabled: false, autoScaleYaxis: true },
         toolbar: { autoSelected: 'zoom' },
       },
       series: [{ name: "Capital", data: dates, color: '#2575BB' }],
@@ -317,7 +317,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
 
     this.areaChart = new ApexCharts(document.querySelector("#areaChart") as HTMLElement, options);
-    this.areaChart.render();
+    try{
+      this.areaChart.render();
+    }catch(error){
+      console.log
+    }
   }
 
   transformData(reportSet: Array<PriceHistoryObj>): void {
@@ -325,10 +329,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       date: new Date(data.date!).getTime(),
       price: data.capital!
     }));
-  }
-
-  onScroll(event: WheelEvent): void {
-    event.preventDefault(); 
   }
 
   ngOnDestroy() {
