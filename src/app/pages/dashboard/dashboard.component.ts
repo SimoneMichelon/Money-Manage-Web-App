@@ -134,6 +134,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       await this.loadChart();
     } catch (error) {
       console.error('Error during initialization:', error);
+      this.authService.logout();
     }
   }
 
@@ -152,7 +153,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.initChart();
     } else {
       console.error('No data available for the chart.');
-      // this.authService.logout();
+
     }
   }
   
@@ -266,7 +267,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       },
       series: [{ name: "Capital", data: dates, color: '#2575BB' }],
       dataLabels: { enabled: false },
-      markers: { size: 0 },
+      markers: { size: 1 },
       title: {
         text: "Balance",
         align: 'left',

@@ -94,7 +94,7 @@
                         </i>
                     </div>
                     <div class="cap">
-                        <div class="row">
+                        <div class="row up">
                             <h3 class="causal">{{operation.causal}}</h3>
                             <h3 class="amount" [ngClass]="{'sell' : isExpense(operation), 'buy' : !isExpense(operation)}" >
                             <span *ngIf="isExpense(operation) ; else revenue">- </span>
@@ -105,8 +105,8 @@
                             {{ operation.amount| currency :'EUR':'symbol':'1.2-2' }}
                             </h3>
                         </div>
-                        <div class="row">
-                            <h3 class="category">{{operation.category?.categoryName}}</h3>
+                        <div class="row down">
+                            <h3 class="category">{{operation.category?.categoryName }} <span>{{" - " + operation.thirdParty?.thirdPartyName}}</span></h3>
                             <h3 class="date">{{operation.startDate | date: 'MMM d, yyyy'}}</h3>
                         </div>
                     </div>

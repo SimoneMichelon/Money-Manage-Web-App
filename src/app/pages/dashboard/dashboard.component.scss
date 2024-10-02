@@ -2,7 +2,8 @@
 
 h1,
 a,
-span {
+span,
+h3 {
     font-family: "Electrolize", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -216,19 +217,22 @@ span {
     .wrapper {
         margin: 30px 30px 60px 30px;
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(6, 1fr);
         grid-template-rows: repeat(6, 1fr);
         grid-column-gap: 20px;
         grid-row-gap: 20px;
 
         .stats {
-            grid-area: 1 / 1 / 2 / 4;
+            grid-area: 1 / 1 / 2 / 5;
             display: flex;
+            width: 100%;
+            min-width: fit-content;
             gap: 20px;
 
             .recap {
-                width: 280px;
+                width: 100%;
                 height: 100px;
+                
                 background-color: #282A37;
                 border-radius: 14px;
                 color: white;
@@ -288,14 +292,14 @@ span {
         }
 
         .chart {
-            grid-area: 2 / 1 / 5 / 4;
+            grid-area: 2 / 1 / 5 / 5;
             padding: 20px;
             background-color: #282A37;
             border-radius: 8px;
         }
 
         .acts {
-            grid-area: 1 / 4 / 5 / 6;
+            grid-area: 1 / 5 / 5 / 7;
             background-color: #282A37;
             border-radius: 8px;
             padding: 20px;
@@ -367,33 +371,28 @@ span {
 
                     .icon {
                         display: flex;
-                        padding: 2px;
-                        justify-content: center;
+                        padding: 2px 5px;
+                        justify-content: start;
                         align-items: center;
-                        height: 60px;
+                        height: fit-content;
+                        width: 10%;
+
+
+
 
                         .type-revenue {
-                            // border: 2px solid rgba(33, 231, 156, 1);
-                            border: 2px solid rgba(33, 231, 156, 0.6);
-                            box-shadow: 0px 0px 5px rgba(33, 231, 156, 1);
-
-                            color: #C3C3C3;
+                            border: 1px solid rgba(33, 231, 156, 0.6);
+                            box-shadow: 0px 0px 3px rgba(33, 231, 156, 1);
                             color: rgba(33, 231, 156, 1);
-
-                            background-color: rgba(6, 48, 31, 0.6);
+                            background-color: rgba(6, 48, 31, 0.35);
 
                         }
 
                         .type-expense {
-                            // border: 2px solid rgba(231, 33, 104, 1);
-
-                            border: 2px solid rgba(231, 33, 106, 0.6);
-                            box-shadow: 0px 0px 5px rgba(231, 33, 104, 1);
-
-                            color: #C3C3C3;
+                            border: 1px solid rgba(231, 33, 106, 0.6);
+                            box-shadow: 0px 0px 3px rgba(231, 33, 104, 1);
                             color: rgba(231, 33, 104, 1);
-
-                            background-color: rgba(46, 7, 22, 0.6);
+                            background-color: rgba(46, 7, 22, 0.35);
                         }
 
 
@@ -401,11 +400,9 @@ span {
                             color: #b6b6b6;
                             font-size: 30px;
                             background-color: rgb(39, 39, 39);
-
-                            padding: 8px;
-                            border-radius: 50px;
-
-                            
+                            font-weight: 300;
+                            padding: 5px 3px;
+                            border-radius: 10px;
                         }
                     }
 
@@ -415,6 +412,7 @@ span {
                         justify-content: space-between;
                         padding: 5px;
                         width: 100%;
+
 
                         .row {
                             display: flex;
@@ -428,10 +426,11 @@ span {
 
                             .causal {
                                 font-size: 20px;
-                                color: #e7e7e7;
-                                font-weight: 500;
-                                width: 100%;
+                                color: #f1f1f1;
 
+                                font-weight: 400;
+                                width: 100%;
+                                letter-spacing: 1px;
                             }
 
                             .amount {
@@ -454,13 +453,19 @@ span {
 
                             .category {
                                 font-size: 14px;
-                                color: #C3C3C3;
-
+                                font-weight: 300;
+                                color: #218AE7;                                
+                               
+                                span{
+                                    color: #a8a8a8;
+                                    font-size: 14px;
+                                }
                             }
+                            
 
                             .date {
                                 font-size: 12px;
-                                font-weight: 600;
+                                font-weight: 500;
                                 color: #697180;
 
                             }
@@ -473,7 +478,7 @@ span {
 
         .cake {
             padding: 20px;
-            grid-area: 5 / 1 / 7 / 4;
+            grid-area: 5 / 1 / 7 / 5;
             background-color: #282A37;
             border-radius: 8px;
             display: flex;
@@ -489,7 +494,7 @@ span {
         }
 
         .transactions {
-            grid-area: 5 / 4 / 7 / 6;
+            grid-area: 5 / 5 / 7 / 7;
             background-color: #282A37;
             border-radius: 8px;
         }

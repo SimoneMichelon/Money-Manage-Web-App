@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CategoryDto, ExpenseDto, RevenueDto, ThirdPartyDto, UserDto, VaultDto } from '../../../api/models';
 import { CategoryControllerService, ExpenseControllerService, RevenueControllerService, ThirdPartyControllerService, UserControllerService, VaultControllerService } from '../../../api/services';
+import { CategoryDialogComponent } from '../../../components/category-dialog/category-dialog.component';
+import { ThirdPartyDialogComponent } from '../../../components/third-party-dialog/third-party-dialog.component';
 
 @Component({
   selector: 'app-activity-dialog',
@@ -16,10 +18,10 @@ export class ActivityDialogComponent implements OnInit{
   thirdParties! : Array<ThirdPartyDto> ;
   vaults! : Array<VaultDto>;
   operationTypes : Array<string> = ['REVENUE', 'EXPENSE'];
-
   vault: VaultDto | undefined;
   category: CategoryDto | undefined;
   thirdParty: ThirdPartyDto | undefined;
+  endDateCopy : boolean = false;
 
   constructor(private userControllerService : UserControllerService,
     private expenseControllerService : ExpenseControllerService,
@@ -27,7 +29,8 @@ export class ActivityDialogComponent implements OnInit{
     private vaultControllerService : VaultControllerService,
     private thirdPartyControllerService : ThirdPartyControllerService,
     private categoryControllerService : CategoryControllerService,
-    private dialogRef : MatDialogRef<ActivityDialogComponent>
+    private dialogRef : MatDialogRef<ActivityDialogComponent>,
+    private dialog: MatDialog
   ){}
 
   ngOnInit(): void {
@@ -85,11 +88,29 @@ export class ActivityDialogComponent implements OnInit{
     })
   };
 
+  openCategoryDialog(){
+    this.dialog.open(CategoryDialogComponent, {
+      width : "auto",
+      height : "auto",
+    }).afterClosed().subscribe({
+      next : () => {
+        this.getCategories();
+      }
+    })
+  }
 
-
+  openThirdPartyDialog(){
+    this.dialog.open(ThirdPartyDialogComponent, {
+      width : "auto",
+      height : "auto"
+    }).afterClosed().subscribe({
+      next : () => {
+        this.getThirdParties();
+      }
+    })
+  }
 
   activityVault(){
-
     let values = this.activityForm.value;
 
     let data : ExpenseDto | RevenueDto = {
@@ -104,10 +125,6 @@ export class ActivityDialogComponent implements OnInit{
     };
 
     let type = values.type;
-    console.log(data)
-    if(values.type){
-
-    }
 
     if(type == "REVENUE"){
       this.revenueControllerService.createRevenue({body : data}).subscribe({
@@ -143,5 +160,27 @@ export class ActivityDialogComponent implements OnInit{
       },
     });
   }
+
+  copyStartDate(){
+    this.endDateCopy = !this.endDateCopy;
+
+    if(this.activityForm.value.startDate != this.activityForm.value.endDate || this.endDateCopy ){
+      this.endDateCopy = true;
+
+      this.activityForm.patchValue({
+        endDate: this.activityForm.value.startDate
+      });
+    }
+    else {
+      this.activityForm.patchValue({
+        endDate:''
+      });
+    }
+    
   }
-  
+
+  dateValid(){
+    return this.activityForm.value.startDate != '';
+  }
+
+}
