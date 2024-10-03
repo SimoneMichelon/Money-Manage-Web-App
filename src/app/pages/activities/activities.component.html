@@ -1,7 +1,34 @@
 <div class="main-container">
-    <div class="title unselectable">
-        <h1>ACTIVITIES.</h1>
+    <div class="h-1">
+        <div class="title unselectable">
+            <h1>ACTIVITIES.</h1>
+        </div>
+
+        <div class="custom-select unselectable" (click)="toggleDropdown()">
+            <div class="selected option" [ngClass]="{open : isOpen}">
+                <ng-container *ngIf="selected?.image; else placeholder">
+                    <img [src]="selected?.image" alt="">
+                </ng-container>
+                <ng-template #placeholder>
+                    <div class="no-image"></div>
+                </ng-template>
+                <span class="name">{{ selected?.name || 'Select an option' }}</span>
+                <span class="price">{{ selected?.capital | currency :'EUR':'symbol':'1.2-2' || ''}}</span>
+            </div>
+            <div class="options" *ngIf="isOpen">
+                <div class="option vault" (click)="selectOption(item)" *ngFor="let item of vaults"
+                    [ngClass]="{ chosen : chosen(item.id!)}">
+                    <img [src]="item.image" alt="">
+                    <span class="name">{{ item?.name || 'Select an option' }}</span>
+                    <span class="price">{{ item?.capital | currency :'EUR':'symbol':'1.2-2' }}</span>
+                </div>
+            </div>
+        </div>
+
     </div>
+
+
+
     <div class="options unselectable">
         <i class="material-symbols-outlined" (click)="openCreateDialog()">add_circle</i>
         <div *ngIf="options" class="arrows-section">
@@ -14,6 +41,7 @@
         </div>
         <i class="material-symbols-outlined" (click)="openOptions()">settings</i>
     </div>
+
     <div class="content-container">
         <table class="table styled-table">
             <thead>

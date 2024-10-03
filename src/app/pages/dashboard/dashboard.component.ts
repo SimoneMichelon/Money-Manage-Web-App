@@ -50,6 +50,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   priceData: { date: number, price: number }[] = [];
   categoryList?: string[];
   costList?: number[];
+  dummyOperationSeries = [100]
+  dummyOperationLabel= ["No Operation"]
 
 
   constructor(
@@ -61,8 +63,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       series: [0],
       chart: {
         type: "donut",
-        width: '300px',
-        height: '300px',
+        width: '300px',  // Fissa la larghezza
+        height: '300px', // Fissa l'altezza
       },
       labels: [''],
       colors: [
@@ -89,7 +91,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           breakpoint: 480,
           options: {
             chart: {
-              width: '200px',
+              width: '200px', // Adatta la larghezza solo su breakpoint mobile
             },
             legend: {
               position: "bottom"
@@ -146,25 +148,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
       },
       legend: {
         show: true,
-        position: 'right', // Position the legend to the right
+        position: 'right',
         verticalAlign: 'middle',
         floating: false,
         fontSize: '14px',
         labels: {
-          useSeriesColors: false, // Use the colors specified above
-          colors:  '#FFFFFF', // Set your desired colors here
+          useSeriesColors: false,
+          colors:  '#FFFFFF',
         }
       }
     };
     
+    
     this.expenseDonutChartOptions = {
-      series: [0],
+      series: [100],
       chart: {
         type: "donut",
         width: '300px',
         height: '300px'
       },
-      labels: [''],
+      labels: ['No Operations'],
       colors: [
         '#2E6F9E',
         '#3C8CBB',
@@ -472,6 +475,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     
     this.expenseDonutChartOptions.labels = expenseData.map(data => data.name);
     this.expenseDonutChartOptions.series = expenseData.map(data => data.percentage);
+
+    if(this.expenseDonutChartOptions.labels.length < 1 || this.expenseDonutChartOptions.series.length < 1){
+      this.expenseDonutChartOptions.series = this.dummyOperationSeries;
+      this.expenseDonutChartOptions.labels = this.dummyOperationLabel;
+    }
   }
 
   loadRevenueDonutChart(){
@@ -482,5 +490,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     
     this.revenueDonutChartOptions.labels = revenueData.map(data => data.name);
     this.revenueDonutChartOptions.series = revenueData.map(data => data.percentage);
+
+    if(this.revenueDonutChartOptions.labels.length < 1 || this.revenueDonutChartOptions.series.length < 1){
+      this.expenseDonutChartOptions.series = this.dummyOperationSeries;
+      this.expenseDonutChartOptions.labels = this.dummyOperationLabel;
+    }
   }
 }

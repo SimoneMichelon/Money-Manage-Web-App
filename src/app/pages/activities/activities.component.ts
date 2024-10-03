@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { OperationDto } from '../../api/models';
-import { OperationControllerService } from '../../api/services';
+import { firstValueFrom } from 'rxjs';
+import { OperationDto, VaultDto, VaultSummary } from '../../api/models';
+import { OperationControllerService, VaultControllerService } from '../../api/services';
 import { CategoryDialogComponent } from '../../components/category-dialog/category-dialog.component';
 import { ThirdPartyDialogComponent } from '../../components/third-party-dialog/third-party-dialog.component';
 import { AuthService } from '../../security/auth.service';
@@ -17,6 +18,12 @@ type SortOrder = 'ASC' | 'DESC';
   styleUrls: ['./activities.component.scss'] // Modificato 'styleUrl' in 'styleUrls'
 })
 export class ActivitiesComponent implements OnInit {
+
+  selected: VaultDto | null = null;
+  dataReport: VaultSummary | null = null;
+  isOpen = false;
+  vaults?: Array<VaultDto>;
+
 
   displayedColumns: string[] = [
     'checkbox',
@@ -36,14 +43,18 @@ export class ActivitiesComponent implements OnInit {
 
   constructor(
     private operationControllerService: OperationControllerService,
+    private vaultControllerService: VaultControllerService,
     private authService: AuthService,
     private dialog: MatDialog
   ) {}
 
   options: boolean = false;
 
-  ngOnInit() {
-    this.getOperationsByPrincipal();
+  async ngOnInit() {
+    
+    await this.getVaultsByPrincipal();
+    await this.getOperationsByVault();
+    // this.getOperationsByPrincipal();
   }
 
   getOperationsByPrincipal() {
@@ -61,8 +72,9 @@ export class ActivitiesComponent implements OnInit {
     return operation.type === 'REVENUE';
   }
 
-  refresh(){
-    this.getOperationsByPrincipal();
+  async refresh(){
+    // this.getOperationsByPrincipal();
+    await this.getOperationsByVault();
   }
 
   
@@ -118,7 +130,8 @@ export class ActivitiesComponent implements OnInit {
       height: "auto"
     }).afterClosed().subscribe({
      next : () => {
-      this.getOperationsByPrincipal();
+      // this.getOperationsByPrincipal();
+      this.getOperationsByVault();
       }
     });
   }
@@ -130,7 +143,8 @@ export class ActivitiesComponent implements OnInit {
       height: "auto"
     }).afterClosed().subscribe({
      next : () => {
-      this.getOperationsByPrincipal();
+      // this.getOperationsByPrincipal();
+      this.getOperationsByVault();
       }
     });
   }
@@ -141,7 +155,8 @@ export class ActivitiesComponent implements OnInit {
       height : "auto"
     }).afterClosed().subscribe({
       next : () => {
-        this.getOperationsByPrincipal();
+        // this.getOperationsByPrincipal();
+        this.getOperationsByVault();
       }
     })
   }
@@ -154,6 +169,7 @@ export class ActivitiesComponent implements OnInit {
     }).afterClosed().subscribe({
       next : () => {
         // this.getOperationsByPrincipal();
+        // this.getOperationsByVault();
       }
     })
   }
@@ -167,5 +183,50 @@ export class ActivitiesComponent implements OnInit {
         // this.getOperationsByPrincipal();
       }
     })
+  }
+
+  async getOperationsByVault() {
+    try {
+      this.operations = await firstValueFrom(this.operationControllerService.getAllOperationsByVaultId({ id : this.selected?.id!}));
+    } catch (error) {
+      console.log("Operazioni Non Disponibili");
+      this.authService.logout();
+    }
+  }
+
+  async getVaultsByPrincipal() {
+    try {
+      this.vaults = await firstValueFrom(this.vaultControllerService.getAllVaultsByPrincipal());
+      if (this.vaults.length > 0) {
+        this.selected = this.vaults[0];
+      }
+    } catch (error) {
+      console.log("Dati Non Disponibili");
+      this.authService.logout();
+    }
+  }
+
+  toggleDropdown() {
+    this.isOpen = !this.isOpen;
+  }
+
+  async selectOption(option: VaultDto | null) {
+    this.selected = option;
+    this.isOpen = false;
+
+
+    await this.getOperationsByVault();
+  }
+
+  @HostListener('document:click', ['$event'])
+  closeDropdown(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.custom-select')) {
+      this.isOpen = false;
+    }
+  }
+
+  chosen(chosenId: number): boolean {
+    return chosenId == this.selected?.id;
   }
 }
