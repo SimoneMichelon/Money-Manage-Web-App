@@ -476,10 +476,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.expenseDonutChartOptions.labels = expenseData.map(data => data.name);
     this.expenseDonutChartOptions.series = expenseData.map(data => data.percentage);
 
-    if(this.expenseDonutChartOptions.labels.length < 1 || this.expenseDonutChartOptions.series.length < 1){
-      this.expenseDonutChartOptions.series = this.dummyOperationSeries;
-      this.expenseDonutChartOptions.labels = this.dummyOperationLabel;
-    }
+    // if(!this.expDonutChartUp()){
+    //   this.expenseDonutChartOptions.series = this.dummyOperationSeries;
+    //   this.expenseDonutChartOptions.labels = this.dummyOperationLabel;
+    // }
   }
 
   loadRevenueDonutChart(){
@@ -491,9 +491,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.revenueDonutChartOptions.labels = revenueData.map(data => data.name);
     this.revenueDonutChartOptions.series = revenueData.map(data => data.percentage);
 
-    if(this.revenueDonutChartOptions.labels.length < 1 || this.revenueDonutChartOptions.series.length < 1){
-      this.expenseDonutChartOptions.series = this.dummyOperationSeries;
-      this.expenseDonutChartOptions.labels = this.dummyOperationLabel;
-    }
+    // if(!this.revDonutChartUp()){
+    //   this.revenueDonutChartOptions.series = this.dummyOperationSeries;
+    //   this.revenueDonutChartOptions.labels = this.dummyOperationLabel;
+    // }
+  }
+
+  expDonutChartUp(){
+    return (this.expenseDonutChartOptions.labels.length > 0 && this.expenseDonutChartOptions.series!.length > 0);
+  }
+
+  revDonutChartUp(){
+    return (this.revenueDonutChartOptions!.labels.length > 0 && this.revenueDonutChartOptions.series!.length > 0);
   }
 }

@@ -70,9 +70,9 @@
                 <div class="r-w-2">
                     <span>{{ dataReport?.totalExpenses | currency :'EUR':'symbol':'1.2-2' }}</span>
                 </div>
-            </div>     
+            </div>
         </div>
-        <div class="chart" >
+        <div class="chart">
             <div id="areaChart"></div>
         </div>
         <div class="acts unselectable">
@@ -84,79 +84,101 @@
                 <div class="no-data" *ngIf="operations?.length == 0">
                     <h3>No Data Available</h3>
                 </div>
-                <div *ngFor="let operation of operations" class="operation" [ngClass]="{'expense' : isExpense(operation), 'revenue' : !isExpense(operation)}">
-                    <div class="icon" >
-                        <i class="material-symbols-outlined" [ngClass]="{'type-expense' : isExpense(operation), 'type-revenue' : !isExpense(operation)}" *ngIf="isExpense(operation)">
+                <div *ngFor="let operation of operations" class="operation"
+                    [ngClass]="{'expense' : isExpense(operation), 'revenue' : !isExpense(operation)}">
+                    <div class="icon">
+                        <i class="material-symbols-outlined"
+                            [ngClass]="{'type-expense' : isExpense(operation), 'type-revenue' : !isExpense(operation)}"
+                            *ngIf="isExpense(operation)">
                             attach_money
                         </i>
-                        <i class="material-symbols-outlined" [ngClass]="{'type-expense' : isExpense(operation), 'type-revenue' : !isExpense(operation)}" *ngIf="!isExpense(operation)">
+                        <i class="material-symbols-outlined"
+                            [ngClass]="{'type-expense' : isExpense(operation), 'type-revenue' : !isExpense(operation)}"
+                            *ngIf="!isExpense(operation)">
                             attach_money
                         </i>
                     </div>
                     <div class="cap">
                         <div class="row up">
                             <h3 class="causal">{{operation.causal}}</h3>
-                            <h3 class="amount" [ngClass]="{'sell' : isExpense(operation), 'buy' : !isExpense(operation)}" >
-                            <span *ngIf="isExpense(operation) ; else revenue">- </span>
-                            <ng-template #revenue>
-                                <span >+ </span>
-                            </ng-template>
-                            
-                            {{ operation.amount| currency :'EUR':'symbol':'1.2-2' }}
+                            <h3 class="amount"
+                                [ngClass]="{'sell' : isExpense(operation), 'buy' : !isExpense(operation)}">
+                                <span *ngIf="isExpense(operation) ; else revenue">- </span>
+                                <ng-template #revenue>
+                                    <span>+ </span>
+                                </ng-template>
+
+                                {{ operation.amount| currency :'EUR':'symbol':'1.2-2' }}
                             </h3>
                         </div>
                         <div class="row down">
-                            <h3 class="category">{{operation.category?.categoryName }} <span>{{" - " + operation.thirdParty?.thirdPartyName}}</span></h3>
+                            <h3 class="category">{{operation.category?.categoryName }} <span>{{" - " +
+                                    operation.thirdParty?.thirdPartyName}}</span></h3>
                             <h3 class="date">{{operation.startDate | date: 'MMM d, yyyy'}}</h3>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
 
         <div class="cake">
-            <div>
+            <div class="wrp">
                 <h1>Incomes Categories</h1>
 
-                <div id="donutChart" class="revenue">
+                <div id="donutChart" class="revenue wrp-1" >
                     <apx-chart 
-                    [series]="revenueDonutChartOptions.series"
-                    [chart]="revenueDonutChartOptions.chart"
-                    [labels]="revenueDonutChartOptions.labels"
-                    [colors]="revenueDonutChartOptions.colors"
-                    [responsive]="revenueDonutChartOptions.responsive"
-                    [dataLabels]="revenueDonutChartOptions.dataLabels"
-                    [plotOptions]="revenueDonutChartOptions.plotOptions"
-                    [stroke]="revenueDonutChartOptions.stroke"
-                    [legend]="revenueDonutChartOptions.legend"
-                    >
-                </apx-chart>
+                        *ngIf="revDonutChartUp(); else no_data_rev"
+                        [series]="revenueDonutChartOptions.series" 
+                        [chart]="revenueDonutChartOptions.chart"
+                        [labels]="revenueDonutChartOptions.labels" 
+                        [colors]="revenueDonutChartOptions.colors"
+                        [responsive]="revenueDonutChartOptions.responsive"
+                        [dataLabels]="revenueDonutChartOptions.dataLabels"
+                        [plotOptions]="revenueDonutChartOptions.plotOptions" 
+                        [stroke]="revenueDonutChartOptions.stroke"
+                        [legend]="revenueDonutChartOptions.legend">
+                    </apx-chart>
+
+                    <ng-template #no_data_rev>
+                    <div class="no-data">
+                        <h3>No Data Available</h3>
+                    </div>
+                    </ng-template>
                 </div>
+
             </div>
             <div class="divider"></div>
-            <div>
+            <div class="wrp">
                 <h1>OutComes Categories</h1>
 
-                <div id="donutChart" class="expense">
+                <div id="donutChart" class="expense wrp-1">
                     <apx-chart 
-                    [series]="expenseDonutChartOptions.series"
-                    [chart]="expenseDonutChartOptions.chart"
-                    [labels]="expenseDonutChartOptions.labels"
-                    [colors]="expenseDonutChartOptions.colors"
-                    [responsive]="expenseDonutChartOptions.responsive"
-                    [dataLabels]="expenseDonutChartOptions.dataLabels"
-                    [plotOptions]="expenseDonutChartOptions.plotOptions"
-                    [stroke]="expenseDonutChartOptions.stroke"
-                    [legend]="expenseDonutChartOptions.legend"
-                    >
-                </apx-chart>
+                        *ngIf="expDonutChartUp(); else no_data_exp" 
+                        [series]="expenseDonutChartOptions.series"
+                        [chart]="expenseDonutChartOptions.chart" 
+                        [labels]="expenseDonutChartOptions.labels"
+                        [colors]="expenseDonutChartOptions.colors" 
+                        [responsive]="expenseDonutChartOptions.responsive"
+                        [dataLabels]="expenseDonutChartOptions.dataLabels"
+                        [plotOptions]="expenseDonutChartOptions.plotOptions" 
+                        [stroke]="expenseDonutChartOptions.stroke"
+                        [legend]="expenseDonutChartOptions.legend">
+                    </apx-chart>
+
+                    <ng-template #no_data_exp>
+                        <div class="no-data">
+                            <h3>No Data Available</h3>
+                        </div>
+                    </ng-template>
                 </div>
             </div>
-            
+
         </div>
         <div class="transactions">
-
+            <div class="no-data">
+                <h3>No Data Available</h3>
+            </div>
         </div>
     </div>
 </div>
