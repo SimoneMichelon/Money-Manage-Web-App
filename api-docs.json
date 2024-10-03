@@ -1105,6 +1105,45 @@
         }
       }
     },
+    "/api/operation-management/report/category/vault/{id}": {
+      "get": {
+        "tags": [
+          "operation-controller"
+        ],
+        "summary": "Get the category report on vault id",
+        "description": "Get the category report on vault id",
+        "operationId": "getOperationCategoryReportPerVault",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/CategoryReportDTO"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/operation-management/operations": {
       "get": {
         "tags": [
@@ -1590,6 +1629,17 @@
             "format": "date"
           },
           "capital": {
+            "type": "number"
+          }
+        }
+      },
+      "CategoryReportDTO": {
+        "type": "object",
+        "properties": {
+          "categoryDTO": {
+            "$ref": "#/components/schemas/CategoryDTO"
+          },
+          "percentage": {
             "type": "number"
           }
         }

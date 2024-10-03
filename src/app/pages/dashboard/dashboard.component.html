@@ -75,13 +75,13 @@
         <div class="chart" >
             <div id="areaChart"></div>
         </div>
-        <div class="acts">
+        <div class="acts unselectable">
             <div class="title">
                 <h1>Recent Activities</h1>
                 <i class="material-symbols-outlined opt">more_vert</i>
             </div>
-            <div class="operations">
-                <div class="no-data unselectable" *ngIf="operations?.length == 0">
+            <div class="operations ">
+                <div class="no-data" *ngIf="operations?.length == 0">
                     <h3>No Data Available</h3>
                 </div>
                 <div *ngFor="let operation of operations" class="operation" [ngClass]="{'expense' : isExpense(operation), 'revenue' : !isExpense(operation)}">
@@ -119,33 +119,36 @@
             <div>
                 <h1>Incomes Categories</h1>
 
-                <div id="donutChart">
+                <div id="donutChart" class="revenue">
                     <apx-chart 
-                    [series]="donutChartOptions.series"
-                    [chart]="donutChartOptions.chart"
-                    [labels]="donutChartOptions.labels"
-                    [colors]="donutChartOptions.colors"
-                    [responsive]="donutChartOptions.responsive"
-                    [dataLabels]="donutChartOptions.dataLabels"
-                    [plotOptions]="donutChartOptions.plotOptions"
-                    [stroke]="donutChartOptions.stroke"
+                    [series]="revenueDonutChartOptions.series"
+                    [chart]="revenueDonutChartOptions.chart"
+                    [labels]="revenueDonutChartOptions.labels"
+                    [colors]="revenueDonutChartOptions.colors"
+                    [responsive]="revenueDonutChartOptions.responsive"
+                    [dataLabels]="revenueDonutChartOptions.dataLabels"
+                    [plotOptions]="revenueDonutChartOptions.plotOptions"
+                    [stroke]="revenueDonutChartOptions.stroke"
+                    [legend]="revenueDonutChartOptions.legend"
                     >
                 </apx-chart>
                 </div>
             </div>
+            <div class="divider"></div>
             <div>
                 <h1>OutComes Categories</h1>
 
-                <div id="donutChart">
+                <div id="donutChart" class="expense">
                     <apx-chart 
-                    [series]="donutChartOptions.series"
-                    [chart]="donutChartOptions.chart"
-                    [labels]="donutChartOptions.labels"
-                    [colors]="donutChartOptions.colors"
-                    [responsive]="donutChartOptions.responsive"
-                    [dataLabels]="donutChartOptions.dataLabels"
-                    [plotOptions]="donutChartOptions.plotOptions"
-                    [stroke]="donutChartOptions.stroke"
+                    [series]="expenseDonutChartOptions.series"
+                    [chart]="expenseDonutChartOptions.chart"
+                    [labels]="expenseDonutChartOptions.labels"
+                    [colors]="expenseDonutChartOptions.colors"
+                    [responsive]="expenseDonutChartOptions.responsive"
+                    [dataLabels]="expenseDonutChartOptions.dataLabels"
+                    [plotOptions]="expenseDonutChartOptions.plotOptions"
+                    [stroke]="expenseDonutChartOptions.stroke"
+                    [legend]="expenseDonutChartOptions.legend"
                     >
                 </apx-chart>
                 </div>

@@ -3,6 +3,7 @@
 export { AuthResponse } from './models/auth-response';
 export { Category } from './models/category';
 export { CategoryDto } from './models/category-dto';
+export { CategoryReportDto } from './models/category-report-dto';
 export { CredentialDto } from './models/credential-dto';
 export { ExpenseDto } from './models/expense-dto';
 export { LoginRequest } from './models/login-request';

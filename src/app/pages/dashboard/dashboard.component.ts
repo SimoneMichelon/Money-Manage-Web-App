@@ -1,7 +1,7 @@
 import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import ApexCharts from 'apexcharts';
 import { firstValueFrom } from 'rxjs';
-import { OperationDto, PriceHistoryObj, VaultDto, VaultSummary } from '../../api/models';
+import { CategoryReportDto, OperationDto, PriceHistoryObj, VaultDto, VaultSummary } from '../../api/models';
 import { OperationControllerService, VaultControllerService } from '../../api/services';
 import { AuthService } from '../../security/auth.service';
 
@@ -22,6 +22,8 @@ export type ChartOptions = {
   dataLabels?: any;
   plotOptions?: any;
   stroke?: any;
+  legend?: any;
+  tooltip?: any;
 };
 
 
@@ -33,7 +35,8 @@ export type ChartOptions = {
 export class DashboardComponent implements OnInit, OnDestroy {
 
   @ViewChild("chart") donutChart!: ChartComponent;
-  public donutChartOptions!: Partial<ChartOptions>;
+  public revenueDonutChartOptions!: Partial<ChartOptions>;
+  public expenseDonutChartOptions!: Partial<ChartOptions>;
   private areaChart: ApexCharts | null = null;
 
   selected: VaultDto | null = null;
@@ -43,6 +46,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   operations?: Array<OperationDto>;
   report?: Array<VaultSummary> = [];
   reportSet?: Array<PriceHistoryObj>;
+  categoryReport?: {[key: string] : Array<CategoryReportDto>};
   priceData: { date: number, price: number }[] = [];
   categoryList?: string[];
   costList?: number[];
@@ -53,22 +57,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private operationControllerService: OperationControllerService,
     private authService: AuthService,
   ) {
-    this.donutChartOptions = {
-      series: [44, 55, 13],
+    this.revenueDonutChartOptions = {
+      series: [0],
       chart: {
         type: "donut",
-        width: '350px',
-        height: '350px'
+        width: '300px',
+        height: '300px',
       },
-      labels: this.categoryList,
+      labels: [''],
       colors: [
-        '#2E6F9E', 
-        '#3C8CBB', 
-        '#4DA3D7', 
-        '#5BB7E3', 
+        '#2E6F9E',
+        '#3C8CBB',
+        '#4DA3D7',
+        '#5BB7E3',
         '#69C6E9',
-        '#77D6F0', 
-        '#85E1F7', 
+        '#77D6F0',
+        '#85E1F7',
         '#93EBFF',
         '#A1E6FF',
         '#B3F1FF',
@@ -94,7 +98,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
       ],
       dataLabels: {
-        enabled: true
+        enabled: true,
+        formatter: (val: number, opts: any) => {
+          const total = opts.w.globals.seriesTotals.reduce((a: number, b: number) => a + b, 0);
+          const percentage = ((val / total) * 100).toFixed(2);
+          return `${percentage}%`;
+        },
+        dropShadow: {
+          enabled: true,
+          top: 1,
+          left: 1,
+          blur: 3,
+          opacity: 0.5
+        },
+        style: {
+          fontSize: '12px',
+          fontWeight: 'bold',
+          colors: ['#FFFFFF']
+        }
       },
       plotOptions: {
         pie: {
@@ -106,13 +127,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 show: true,
                 fontSize: '16px',
                 fontWeight: 800,
-                color: '#D8E6E6'
+                color: '#FFFFFF'
               },
               value: {
                 show: true,
                 fontSize: '16px',
                 fontWeight: 400,
-                color: '#D8E6E6'
+                color: '#FFFFFF'
               }
             }
           }
@@ -120,44 +141,169 @@ export class DashboardComponent implements OnInit, OnDestroy {
       },
       stroke: {
         show: true,
-        width: 3,
+        width: 5,
         colors: ['']
+      },
+      legend: {
+        show: true,
+        position: 'right', // Position the legend to the right
+        verticalAlign: 'middle',
+        floating: false,
+        fontSize: '14px',
+        labels: {
+          useSeriesColors: false, // Use the colors specified above
+          colors:  '#FFFFFF', // Set your desired colors here
+        }
       }
-    };    
-  }
+    };
+    
+    this.expenseDonutChartOptions = {
+      series: [0],
+      chart: {
+        type: "donut",
+        width: '300px',
+        height: '300px'
+      },
+      labels: [''],
+      colors: [
+        '#2E6F9E',
+        '#3C8CBB',
+        '#4DA3D7',
+        '#5BB7E3',
+        '#69C6E9',
+        '#77D6F0',
+        '#85E1F7',
+        '#93EBFF',
+        '#A1E6FF',
+        '#B3F1FF',
+        '#C4F5FF',
+        '#D1FAFF',
+        '#E0FDFF',
+        '#E8FFFF',
+        '#F0FFFF',
+        '#F6FFFF',
+        '#D8E6E6'
+      ],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: '200px',
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ],
+      dataLabels: {
+        enabled: true,
+        formatter: (val: number, opts: any) => {
+          const total = opts.w.globals.seriesTotals.reduce((a: number, b: number) => a + b, 0);
+          const percentage = ((val / total) * 100).toFixed(2);
+          return `${percentage}%`;
+        },
+        dropShadow: {
+          enabled: true,
+          top: 1,
+          left: 1,
+          blur: 3,
+          opacity: 0.5
+        },
+        style: {
+          fontSize: '12px',
+          fontWeight: 'bold',
+          colors: ['#FFFFFF']
+        }
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            size: '70%',
+            labels: {
+              show: true,
+              name: {
+                show: true,
+                fontSize: '16px',
+                fontWeight: 800,
+                color: '#FFFFFF'
+              },
+              value: {
+                show: true,
+                fontSize: '16px',
+                fontWeight: 400,
+                color: '#FFFFFF'
+              }
+            }
+          }
+        }
+      },
+      stroke: {
+        show: true,
+        width: 5,
+        colors: ['']
+      },
+      legend: {
+        show: true,
+        position: 'right', // Position the legend to the right
+        verticalAlign: 'middle',
+        floating: false,
+        fontSize: '14px',
+        labels: {
+          useSeriesColors: false, // Use the colors specified above
+          colors:  '#FFFFFF', // Set your desired colors here
+        }
+      }
+    };
+    
+  }    
 
   async ngOnInit(): Promise<void> {
     try {
       await this.getSummaryReport();
       await this.getVaultsByPrincipal();
       await this.getOperationsByVault();
-      await this.loadChart();
+      await this.getOperationCategoryReportPerVault();
+      await this.loadCharts();
     } catch (error) {
       console.error('Error during initialization:', error);
-      this.authService.logout();
     }
   }
 
-  async loadChart() {
+  async loadCharts() {
     await this.getReportHistory();
     if (this.reportSet && this.reportSet.length > 0) {
       this.transformData(this.reportSet);
-      this.getCategoryListFromOperation(); 
-  
-      this.donutChartOptions.labels = this.categoryList;
   
       if (this.areaChart) {
         this.areaChart.destroy();
       }
   
       this.initChart();
+
+      
     } else {
       console.error('No data available for the chart.');
+    }
 
+    await this.getOperationCategoryReportPerVault();
+    this.loadExpenseDonutChart();
+    this.loadRevenueDonutChart();
+  }
+
+  async getOperationCategoryReportPerVault() {
+    try {
+      this.categoryReport = await firstValueFrom(this.operationControllerService.getOperationCategoryReportPerVault({ id : this.selected?.id!}));
+      this.loadRevenueDonutChart();
+      this.loadExpenseDonutChart();
+    } catch (error) {
+      console.log("Operazioni Non Disponibili");
     }
   }
-  
 
+
+  
   async getVaultsByPrincipal() {
     try {
       this.vaults = await firstValueFrom(this.vaultControllerService.getAllVaultsByPrincipal());
@@ -175,21 +321,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  // async getOperationsByPrincipal() {
-  //   try {
-  //     this.operations = await firstValueFrom(this.operationControllerService.getAllOperationsByPrincipal());
-  //     this.getCategoryListFromOperation();
-
-  //   } catch (error) {
-  //     console.log("Operazioni Non Disponibili");
-  //   }
-  // }
-
   async getOperationsByVault() {
     try {
       this.operations = await firstValueFrom(this.operationControllerService.getAllOperationsByVaultId({ id : this.selected?.id!}));
-      this.getCategoryListFromOperation();
-
     } catch (error) {
       console.log("Operazioni Non Disponibili");
     }
@@ -200,6 +334,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.report = await firstValueFrom(this.vaultControllerService.getVaultsReport());
     } catch (error) {
       console.log("Error: Summary not Available");
+      this.authService.logout();
     }
   }
 
@@ -211,19 +346,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       console.log("Error: Report not Available");
     }
   }
-
-  getCategoryListFromOperation() {
-    const uniqueCategories = new Set<string>();
-  
-    this.operations?.forEach(operation => {
-      if (operation.category) {
-        uniqueCategories.add(operation.category.categoryName);
-      }
-    });
-  
-    this.categoryList = Array.from(uniqueCategories) as string[]; 
-  }
-
 
   toggleDropdown() {
     this.isOpen = !this.isOpen;
@@ -239,7 +361,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       console.error('Report is undefined or empty.');
     }
 
-    await this.loadChart();
+    await this.loadCharts();
     await this.getOperationsByVault();
   }
 
@@ -340,5 +462,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   isExpense(operation : OperationDto) : boolean{
     return operation.type == 'EXPENSE'
+  }
+
+  loadExpenseDonutChart(){
+    const expenseData = this.categoryReport!['EXPENSE'].map(entry => ({
+      name: entry.categoryDTO?.categoryName,
+      percentage: entry.percentage!
+    }));
+    
+    this.expenseDonutChartOptions.labels = expenseData.map(data => data.name);
+    this.expenseDonutChartOptions.series = expenseData.map(data => data.percentage);
+  }
+
+  loadRevenueDonutChart(){
+    const revenueData = this.categoryReport!['REVENUE'].map(entry => ({
+      name: entry.categoryDTO?.categoryName,
+      percentage: entry.percentage!
+    }));
+    
+    this.revenueDonutChartOptions.labels = revenueData.map(data => data.name);
+    this.revenueDonutChartOptions.series = revenueData.map(data => data.percentage);
   }
 }

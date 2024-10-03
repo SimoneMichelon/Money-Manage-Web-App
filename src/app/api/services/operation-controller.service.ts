@@ -9,12 +9,15 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { CategoryReportDto } from '../models/category-report-dto';
 import { getAllOperations } from '../fn/operation-controller/get-all-operations';
 import { GetAllOperations$Params } from '../fn/operation-controller/get-all-operations';
 import { getAllOperationsByPrincipal } from '../fn/operation-controller/get-all-operations-by-principal';
 import { GetAllOperationsByPrincipal$Params } from '../fn/operation-controller/get-all-operations-by-principal';
 import { getAllOperationsByVaultId } from '../fn/operation-controller/get-all-operations-by-vault-id';
 import { GetAllOperationsByVaultId$Params } from '../fn/operation-controller/get-all-operations-by-vault-id';
+import { getOperationCategoryReportPerVault } from '../fn/operation-controller/get-operation-category-report-per-vault';
+import { GetOperationCategoryReportPerVault$Params } from '../fn/operation-controller/get-operation-category-report-per-vault';
 import { getVaultHistoryReport } from '../fn/operation-controller/get-vault-history-report';
 import { GetVaultHistoryReport$Params } from '../fn/operation-controller/get-vault-history-report';
 import { OperationDto } from '../models/operation-dto';
@@ -56,6 +59,47 @@ export class OperationControllerService extends BaseService {
   getVaultHistoryReport(params: GetVaultHistoryReport$Params, context?: HttpContext): Observable<Array<PriceHistoryObj>> {
     return this.getVaultHistoryReport$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<PriceHistoryObj>>): Array<PriceHistoryObj> => r.body)
+    );
+  }
+
+  /** Path part for operation `getOperationCategoryReportPerVault()` */
+  static readonly GetOperationCategoryReportPerVaultPath = '/api/operation-management/report/category/vault/{id}';
+
+  /**
+   * Get the category report on vault id.
+   *
+   * Get the category report on vault id
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getOperationCategoryReportPerVault()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getOperationCategoryReportPerVault$Response(params: GetOperationCategoryReportPerVault$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+[key: string]: Array<CategoryReportDto>;
+}>> {
+    return getOperationCategoryReportPerVault(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Get the category report on vault id.
+   *
+   * Get the category report on vault id
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getOperationCategoryReportPerVault$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getOperationCategoryReportPerVault(params: GetOperationCategoryReportPerVault$Params, context?: HttpContext): Observable<{
+[key: string]: Array<CategoryReportDto>;
+}> {
+    return this.getOperationCategoryReportPerVault$Response(params, context).pipe(
+      map((r: StrictHttpResponse<{
+[key: string]: Array<CategoryReportDto>;
+}>): {
+[key: string]: Array<CategoryReportDto>;
+} => r.body)
     );
   }
 
