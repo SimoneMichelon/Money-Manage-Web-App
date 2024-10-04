@@ -221,6 +221,8 @@ h3 {
         grid-template-rows: repeat(6, 1fr);
         grid-column-gap: 20px;
         grid-row-gap: 20px;
+        height: auto;
+
 
         .stats {
             grid-area: 1 / 1 / 2 / 5;
@@ -233,9 +235,8 @@ h3 {
 
             .recap {
                 width: 100%;
-                height: auto;
+                height: fit-content;
                 margin: 0;
-
                 background-color: #282A37;
                 border-radius: 14px;
                 color: white;
@@ -250,6 +251,7 @@ h3 {
                     font-size: 24px;
                     justify-content: space-between;
                     align-items: center;
+                    margin-bottom: 20px;
 
                     .s-head {
                         display: flex;
@@ -299,7 +301,6 @@ h3 {
             padding: 20px;
             background-color: #282A37;
             border-radius: 8px;
-            height: auto;
             margin: 0;
         }
 
@@ -310,8 +311,14 @@ h3 {
             padding: 20px 15px 20px 20px;
             display: flex;
             flex-direction: column;
-            height: 500px;
+            height: 520px;
+            min-width: 350px;
+            width: auto;
 
+            h3 {
+                margin: 0;
+                padding: 0;
+            }
 
 
             .title {
@@ -320,6 +327,7 @@ h3 {
                 justify-content: space-between;
                 border-bottom: 3px solid #393C4A;
                 margin-bottom: 1px;
+                width: 100%;
 
                 h1 {
                     font-size: 36px;
@@ -331,6 +339,7 @@ h3 {
                     z-index: 10;
                     padding: 10px 0px 0px 0px;
                     margin: 0px 0px 10px 0px;
+                    text-wrap: nowrap;
                 }
 
                 i {
@@ -352,7 +361,7 @@ h3 {
                 gap: 16px;
                 padding-top: 10px;
                 border-bottom: 3px solid #393C4A;
-                
+
 
                 .no-data {
                     text-align: center;
@@ -476,58 +485,135 @@ h3 {
                             }
                         }
                     }
-
                 }
             }
         }
 
         .cake {
-            padding: 20px 20px 20px 0px;
-            grid-area: 5 / 1 / 7 / 5;
+            padding: 20px 20px 50px 20px;
+            grid-area: 5 / 1 / 7 / 7;
             background-color: #282A37;
             border-radius: 8px;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             width: auto;
+            height: 100%;
+
 
             .wrp {
                 display: flex;
+                flex-direction: column;
                 justify-content: center;
                 align-items: center;
                 height: 100%;
+                width: 100%;
+                gap: 20px;
+
+                .chosen {}
+
+                .title-graphs {
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    height: fit-content;
+                    margin-bottom: 20px;
+                }
 
                 h1 {
-                    font-size: 30px;
+                    font-size: 26px;
                     color: white;
                     font-weight: 600;
-                    margin: 20px;
-                    width: 50%;
+                    text-align: center;
+                    height: fit-content;
+                    margin: 0;
+                    border-bottom: 3px solid #218AE7;
+                    cursor: pointer;
+                }
+
+               
+
+                .wrp-1 {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    h3 {
+                        margin: 0;
+                        padding: 0;
+                    }
+
+                    .columns {
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        
+
+                        .grid {
+                            position: relative; 
+                            width: 100%;
+                            height: 100%;
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: baseline;
+                            align-items: end;
+                            gap: 1.3%;
+
+                            .item{
+                                height: 100%;
+                                width: 5%;
+                                cursor: pointer;
+                                z-index: 10;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                position: relative;
+
+                                .label {
+                                    position: absolute;
+                                    left: 50%;
+                                    transform: translateX(-50%);
+                                  }
+
+                                p{
+                                    color: white;
+                                }
+                            }
+
+                          }
+                          
+                          .line {
+                            position: absolute;
+                            left: 0;
+                            right: 0;
+                            height: 1px; 
+                            background-color: #353e4e ;
+                          }
+                        
+                          .line:nth-child(1) { top: 0%; }
+                          .line:nth-child(2) { top: 10%; }
+                          .line:nth-child(3) { top: 20%; }
+                          .line:nth-child(4) { top: 30%; }
+                          .line:nth-child(5) { top: 40%; }
+                          .line:nth-child(6) { top: 50%; }
+                          .line:nth-child(7) { top: 60%; }
+                          .line:nth-child(8) { top: 70%; }
+                          .line:nth-child(9) { top: 80%; }
+                          .line:nth-child(10) { top: 90%; }
+                          .line:nth-child(11) { top: 100%; }
+
+                    }
                 }
             }
 
             .divider {
                 border: 2px solid rgba(16, 16, 16, 0.5);
-                margin-left: auto;
-                margin-right: auto;
+                margin-left: 10px;
+                margin-right: 10px;
             }
-        }
-
-        .transactions {
-            grid-area: 5 / 5 / 7 / 7;
-            background-color: #282A37;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 8px;
-            height: auto;
-            padding: 20px;
-
-            h3 {
-                margin: 0;
-                padding: 0;
-            }
-
         }
     }
 
@@ -542,8 +628,7 @@ h3 {
     .transactions,
     .acts,
     .chart,
-    .recap
-    {
+    .recap {
         box-shadow: 0px 0px 15px #000000;
     }
 

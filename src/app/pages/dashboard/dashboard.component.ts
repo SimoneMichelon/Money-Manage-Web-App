@@ -18,14 +18,13 @@ export type ChartOptions = {
   chart: ApexChart;
   responsive: ApexResponsive[];
   labels: any;
-  colors?: string[]; // Aggiungi la proprietà colors (opzionale)
+  colors?: string[];
   dataLabels?: any;
   plotOptions?: any;
   stroke?: any;
   legend?: any;
   tooltip?: any;
 };
-
 
 @Component({
   selector: 'app-dashboard',
@@ -52,6 +51,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
   costList?: number[];
   dummyOperationSeries = [100]
   dummyOperationLabel= ["No Operation"]
+  revenueData?: {
+    name: string | undefined;
+    percentage: number;
+  }[];
+  expenseData?: {
+    name: string | undefined;
+    percentage: number;
+  }[];
+  instoChoose : boolean = true;
 
 
   constructor(
@@ -63,8 +71,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       series: [0],
       chart: {
         type: "donut",
-        width: '300px',  // Fissa la larghezza
-        height: '300px', // Fissa l'altezza
+        width: '300px',
+        height: '200px',
       },
       labels: [''],
       colors: [
@@ -91,7 +99,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           breakpoint: 480,
           options: {
             chart: {
-              width: '200px', // Adatta la larghezza solo su breakpoint mobile
+              width: '200px',
             },
             legend: {
               position: "bottom"
@@ -255,7 +263,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         fontSize: '14px',
         labels: {
           useSeriesColors: false, // Use the colors specified above
-          colors:  '#FFFFFF', // Set your desired colors here
+          colors:  '#FFFFFF',
         }
       }
     };
@@ -304,8 +312,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       console.log("Operazioni Non Disponibili");
     }
   }
-
-
   
   async getVaultsByPrincipal() {
     try {
@@ -483,13 +489,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   loadRevenueDonutChart(){
-    const revenueData = this.categoryReport!['REVENUE'].map(entry => ({
+    this.revenueData = this.categoryReport!['REVENUE'].map(entry => ({
       name: entry.categoryDTO?.categoryName,
       percentage: entry.percentage!
     }));
     
-    this.revenueDonutChartOptions.labels = revenueData.map(data => data.name);
-    this.revenueDonutChartOptions.series = revenueData.map(data => data.percentage);
+    this.revenueDonutChartOptions.labels = this.revenueData.map(data => data.name);
+    this.revenueDonutChartOptions.series = this.revenueData.map(data => data.percentage);
 
     // if(!this.revDonutChartUp()){
     //   this.revenueDonutChartOptions.series = this.dummyOperationSeries;
@@ -504,4 +510,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
   revDonutChartUp(){
     return (this.revenueDonutChartOptions!.labels.length > 0 && this.revenueDonutChartOptions.series!.length > 0);
   }
+
 }

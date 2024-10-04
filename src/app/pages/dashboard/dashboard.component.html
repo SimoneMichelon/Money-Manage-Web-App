@@ -121,64 +121,77 @@
             </div>
         </div>
 
-
-        <div class="cake">
+        <div class="cake unselectable">
             <div class="wrp">
-                <h1>Incomes Categories</h1>
-
-                <div id="donutChart" class="revenue wrp-1" >
-                    <apx-chart 
-                        *ngIf="revDonutChartUp(); else no_data_rev"
-                        [series]="revenueDonutChartOptions.series" 
-                        [chart]="revenueDonutChartOptions.chart"
-                        [labels]="revenueDonutChartOptions.labels" 
-                        [colors]="revenueDonutChartOptions.colors"
-                        [responsive]="revenueDonutChartOptions.responsive"
-                        [dataLabels]="revenueDonutChartOptions.dataLabels"
-                        [plotOptions]="revenueDonutChartOptions.plotOptions" 
-                        [stroke]="revenueDonutChartOptions.stroke"
-                        [legend]="revenueDonutChartOptions.legend">
-                    </apx-chart>
-
-                    <ng-template #no_data_rev>
-                    <div class="no-data">
-                        <h3>No Data Available</h3>
-                    </div>
-                    </ng-template>
+                <div class="title-graphs">
+                    <h1>Incomes Categories</h1>
+                    <h1>OutComes Categories</h1>
                 </div>
 
-            </div>
-            <div class="divider"></div>
-            <div class="wrp">
-                <h1>OutComes Categories</h1>
+                <div id="donutChart" class="revenue wrp-1">
+                    <div class="columns" *ngIf="revDonutChartUp(); else no_data_rev">
+                        <div class="grid">
+                            <div class="item" *ngFor="let item of revenueData" [ngStyle]="{
+                                   'background': 'linear-gradient(to top, #146fbe ' + item.percentage + '%, transparent ' + item.percentage + '%)'
+                                 }">
+                                <p class="label" [ngStyle]="{'bottom': 'calc(' + item.percentage + '%)'}">{{
+                                    item.percentage + '%' }}</p>
 
-                <div id="donutChart" class="expense wrp-1">
-                    <apx-chart 
-                        *ngIf="expDonutChartUp(); else no_data_exp" 
-                        [series]="expenseDonutChartOptions.series"
-                        [chart]="expenseDonutChartOptions.chart" 
-                        [labels]="expenseDonutChartOptions.labels"
-                        [colors]="expenseDonutChartOptions.colors" 
-                        [responsive]="expenseDonutChartOptions.responsive"
-                        [dataLabels]="expenseDonutChartOptions.dataLabels"
-                        [plotOptions]="expenseDonutChartOptions.plotOptions" 
-                        [stroke]="expenseDonutChartOptions.stroke"
-                        [legend]="expenseDonutChartOptions.legend">
-                    </apx-chart>
+                                <p class="label" [ngStyle]="{'bottom': '-40px'}">{{ item.name}}</p>
+                            </div>
 
-                    <ng-template #no_data_exp>
+                            <div ngIf="false" class="item" *ngFor="let item of revenueData" [ngStyle]="{
+                                'background': 'linear-gradient(to top, #146fbe ' + item.percentage + '%, transparent ' + item.percentage + '%)'
+                              }">
+                             <p class="label" [ngStyle]="{'bottom': 'calc(' + item.percentage + '%)'}">{{
+                                 item.percentage + '%' }}</p>
+
+                             <p class="label" [ngStyle]="{'bottom': '-40px'}">{{ item.name}}</p>
+                         </div>
+                            <div class="container">
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ng-template #no_data_rev>
                         <div class="no-data">
                             <h3>No Data Available</h3>
                         </div>
                     </ng-template>
                 </div>
+
             </div>
 
-        </div>
-        <div class="transactions">
-            <div class="no-data">
-                <h3>No Data Available</h3>
+            <!-- <div class="divider"></div>
+
+        <div class="wrp">
+            <h1>OutComes Categories</h1>
+
+            <div id="donutChart" class="expense wrp-1">
+                <div class="columns" *ngIf="expDonutChartUp(); else no_data_exp">
+
+                </div>
+
+                <ng-template #no_data_exp>
+                    <div class="no-data">
+                        <h3>No Data Available</h3>
+                    </div>
+                </ng-template>
             </div>
+            
+        </div> -->
+
         </div>
     </div>
 </div>
