@@ -1,0 +1,213 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plaster&display=swap" rel="stylesheet">
+<link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<div class="main-container">
+    <div class="h-1">
+        <div class="title unselectable">
+            <h1>DASHBOARD.</h1>
+        </div>
+
+        <div class="custom-select unselectable" (click)="toggleDropdown()">
+            <div class="selected option" [ngClass]="{open : isOpen}">
+                <ng-container *ngIf="selected?.image; else placeholder">
+                    <img [src]="selected?.image" alt="">
+                </ng-container>
+                <ng-template #placeholder>
+                    <div class="no-image"></div>
+                </ng-template>
+                <span class="name">{{ selected?.name || 'Select an option' }}</span>
+                <span class="price">{{ selected?.capital | currency :'EUR':'symbol':'1.2-2' || ''}}</span>
+            </div>
+            <div class="options" *ngIf="isOpen">
+                <div class="option vault" (click)="selectOption(item)" *ngFor="let item of vaults"
+                    [ngClass]="{ chosen : chosen(item.id!)}">
+                    <img [src]="item.image" alt="">
+                    <span class="name">{{ item?.name || 'Select an option' }}</span>
+                    <span class="price">{{ item?.capital | currency :'EUR':'symbol':'1.2-2' }}</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="wrapper">
+        <div class="stats unselectable">
+            <div class="recap income">
+                <div class="r-w-1">
+                    <div class="s-head">
+                        <i class="material-symbols-outlined">moving</i>
+                        <span>Income</span>
+                    </div>
+                    <i class="material-symbols-outlined opt">more_vert</i>
+                </div>
+                <div class="r-w-2">
+                    <span>{{ dataReport?.totalRevenue | currency :'EUR':'symbol':'1.2-2' }}</span>
+                </div>
+            </div>
+            <div class="recap my_balance ">
+                <div class="r-w-1">
+                    <div class="s-head">
+                        <i class="material-symbols-outlined">payments</i>
+                        <span>Balance</span>
+                    </div>
+                    <i class="material-symbols-outlined opt">more_vert</i>
+                </div>
+                <div class="r-w-2">
+                    <span>{{ dataReport?.balance | currency :'EUR':'symbol':'1.2-2' }}</span>
+                </div>
+            </div>
+
+            <div class="recap expense">
+                <div class="r-w-1">
+                    <div class="s-head">
+                        <i class="material-symbols-outlined">trending_down</i>
+                        <span>Expense</span>
+                    </div>
+                    <i class="material-symbols-outlined opt">more_vert</i>
+                </div>
+                <div class="r-w-2">
+                    <span>{{ dataReport?.totalExpenses | currency :'EUR':'symbol':'1.2-2' }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="chart">
+            <div id="areaChart"></div>
+        </div>
+        <div class="acts unselectable">
+            <div class="title">
+                <h1>Recent Activities</h1>
+                <i class="material-symbols-outlined opt">more_vert</i>
+            </div>
+            <div class="operations ">
+                <div class="no-data" *ngIf="operations?.length == 0">
+                    <h3>No Data Available</h3>
+                </div>
+                <div *ngFor="let operation of operations" class="operation"
+                    [ngClass]="{'expense' : isExpense(operation), 'revenue' : !isExpense(operation)}">
+                    <div class="icon">
+                        <i class="material-symbols-outlined"
+                            [ngClass]="{'type-expense' : isExpense(operation), 'type-revenue' : !isExpense(operation)}"
+                            *ngIf="isExpense(operation)">
+                            attach_money
+                        </i>
+                        <i class="material-symbols-outlined"
+                            [ngClass]="{'type-expense' : isExpense(operation), 'type-revenue' : !isExpense(operation)}"
+                            *ngIf="!isExpense(operation)">
+                            attach_money
+                        </i>
+                    </div>
+                    <div class="cap">
+                        <div class="row up">
+                            <h3 class="causal">{{operation.causal}}</h3>
+                            <h3 class="amount"
+                                [ngClass]="{'sell' : isExpense(operation), 'buy' : !isExpense(operation)}">
+                                <span *ngIf="isExpense(operation) ; else revenue">- </span>
+                                <ng-template #revenue>
+                                    <span>+ </span>
+                                </ng-template>
+
+                                {{ operation.amount| currency :'EUR':'symbol':'1.2-2' }}
+                            </h3>
+                        </div>
+                        <div class="row down">
+                            <h3 class="category">{{operation.category?.categoryName }} <span>{{" - " +
+                                    operation.thirdParty?.thirdPartyName}}</span></h3>
+                            <h3 class="date">{{operation.startDate | date: 'MMM d, yyyy'}}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cake unselectable">
+            <div class="wrp">
+                <div class="title-graphs">
+                    <h1 >Incomes Categories</h1>
+                </div>
+
+                <div id="donutChart" class="revenue wrp-1">
+                    <div class="columns" *ngIf="revDonutChartUp(); else no_data_rev">
+                        <div class="wrp-2">
+                            <div class="grid">
+                                <div class="item" *ngFor="let item of revenueData" [ngStyle]="{
+                                    'background': 'linear-gradient(to top, #146fbe ' + item.percentage + '%, transparent ' + item.percentage + '%)'
+                                    }">
+                                    <p class="label" [ngStyle]="{'bottom': 'calc(' + item.percentage + '%)'}">{{
+                                        item.percentage + '%' }}</p>
+
+                                    <p class="label" [ngStyle]="{'bottom': '-40px'}">{{ item.name}}</p>
+                                </div>    
+                            </div>               
+                            <div class="container">
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ng-template #no_data_rev>
+                        <div class="no-data">
+                            <h3>No Data Available</h3>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="wrp">
+                <div class="title-graphs">
+                    <h1>OutComes Categories</h1>
+                </div>
+
+                <div id="donutChart" class="revenue wrp-1">
+                    <div class="columns" *ngIf="expDonutChartUp(); else no_data_exp">
+                        <div class="wrp-2">
+                            <div class="grid">
+                                <div class="item" *ngFor="let item of expenseData" [ngStyle]="{
+                                    'background': 'linear-gradient(to top, #146fbe ' + item.percentage + '%, transparent ' + item.percentage + '%)'
+                                    }">
+                                    <p class="label" [ngStyle]="{'bottom': 'calc(' + item.percentage + '%)'}">{{
+                                        item.percentage + '%' }}</p>
+
+                                    <p class="label" [ngStyle]="{'bottom': '-40px'}">{{ item.name}}</p>
+                                </div>    
+                            </div>               
+                            <div class="container">
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ng-template #no_data_exp>
+                        <div class="no-data">
+                            <h3>No Data Available</h3>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

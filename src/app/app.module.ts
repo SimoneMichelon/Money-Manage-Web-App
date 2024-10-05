@@ -1,28 +1,78 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { NgApexchartsModule } from "ng-apexcharts";
+
+
+
+
+
+import {
+  HttpClientModule,
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle
+} from '@angular/material/dialog';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { RouterOutlet } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthComponent } from './components/auth/auth.component';
-import { MainPageComponent } from './components/main-page/main-page.component';
+import { CategoryDialogComponent } from './components/category-dialog/category-dialog.component';
+import { LogoutDialogComponent } from './components/logout-dialog/logout-dialog.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { SideNavComponent } from './components/sidenav/sidenav.component';
+import { ThirdPartyDialogComponent } from './components/third-party-dialog/third-party-dialog.component';
+import { ActivitiesComponent } from './pages/activities/activities.component';
+import { ActivityDialogComponent } from './pages/activities/activity-dialog/activity-dialog.component';
+import { DeleteActivityDialogComponent } from './pages/activities/delete-activity-dialog/delete-activity-dialog.component';
+import { EditActivityDialogComponent } from './pages/activities/edit-activity-dialog/edit-activity-dialog.component';
+import { AuthenticationComponent } from './pages/authentication/authentication.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { MainPageComponent } from './pages/main-page/main-page.component';
+import { SettingsComponent } from './pages/settings/settings.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { DeleteVaultDialogComponent } from './pages/vaults/delete-vault-dialog/delete-vault-dialog.component';
+import { EditVaultDialogComponent } from './pages/vaults/edit-vault-dialog/edit-vault-dialog.component';
+import { VaultDialogComponent } from './pages/vaults/vault-dialog/vault-dialog.component';
+import { VaultsComponent } from './pages/vaults/vaults.component';
 import { headersInterceptor } from './security/headers.interceptor';
-import { UserProfileComponent } from './components/user-profile/user-profile.component';
-
-
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuthComponent,
     NotFoundComponent,
     SideNavComponent,
     MainPageComponent,
     UserProfileComponent,
+    LogoutDialogComponent,
+    VaultsComponent,
+    VaultDialogComponent,
+    EditVaultDialogComponent,
+    DeleteVaultDialogComponent,
+    AuthenticationComponent,
+    ActivitiesComponent,
+    SettingsComponent,
+    DashboardComponent,
+    DeleteActivityDialogComponent,
+    EditActivityDialogComponent,
+    ActivityDialogComponent,
+    CategoryDialogComponent,
+    ThirdPartyDialogComponent
     
   ],
   imports: [
@@ -30,9 +80,26 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterOutlet
+    RouterOutlet,
+    FormsModule,
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogContent,
+    MatDialogTitle,
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSort,
+    MatSortModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    NgApexchartsModule
   ],
-  providers: [provideHttpClient(withInterceptors([headersInterceptor])),],
-  bootstrap: [AppComponent]
+  providers: [provideHttpClient(withInterceptors([headersInterceptor])), provideAnimationsAsync()],
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 })
-export class AppModule { }
+export class AppModule {}

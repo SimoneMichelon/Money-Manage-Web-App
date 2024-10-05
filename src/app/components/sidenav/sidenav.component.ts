@@ -1,102 +1,121 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { UserControllerService } from '../../api/services';
 import { AuthService } from '../../security/auth.service';
-
-interface SideNavToggle {
-  collapsed: boolean;
-}
+import { LogoutDialogComponent } from '../logout-dialog/logout-dialog.component';
 
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
-  styleUrl: './sidenav.component.scss'
+  styleUrls: ['./sidenav.component.scss'],
 })
-export class SideNavComponent {
+export class SideNavComponent implements OnInit{
+  navData = sideNavData;
+
+  previousRoute : string | null = null;
+
+  logoutData: any = {
+    icon: 'material-symbols-outlined',
+    label: 'Logout',
+    iconName: 'exit_to_app',
+  };
+
   constructor(
     private userControllerService: UserControllerService,
     private authService : AuthService,
-    private router: Router
-  ) { }
+    private dialog: MatDialog,
+    private router : Router
+  ) {}
 
-  @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter();
-  collapsed = false;
-  screenWidth = 0;
-  navData = navbarData;
-
-  logoutData : any =   {
-    icon: 'material-symbols-outlined',
-    label: 'Logout', 
-    iconName: 'Logout',
-  };
-
-
-  collapseOff() {
-    this.collapsed = !this.collapsed;
-    this.onToggleSideNav.emit({
-      collapsed: this.collapsed,
-    });
+  ngOnInit(): void {
+    this.routeOnFirstAccess();
   }
 
   logout() {
     this.authService.logout();
-    this.router.navigateByUrl('/login');
   }
 
-  getUser(){
-
+  getUser() {
     this.userControllerService.getUserByJwt().subscribe({
-      next : (response) =>{
-        console.log("Response {}",response);
+      next: (response) => {
+        console.log('Response {}', response);
       },
-      error : (error) => {
-        console.log("Error {}", error)
+      error: (error) => {
+        console.log('Error {}', error);
+      },
+    });
+  }
+
+  openLogoutDialog(): void {
+    let logoutRoute = document.getElementById("logout");
+    logoutRoute?.classList.add("logout-active");
+
+    this.dialog.open(LogoutDialogComponent, {
+      width:'fit-content',
+      height:'fit-content',
+      autoFocus : true
+      
+    }).afterClosed().subscribe({
+      next: (response) => {
+        logoutRoute?.classList.remove("logout-active");
+        if (response) {
+          this.logout();
+        }
       }
+    });
+  }
+
+  async routeSelector(label : any){
+    let routes =await  document.querySelectorAll(".bridge");
+    routes.forEach((x) => {
+      x.classList.remove("selected");
     })
+    
+    let route = document.getElementById(label);
+    route?.classList.add("selected")
+
+    this.previousRoute = label;
+  }
+
+  routeOnFirstAccess(){
+    if(this.previousRoute == null){
+      let fetch = this.router.url.split("/");
+      let id_nav = fetch.at(fetch.length-1);
+      this.routeSelector(id_nav);
+    }
   }
 }
 
-const navbarData = [
+const sideNavData = [
   {
     routeLink: 'dashboard',
     icon: 'material-symbols-outlined',
-    label: 'Dashboard', 
-    iconName: 'Home',
+    label: 'Dashboard',
+    iconName: 'home_app_logo'
   },
   {
-    routeLink: 'scheduledOperations',
+    routeLink: 'activities',
     icon: 'material-symbols-outlined',
-    label: 'Vault Account',
-    iconName: 'event_upcoming',
+    label: 'Activities',
+    iconName: 'Monitoring'
   },
   {
-    routeLink: 'scheduledOperations',
+    routeLink: 'vaults',
     icon: 'material-symbols-outlined',
-    label: 'Scheduled Operations',
-    iconName: 'event_upcoming',
+    label: 'Cards',
+    iconName: 'credit_card'
   },
   {
-    routeLink: 'statistics',
+    routeLink: 'user-profile',
     icon: 'material-symbols-outlined',
-    label: 'Statistics',
-    iconName: 'Monitoring',
+    label: 'Profile', 
+    iconName: 'account_circle'
   },
   {
-    routeLink: 'charts',
+    routeLink: 'settings',
     icon: 'material-symbols-outlined',
-    label: 'Charts',
-    iconName: 'bar_chart',
-  },
-  {
-    routeLink: 'chartsData',
-    icon: 'material-symbols-outlined',
-    label: 'Charts Data',
-    iconName: 'chart_data',
-  },
-  {
-    routeLink: 'scheduledOperations',
-    icon: 'material-symbols-outlined',
-    label: 'Scheduled Operations',
-    iconName: 'event_upcoming',
-  },
+    label: 'Settings',
+    iconName: 'settings'
+  }
 ];

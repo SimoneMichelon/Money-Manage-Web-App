@@ -17,6 +17,8 @@ import { getAllRevenue } from '../fn/revenue-controller/get-all-revenue';
 import { GetAllRevenue$Params } from '../fn/revenue-controller/get-all-revenue';
 import { getRevenueById } from '../fn/revenue-controller/get-revenue-by-id';
 import { GetRevenueById$Params } from '../fn/revenue-controller/get-revenue-by-id';
+import { getRevenuesByVault } from '../fn/revenue-controller/get-revenues-by-vault';
+import { GetRevenuesByVault$Params } from '../fn/revenue-controller/get-revenues-by-vault';
 import { RevenueDto } from '../models/revenue-dto';
 import { updateRevenue } from '../fn/revenue-controller/update-revenue';
 import { UpdateRevenue$Params } from '../fn/revenue-controller/update-revenue';
@@ -189,6 +191,39 @@ export class RevenueControllerService extends BaseService {
   deleteRevenueById(params: DeleteRevenueById$Params, context?: HttpContext): Observable<RevenueDto> {
     return this.deleteRevenueById$Response(params, context).pipe(
       map((r: StrictHttpResponse<RevenueDto>): RevenueDto => r.body)
+    );
+  }
+
+  /** Path part for operation `getRevenuesByVault()` */
+  static readonly GetRevenuesByVaultPath = '/api/revenue-management/revenues/vault/{id}';
+
+  /**
+   * Get revenues by vault.
+   *
+   * Get revenues by vault
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getRevenuesByVault()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getRevenuesByVault$Response(params: GetRevenuesByVault$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<RevenueDto>>> {
+    return getRevenuesByVault(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Get revenues by vault.
+   *
+   * Get revenues by vault
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getRevenuesByVault$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getRevenuesByVault(params: GetRevenuesByVault$Params, context?: HttpContext): Observable<Array<RevenueDto>> {
+    return this.getRevenuesByVault$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<RevenueDto>>): Array<RevenueDto> => r.body)
     );
   }
 

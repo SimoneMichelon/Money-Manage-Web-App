@@ -1,0 +1,42 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plaster&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<div class="main-container">
+    <div class="title unselectable">
+        <h1>CARDS.</h1>
+    </div>
+    <div class="content-container">
+        <div  class="card unselectable " *ngFor="let card of vaults">
+            <div class="card-header">
+                <div class="card-title ">
+                    <h1>{{ card.name }}</h1>
+                </div>
+                <div class="wrapper-one">
+                    <div class="card-delete">
+                        <button class="delete material-symbols-outlined" (click)="openDeleteDialog(card)">delete</button>
+                    </div>
+                    <div class="card-image">
+                        <img src="{{ card.image }}" alt="IMG">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-capital">
+                <a><span class="euro">€</span> {{card.capital}} <span class="capital-text">current balance</span></a>
+            </div>
+            <div class="card-actions">
+                <button class="activities" (click)="goToActivities()"><a>Watch Activites</a></button>
+                <button class="edit" id="{{card.name}}" (click)="openEditDialog(card.id!, card.name!)"><a>Edit</a></button>
+            </div>
+
+        </div>
+        <div class="card unselectable dummy" (click)="openCreateDialog()">
+            <div class="dummy-add">
+                <div class="dummy-plus">
+                    <i class="summy-text material-symbols-outlined">add</i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

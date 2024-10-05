@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  height: 100vh;
+  background-color: #0F0F0F;
+  overflow: hidden;
+}
+
+.router-content {
+  flex-grow: 1;
+  position: relative;
+  transition: margin-left 0.3s;
+
+  
+}
+
+app-sidenav{
+  width: fit-content;
+  height: auto;
+}
+
+@media screen and (max-width: 600px) {
+  app-sidenav {
+    display: none;
+  }
+}

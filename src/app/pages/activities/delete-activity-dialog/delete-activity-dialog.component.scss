@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
+
+.electrolize-regular {
+    font-family: "Electrolize", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+::ng-deep .cdk-overlay-container {
+    background-color: rgba(40, 42, 55, 0.63);
+}
+
+.mat-dialog-container {
+    background-color: #282A37;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 600px;
+    height: fit-content;
+    border: 2px solid #282A37;
+    padding: 25px;
+
+
+    .dialog-content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        .dialog-title {
+            color: #FFFFFF;
+            text-decoration: underline;
+            font-size: 30px;
+            letter-spacing: 1px;
+            line-height: 50px;
+            width: 100%;
+            text-align: start;
+            text-decoration-color: #0088ff;
+        }
+
+        .middle {
+            margin: 40px 0px 20px 0px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 20px;
+            box-shadow: 0px 0px 10px #000000;
+
+
+            .text-content {
+                height: fit-content;
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                justify-content: space-evenly;
+
+                h1 {
+                    color: #FFFFFF;
+                }
+
+                span {
+                    font-size: 16px;
+                }
+
+                .euro {
+                    color: #939393;
+                }
+
+                .capital-text {
+                    color: #5F5F5F;
+                }
+
+            }
+
+            .item-image {
+                max-width: 100%;
+                height: auto;
+            }
+
+            img {
+                width: 50px;
+                height: 50px;
+                border-radius: 2px;
+                position: relative;
+            }
+        }
+
+        .dialog-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: end;
+
+            .dialog-button {
+                height: 45px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 0;
+                font-size: 16px;
+                border: none;
+                border-radius: 3px;
+                background-color: #333545;
+                color: #A7A7A7;
+                cursor: pointer;
+            }
+
+            .cancel {
+                width: 180px;
+                color: #FFFFFF;
+            }
+
+            .delete {
+                width: 70px;
+                border: none ;
+                background-color: #1B82DE;
+                color: #FFFFFF;
+            }
+
+            .delete:active {
+                outline: none;
+                background-color: #005eb1;
+                color: #ffffffc2;
+            }
+
+            .cancel:active {
+                color: #ffffffc2;
+            }
+
+            .delete:focus {
+                outline: none;
+            }
+
+
+            .cancel:focus {
+                outline: none;
+            }
+        }
+    }
+}

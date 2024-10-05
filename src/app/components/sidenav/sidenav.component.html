@@ -1,42 +1,35 @@
-<link
-  rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-/>
-<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plaster&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<div class="main-container unselectable"> 
   <div class="logo-container">
-    <button (click)="collapseOff()" class="logo">V</button>
-    <div class="logo-text" *ngIf="collapsed">Vitt</div>
+    <div class="logo-ball">
 
-    <button class="btn-close" (click)="collapseOff()" *ngIf="collapsed">
-      <i class="material-symbols-outlined closeBtn">close</i>
-    </button>
+    </div>
+    <div class="logo-writer">
+      <a class="logo-text plaster-regular">MA</a>
+    </div>
+
   </div>
-  
-  <div class="img-profile">
-    <img src="" >
+  <div class="line">
+    <!-- Nothing Here, It's a Line -->
   </div>
-
-
-  <ul class="sidenav-nav">
-    <li class="sidenav-nav-item" *ngFor="let data of navData">
-      <a class="sidenav-nav-link" routerLink="[data.routeLink]" routerLinkActive="active">
-        <i class="sidenav-link-icon" [class]="data.icon">{{ data.iconName }}</i>
-        <span class="sidenav-link-text" *ngIf="collapsed">{{
-          data.label
-        }}</span>
-      </a>
-    </li>
-
-    <a class="sidenav-nav-link sidenav-nav-item" routerLink="[data.routeLink]" routerLinkActive="active">
-      <i class="sidenav-link-icon" [class]="logoutData.icon">Logout</i>
-      <span class="sidenav-link-text" *ngIf="collapsed">
-        Logout
-      </span>
-    </a>
-<!-- 
-    <button class="btn-close" (click)="logout()">
-      <i class="material-symbols-outlined closeBtn">logout</i>
-    </button> -->
-  </ul>
-
+  <div class="menu-container">
+    <div class="menu-box">
+      <a class="menu-title">MENU</a>
+    </div>
+    <div class="routes-container">
+      <div class="routes-wrapper">
+        <div class="route bridge" *ngFor="let route of navData" id="{{route.routeLink}}" (click)="routeSelector(route.routeLink)" [routerLink]="[route.routeLink]"   routerLinkActive="active">
+          <i class="route-icon" [ngClass]="route.icon" >{{ route.iconName }}</i>
+          <a class="route-label">{{ route.label }}</a>
+        </div>        
+      </div>
+      <div class="route" id="logout" (click)="openLogoutDialog()">
+        <i class="route-icon" [ngClass]="logoutData.icon" >{{ logoutData.iconName }}</i>
+        <a class="route-label">{{ logoutData.label }}</a>
+      </div>   
+    </div>
+  </div>
 </div>

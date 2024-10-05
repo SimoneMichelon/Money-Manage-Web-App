@@ -1,0 +1,91 @@
+<div class="main-container">
+    <div class="h-1">
+        <div class="title unselectable">
+            <h1>ACTIVITIES.</h1>
+        </div>
+
+        <div class="custom-select unselectable" (click)="toggleDropdown()">
+            <div class="selected option" [ngClass]="{open : isOpen}">
+                <ng-container *ngIf="selected?.image; else placeholder">
+                    <img [src]="selected?.image" alt="">
+                </ng-container>
+                <ng-template #placeholder>
+                    <div class="no-image"></div>
+                </ng-template>
+                <span class="name">{{ selected?.name || 'Select an option' }}</span>
+                <span class="price">{{ selected?.capital | currency :'EUR':'symbol':'1.2-2' || ''}}</span>
+            </div>
+            <div class="options" *ngIf="isOpen">
+                <div class="option vault" (click)="selectOption(item)" *ngFor="let item of vaults"
+                    [ngClass]="{ chosen : chosen(item.id!)}">
+                    <img [src]="item.image" alt="">
+                    <span class="name">{{ item?.name || 'Select an option' }}</span>
+                    <span class="price">{{ item?.capital | currency :'EUR':'symbol':'1.2-2' }}</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="options unselectable">
+        <i class="material-symbols-outlined" (click)="openCreateDialog()">add_circle</i>
+        <div *ngIf="options" class="arrows-section">
+            <i class="material-symbols-outlined arrow unselectable">chevron_left</i>
+            <div class="option-section" >
+                <i class="material-symbols-outlined" (click)="openThirdPartyDialog()">add_business</i>
+                <i class="material-symbols-outlined" (click)="openCategoryDialog()">group_add</i>
+            </div>
+            <i class="material-symbols-outlined arrow unselectable">chevron_right</i>
+        </div>
+        <i class="material-symbols-outlined" (click)="openOptions()">settings</i>
+    </div>
+
+    <div class="content-container">
+        <table class="table styled-table">
+            <thead>
+                <tr class="unselectable">
+                    <th><div class="type"></div></th>
+                    <th class="order" (click)="orderBy('causal')">Causal.</th>
+                    <th class="order" (click)="orderBy('amount')">Amount.</th>
+                    <th >Card.</th>
+                    <th >Category.</th>
+                    <th >Third Party.</th>
+                    <th class="order" (click)="orderBy('startDate')">Start Date.</th>
+                    <th class="order" (click)="orderBy('endDate')">End Date.</th>
+                    <th (click)="orderBy('status')">Status.</th>
+                    <th class="icon"><i class="material-symbols-outlined refresh" (click)="refresh()">refresh</i></th>
+                </tr>
+            </thead>    
+            <tbody >
+                <tr *ngFor="let operation of operations" >
+                    <td>
+                        <div class="type" [ngClass]="{'type-revenue' : isRevenue(operation) , 'type-expense' : !isRevenue(operation)}">
+                        </div>
+                    </td>
+                    <td>{{ operation.causal }}</td>
+                    <td class="price" [ngClass]="{'price-revenue' : isRevenue(operation), 'price-expense' : !isRevenue(operation)}"   >
+                        {{ operation.amount | currency :'EUR':'symbol':'1.2-2' }}
+                    </td>
+                    <td>{{ operation.vault?.name }}</td>
+                    <td>{{ operation.category?.categoryName }}</td>
+                    <td>{{ operation.thirdParty?.thirdPartyName }}</td>
+                    <td>{{ operation.startDate }}</td>
+                    <td>{{ operation.endDate }}</td>
+                    <td>
+                        <div *ngIf="operation.isProgrammed">
+                            <a>Scheduled</a>
+                        </div>
+                    </td>
+                    <td class="unselectable actions">
+                        <div>
+                            <i class="material-symbols-outlined" (click)="openEditDialog(operation)">edit</i>
+                            <i class="material-symbols-outlined" (click)="openDeleteDialog(operation)" >delete</i>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -18,6 +18,8 @@ import { getAllExpense } from '../fn/expense-controller/get-all-expense';
 import { GetAllExpense$Params } from '../fn/expense-controller/get-all-expense';
 import { getExpenseById } from '../fn/expense-controller/get-expense-by-id';
 import { GetExpenseById$Params } from '../fn/expense-controller/get-expense-by-id';
+import { getExpensesByVault } from '../fn/expense-controller/get-expenses-by-vault';
+import { GetExpensesByVault$Params } from '../fn/expense-controller/get-expenses-by-vault';
 import { updateExpense } from '../fn/expense-controller/update-expense';
 import { UpdateExpense$Params } from '../fn/expense-controller/update-expense';
 
@@ -189,6 +191,39 @@ export class ExpenseControllerService extends BaseService {
   deleteExpenseById(params: DeleteExpenseById$Params, context?: HttpContext): Observable<ExpenseDto> {
     return this.deleteExpenseById$Response(params, context).pipe(
       map((r: StrictHttpResponse<ExpenseDto>): ExpenseDto => r.body)
+    );
+  }
+
+  /** Path part for operation `getExpensesByVault()` */
+  static readonly GetExpensesByVaultPath = '/api/expense-management/expenses/vault/{id}';
+
+  /**
+   * Get expenses by vault.
+   *
+   * Get expenses by vault
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getExpensesByVault()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getExpensesByVault$Response(params: GetExpensesByVault$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExpenseDto>>> {
+    return getExpensesByVault(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Get expenses by vault.
+   *
+   * Get expenses by vault
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getExpensesByVault$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getExpensesByVault(params: GetExpensesByVault$Params, context?: HttpContext): Observable<Array<ExpenseDto>> {
+    return this.getExpensesByVault$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<ExpenseDto>>): Array<ExpenseDto> => r.body)
     );
   }
 

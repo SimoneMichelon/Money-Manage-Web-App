@@ -1,0 +1,19 @@
+<div  class="mat-dialog-container ">
+    <div class="dialog-content">
+      <div class="title-content">
+        <h1 class="dialog-title electrolize-regular">Are you sure you want to delete this?</h1>
+        <div class="middle">
+            <div class="text-content">
+                <h1 class="item-name electrolize-regular">{{data.vault.name}}</h1>
+                <h1 class="item-capital electrolize-regular"><span class="euro">€</span>{{data.vault.capital}} <span class="capital-text">current balance</span></h1>
+            </div>
+            <img class="item-image" src="{{data.vault.image}}">
+        </div>
+        
+      </div>
+      <div class="dialog-actions">
+        <button class="dialog-button delete electrolize-regular" (click)="deleteVault()" mat-dialog-close>Delete</button>
+        <button class="dialog-button cancel electrolize-regular"  cdkFocusInitial mat-button mat-dialog-close>Cancel</button>
+      </div>
+    </div>
+  </div>

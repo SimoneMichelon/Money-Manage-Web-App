@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
+
+* {
+    font-family: "Electrolize", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+::ng-deep .cdk-overlay-container {
+    background-color: rgba(40, 42, 55, 0.63);
+}
+
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.main {
+    width: fit-content;
+    height: fit-content;
+    background-color: #282A37;
+    padding: 30px;
+    border-radius: 2px;
+    color: #FFFFFF;
+
+    
+    .form{
+        display: flex;
+        flex-direction: column;
+    
+        .body{
+            display: flex;
+            justify-content: space-between;
+            width: 700px;
+            gap: 40px;
+
+
+            .causal-wrapper{
+                display: flex;
+                flex-direction: column;
+
+                .word-counter{
+                    color: #828B98;
+                    width: 100%;
+                    text-align: end;
+                    font-size: 12px;
+                }
+            }
+
+            .first-column{
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 25px;
+
+                .top-wrapper{
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 40px;
+
+                    .scheduler{
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 10px;
+                        width: 20%;
+                        height: 100%;
+                        
+                        input{
+                            width: 30px;
+                            height: 30px;
+                        }
+                    }
+                }
+            }
+
+            .second-column{
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 33px;
+            }
+
+            .full-input{
+                width: auto;
+                height: fit-content;
+                background-color: #323645;
+                padding: 5px 10px 5px 10px;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                border-radius: 8px;
+
+                    
+                .input-style {
+                    color: #FFFFFF;
+                    height: fit-content;
+                    width: 100%;
+                    font-size: 22px;
+                    padding: 2px 0px;
+                    background-color: transparent;
+                    border: 1px solid transparent;
+                    text-overflow: ellipsis;
+
+                }
+                
+                .input-style:focus {
+                    outline: none;
+                }
+
+                option {
+                    background-color: #2b2d3a;
+                    color: #ffffff; 
+                }
+                
+                .header{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    i{
+                        color: #1B82DE;
+                        font-size: 20px;
+                        cursor: pointer;
+                    }
+                }
+
+                label{
+                    color: #828B98;
+                    font-size: 12px;
+                }
+
+                .label {
+                    display: block;
+                    cursor: pointer;
+                }
+
+                #start-date , #end-date{
+                    display: inline-block;
+                    position: relative;
+                }
+
+                .date-picker::-webkit-calendar-picker-indicator {
+                    background: transparent;
+                    bottom: 0;
+                    cursor: pointer;
+                    height: auto;
+                    left: 0;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    width: auto;
+                }
+            }
+
+        }
+
+    }
+
+    .footer {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px;
+
+        .type-dialog {
+            width: 100%;
+            display: flex;
+            align-items: end;
+            justify-content: start;
+
+        }
+
+        .dialog-action {
+            width: 100%;
+            display: flex;
+            justify-content: end;
+            gap: 20px;
+
+            button {
+                font-size: 16px;
+                height: 50px;
+                border-radius: 3px;
+                border: none;
+                text-align: center;
+                cursor: pointer;
+            }
+
+            button:focus {
+                outline: none;
+            }
+
+            .save {
+                width: 200px;
+                background-color: #1B82DE;
+                color: #FFFFFF;
+            }
+
+            .save:hover {
+                background-color: #1b83dea1;
+                color: #FFFFFF;
+            }
+
+            .save:active {
+                background-color: #124f85;
+                color: #FFFFFF;
+            }
+
+            .cancel {
+                width: 72px;
+                background-color: #333545;
+                color: #FFFFFF;
+            }
+
+            .cancel:hover {
+                background-color: #2b2d3a;
+                color: #ffffff94;
+            }
+
+            .cancel:active {
+                background-color: #1c1e27;
+                color: #7e7e7e;
+            }
+
+            .disabled{
+                background-color: #124f85;
+                pointer-events: none;
+            }
+        }
+    }
+}
