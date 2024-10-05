@@ -25,6 +25,7 @@ import osiride.vitt_be.error.InvalidTokenException;
 import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.error.OperationNotPermittedException;
+import osiride.vitt_be.service.AuthService;
 import osiride.vitt_be.service.RevenueService;
 
 @Slf4j
@@ -34,6 +35,9 @@ public class RevenueController {
 
 	@Autowired
 	private RevenueService revenueService;
+	
+	@Autowired
+	private AuthService authService;
 
 	@Operation(summary = "Get all Revenue", description = "Get all Revenue")
 	@GetMapping(value = "/revenues", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -74,10 +78,10 @@ public class RevenueController {
 			log.error("REST - Revenue Data NOT found - CREATE");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (OperationNotPermittedException e) {
-			log.error("REST - Operation Not Permitted Error - UPDATE");
+			log.error("REST - Operation Not Permitted Error - CREATE");
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		} catch (NotAuthorizedException | InvalidTokenException e) {
-			log.error("REST - Not Authorized || Invalid Token - UPDATE");
+			log.error("REST - Not Authorized || Invalid Token - CREATE");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
@@ -98,6 +102,9 @@ public class RevenueController {
 		} catch (OperationNotPermittedException e) {
 			log.error("REST - Operation Not Permitted Error - UPDATE");
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		} catch (NotAuthorizedException | InvalidTokenException e) {
+			log.error("REST - Not Authorized || Invalid Token - UPDATE");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 	
@@ -117,7 +124,43 @@ public class RevenueController {
 		} catch (InternalServerException e) {
 			log.error("REST - Error on deleting Revenue - DELETE");
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (OperationNotPermittedException e) {
+			log.error("REST - Operation Not Permitted Error - DELETE");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		} catch (NotAuthorizedException | InvalidTokenException e) {
+			log.error("REST - Not Authorized || Invalid Token - DELETE");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
+	}
+	
+	@Operation(summary = "Get revenues by vault", description = "Get revenues by vault")
+	@GetMapping(value = "/revenues/vault/{id}")
+	public ResponseEntity<List<RevenueDTO>> getRevenuesByVault(@PathVariable Long id){
+		try {
+			if(authService.isAdmin()) 
+			{
+				List<RevenueDTO> result = revenueService.getByVault(id);
+				log.info("REST - Revenue list size: {} - READ ALL", result.size());
+				return ResponseEntity.status(HttpStatus.OK).body(result);
+			}
+			else {
+				log.error("REST - Revenue Operation not allowed - READ VAULT");
+				throw new NotAuthorizedException();
+			}
+		} catch (BadRequestException e) {
+			log.error("REST - User Bad Info - READ VAULT");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException e) {
+			log.error("REST - User NOT found - READ VAULT");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - READ VAULT");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch (NotAuthorizedException e) {
+			log.error("REST - Not Authorized  - READ VAULT");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+
 	}
 	
 }
