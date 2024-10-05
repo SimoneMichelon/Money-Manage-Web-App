@@ -1,6 +1,5 @@
 package osiride.vitt_be.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import osiride.vitt_be.domain.ThirdParty;
@@ -20,11 +19,13 @@ import java.util.stream.Collectors;
 @Service
 public class ThirdPartyService {
 
-    @Autowired
-    private ThirdPartyRepository thirdPartyRepository;
+	private final ThirdPartyRepository thirdPartyRepository;
+    private final ThirdPartyMapper thirdPartyMapper;
 
-    @Autowired
-    private ThirdPartyMapper thirdPartyMapper;
+    public ThirdPartyService(ThirdPartyRepository thirdPartyRepository, ThirdPartyMapper thirdPartyMapper) {
+        this.thirdPartyRepository = thirdPartyRepository;
+        this.thirdPartyMapper = thirdPartyMapper;
+    }
 
     /**
      * Retrieves all third parties from the database.

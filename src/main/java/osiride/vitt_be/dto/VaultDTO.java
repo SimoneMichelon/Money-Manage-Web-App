@@ -17,4 +17,5 @@ public class VaultDTO {
     private String name;
     private UserDTO userDTO;
     private BigDecimal capital;
+    private String image;
 }

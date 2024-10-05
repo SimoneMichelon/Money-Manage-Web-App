@@ -45,6 +45,7 @@ public abstract class Operation extends AbstractAuditingEntity{
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "opr_vlt_id", referencedColumnName = "vlt_id")
+	@OnDelete(action = OnDeleteAction.SET_NULL)
 	private Vault vault;
 	
 	@NotNull
@@ -57,5 +58,5 @@ public abstract class Operation extends AbstractAuditingEntity{
 	@ManyToOne
 	@JoinColumn(name = "opr_thp_id", referencedColumnName = "thp_id")
 	@OnDelete(action = OnDeleteAction.SET_NULL)
-	private ThirdParty thirdPartys;
+	private ThirdParty thirdParty;
 }

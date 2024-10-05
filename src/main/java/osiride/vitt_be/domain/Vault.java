@@ -42,4 +42,8 @@ public class Vault extends AbstractAuditingEntity {
     @NotNull
     @Column(name = "vlt_cpt", scale = 2, precision = 10, nullable = false)
     private BigDecimal capital;
+    
+    @NotNull
+    @Column(name = "vlt_img")
+    private String image;
 }

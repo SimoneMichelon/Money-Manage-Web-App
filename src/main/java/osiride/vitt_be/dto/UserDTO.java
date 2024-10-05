@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import osiride.vitt_be.constant.Role;
 
 @Getter
 @Setter
@@ -17,4 +18,5 @@ public class UserDTO {
     private String lastName;
     private LocalDate dob;
     private String imgProfile;
+    private Role role;
 }

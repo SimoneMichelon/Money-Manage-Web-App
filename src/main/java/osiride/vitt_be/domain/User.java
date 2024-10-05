@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,8 +14,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import osiride.vitt_be.constant.Role;
 
-@Entity(name = "user")
+@Entity(name = "`user`")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -40,5 +43,9 @@ public class User extends AbstractAuditingEntity {
     @NotNull
     @Column(name = "usr_img_prf")
     private String imgProfile;
-
+    
+    @NotNull
+    @Column(name = "usr_role")
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.GUEST;
 }

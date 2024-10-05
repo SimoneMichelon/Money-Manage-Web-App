@@ -32,7 +32,7 @@ public class RevenueMapper {
 	        dto.setEndDate(entity.getEndDate());
 	        dto.setVaultDTO(vaultMapper.toDto(entity.getVault()));
 	        dto.setCategoryDTO(categoryMapper.toDto(entity.getCategory()));
-	        dto.setThirdPartyDTO(thirdPartyMapper.toDto(entity.getThirdPartys()));
+	        dto.setThirdPartyDTO(thirdPartyMapper.toDto(entity.getThirdParty()));
 	        return dto;
 	    }
 
@@ -49,7 +49,7 @@ public class RevenueMapper {
 	        entity.setEndDate(dto.getEndDate());
 	        entity.setVault(vaultMapper.toEntity(dto.getVaultDTO()));
 	        entity.setCategory(categoryMapper.toEntity(dto.getCategoryDTO()));
-	        entity.setThirdPartys(thirdPartyMapper.toEntity(dto.getThirdPartyDTO()));
+	        entity.setThirdParty(thirdPartyMapper.toEntity(dto.getThirdPartyDTO()));
 	        return entity;
 	    }
 }

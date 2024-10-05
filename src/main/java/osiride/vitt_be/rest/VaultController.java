@@ -21,8 +21,12 @@ import osiride.vitt_be.dto.VaultDTO;
 import osiride.vitt_be.error.BadRequestException;
 import osiride.vitt_be.error.DuplicatedValueException;
 import osiride.vitt_be.error.InternalServerException;
+import osiride.vitt_be.error.InvalidTokenException;
+import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
+import osiride.vitt_be.service.AuthService;
 import osiride.vitt_be.service.VaultService;
+import osiride.vitt_be.utils.VaultSummary;
 
 @Slf4j
 @RestController
@@ -31,49 +35,123 @@ public class VaultController {
 
 	@Autowired 
 	private VaultService vaultService;
+	
+	@Autowired
+	private AuthService authService;
 
-	@Operation(summary = "Get all Vault", description = "Get all vault ")
+	@Operation(summary = "Get all Vault - ADMIN", description = "Get all vault ")
 	@GetMapping(value = "/vaults", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<VaultDTO>> getAllVaults(){
-		List<VaultDTO> result = vaultService.getAll();
-		log.info("REST - Vault's list size : {} - READ ALL", result.size());
-		return ResponseEntity.status(HttpStatus.OK).body(result);
+		try {	
+			if(authService.isAdmin()) 
+			{
+				List<VaultDTO> result = vaultService.getAll();
+				log.info("REST - Vault's list size : {} - READ ALL", result.size());
+				return ResponseEntity.status(HttpStatus.OK).body(result);
+			}
+			else {
+				log.error("REST - Vault Operation not allowed - READ ALL");
+				throw new NotAuthorizedException();
+			}
+		} catch (BadRequestException e) {
+			log.error("REST - User Bad Info - READ ALL");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException e) {
+			log.error("REST - User NOT found - READ ALL");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - READ ALL");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch (NotAuthorizedException e) {
+			log.error("REST - Not Authorized  - READ ALL");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
 	}
-	
-	@Operation(summary = "Get all vault by User Id", description = "Get all vault by User given")
+
+	@Operation(summary = "Get all vault by User Id - ADMIN", description = "Get all vault by User given")
 	@GetMapping(value = "/vaults/user/{id}" )
 	public ResponseEntity<List<VaultDTO>> getAllVaultsByUserId(@PathVariable Long id){
 		try {
 			List<VaultDTO> result = vaultService.getAllVaultByUserId(id);
 			log.info("REST - Vault's list size : {} - READ ALL by USER ID", result.size());
 			return ResponseEntity.status(HttpStatus.OK).body(result);
-		}catch (BadRequestException e) {
+		} catch (BadRequestException e) {
 			log.error("REST - Bad information given - READ ALL by USER ID");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
 			log.error("REST - User NOT found - READ ALL by USER ID");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - READ ALL by USER ID");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch (NotAuthorizedException e) {
+			log.error("REST - Not Authorized  -  READ ALL by USER ID");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}
 
-	@Operation(summary = "Find vault by id")
+	@Operation(summary = "Get all vault by Principal", description = "Get all vault Principal")
+	@GetMapping(value = "/vaults/user" , produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<VaultDTO>> getAllVaultsByPrincipal(){
+		try {
+			List<VaultDTO> result = vaultService.getAllVaultByPrincipal();
+			log.info("REST - Vault's list size : {} - READ ALL by PRINCIPAL", result.size());
+			return ResponseEntity.status(HttpStatus.OK).body(result);
+		} catch (BadRequestException e) {
+			log.error("REST - Bad information given - READ ALL by PRINCIPAL");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException e) {
+			log.error("REST - User NOT found - READ ALL by PRINCIPAL");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - READ ALL by PRINCIPAL");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
+	
+	@Operation(summary = "Get vaults Report", description = "Get vaults Report")
+	@GetMapping(value = "/vaults/report" , produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<VaultSummary> > getVaultsReport(){
+		try {
+			List<VaultSummary>  result = vaultService.getPrincipalVaultReport();
+			log.info("REST - Vault's list size : {} - REPORT");
+			return ResponseEntity.status(HttpStatus.OK).body(result);
+		} catch (BadRequestException e) {
+			log.error("REST - Bad information given - REPORT");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException e) {
+			log.error("REST - User NOT found - REPORT");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - REPORT");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
+	
+
+
+	@Operation(summary = "Find vault by id - ADMIN / GUEST", description = "Find vault by id")
 	@GetMapping(value = "/vaults/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<VaultDTO> getVaultById(@PathVariable Long id){
 		try {			
 			VaultDTO result = vaultService.findById(id);
 			log.info("REST - Vault found : {} - READ ONE", result);
 			return ResponseEntity.status(HttpStatus.OK).body(result);
-
 		} catch (BadRequestException e) {
 			log.error("REST - Bad information given - READ ONE");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
 			log.error("REST - Vault NOT found - READ ONE");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (NotAuthorizedException | InvalidTokenException e) {
+			log.error("REST - Not Authorized || Invalid Token - READ ONE");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 
-	@Operation(summary = "Create vault", description = "Creation vault by given data")
+	@Operation(summary = "Create vault ", description = "Creation vault by given data")
 	@PostMapping(value = "/vaults", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<VaultDTO> createVault(@RequestBody VaultDTO vaultDTO){
 		try {			
@@ -83,12 +161,15 @@ public class VaultController {
 		} catch(BadRequestException e) {
 			log.error("REST - Bad information given - CREATE");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}	catch (NotFoundException e) {
+		} catch (NotFoundException e) {
 			log.error("REST - User for Vault NOT found - CREATE");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (DuplicatedValueException e) {
 			log.error("REST - Duplicated Vault Name Error - CREATE");
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - CREATE");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 
@@ -108,9 +189,15 @@ public class VaultController {
 		} catch (DuplicatedValueException e) {
 			log.error("REST - Duplicated Vault Name Error - UPDATE");
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}  catch (InvalidTokenException  e) {
+			log.error("REST - Invalid Token - UPDATE");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch (NotAuthorizedException e) {
+			log.error("REST - Not Authorized  - UPDATE");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}
-	
+
 	@Operation(summary = "Delete vault by id", description = "Delete vault by id")
 	@DeleteMapping(value = "/vaults/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<VaultDTO> deleteVaultById(@PathVariable Long id){
@@ -127,6 +214,12 @@ public class VaultController {
 		} catch (InternalServerException e) {
 			log.error("REST - Error on deleting Vault - DELETE");
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}  catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - DELETE");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch (NotAuthorizedException e) {
+			log.error("REST - Not Authorized  - DELETE");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}
 }
