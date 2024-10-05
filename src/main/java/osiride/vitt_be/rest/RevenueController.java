@@ -124,6 +124,12 @@ public class RevenueController {
 		} catch (InternalServerException e) {
 			log.error("REST - Error on deleting Revenue - DELETE");
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (OperationNotPermittedException e) {
+			log.error("REST - Operation Not Permitted Error - DELETE");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		} catch (NotAuthorizedException | InvalidTokenException e) {
+			log.error("REST - Not Authorized || Invalid Token - DELETE");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 	

@@ -1,5 +1,6 @@
 package osiride.vitt_be.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,15 +21,19 @@ import osiride.vitt_be.error.InvalidTokenException;
 import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.error.OperationNotPermittedException;
+import osiride.vitt_be.mapper.CategoryMapper;
 import osiride.vitt_be.mapper.ExpenseMapper;
 import osiride.vitt_be.mapper.VaultMapper;
 import osiride.vitt_be.repository.ExpenseRepository;
+import osiride.vitt_be.utils.CategoryReport;
+import osiride.vitt_be.utils.CategoryReportDTO;
 
 @Slf4j
 @Service
 public class ExpenseService {
 
 	private final ExpenseRepository expenseRepository;
+	private final CategoryMapper categoryMapper; 
 	private final ExpenseMapper expenseMapper;
 	private final VaultService vaultService;
 	private final CategoryService categoryService;
@@ -42,6 +47,7 @@ public class ExpenseService {
 			CategoryService categoryService,
 			ThirdPartyService thirdPartyService,
 			VaultMapper vaultMapper,
+			CategoryMapper categoryMapper,
 			AuthService authService) {
 		this.expenseRepository = expenseRepository;
 		this.expenseMapper = expenseMapper;
@@ -50,6 +56,7 @@ public class ExpenseService {
 		this.thirdPartyService = thirdPartyService;
 		this.vaultMapper = vaultMapper;
 		this.authService = authService;
+		this.categoryMapper = categoryMapper;
 	}
 
 	/**
@@ -248,6 +255,7 @@ public class ExpenseService {
 	 * @author Simone
 	 * @throws NotAuthorizedException 
 	 * @throws InvalidTokenException 
+	 * @throws DuplicatedValueException 
 	 */
 	public ExpenseDTO update(ExpenseDTO expenseDTO) throws BadRequestException, OperationNotPermittedException, NotFoundException, InvalidTokenException, NotAuthorizedException {
 		if(expenseDTO == null || expenseDTO.getId() == null || !isDataValid(expenseDTO) ) {
@@ -262,14 +270,25 @@ public class ExpenseService {
 		if(oldExpense.getVaultDTO().getId() != expenseDTO.getVaultDTO().getId()) {
 			log.error("SERVICE - Expense data is invalid - UPDATE");
 			throw new OperationNotPermittedException();
-		} else if(!expenseDTO.getStartDate().isBefore(expenseDTO.getEndDate())) {
+		} else if(expenseDTO.getStartDate().isAfter(expenseDTO.getEndDate()) ) {
 			log.error("SERVICE - Expense Date is invalid - UPDATE");
 			throw new BadRequestException();
 		}
+		
+		oldExpense.setAmount(oldExpense.getAmount().multiply(BigDecimal.valueOf(-1)));
+		Expense toSubtract = expenseMapper.toEntity(oldExpense);
+		Expense toAdd = expenseMapper.toEntity(expenseDTO);
+		
+		try {
+			if(!(vaultService.updateCapital(toSubtract) && vaultService.updateCapital(toAdd))) {
+				throw new OperationNotPermittedException();
+			}
+		} catch (DuplicatedValueException e) {
+			throw new OperationNotPermittedException();
+		}
 
-		Expense expense = expenseMapper.toEntity(expenseDTO);
-		expense = expenseRepository.save(expense);
-		return expenseMapper.toDto(expense);
+		toAdd = expenseRepository.save(toAdd);
+		return expenseMapper.toDto(toAdd);
 	}
 
 	/**
@@ -306,9 +325,24 @@ public class ExpenseService {
 	 * </p>
 	 * 
 	 * @author Simone
+	 * @throws OperationNotPermittedException 
+	 * @throws NotAuthorizedException 
+	 * @throws InvalidTokenException 
 	 */
-	public ExpenseDTO deleteById(Long id) throws BadRequestException, NotFoundException, InternalServerException{
+	public ExpenseDTO deleteById(Long id) throws BadRequestException, NotFoundException, InternalServerException, InvalidTokenException, NotAuthorizedException, OperationNotPermittedException{
 		ExpenseDTO expenseDTO = findById(id);
+		expenseDTO.setAmount(expenseDTO.getAmount().multiply(BigDecimal.valueOf(-1)));
+
+		try {
+			if(!vaultService.updateCapital(expenseMapper.toEntity(expenseDTO))) {
+				throw new OperationNotPermittedException();
+			}
+		} catch (DuplicatedValueException e) {
+			throw new OperationNotPermittedException();
+		}
+		expenseDTO.setAmount(expenseDTO.getAmount().multiply(BigDecimal.valueOf(-1)));
+		
+		
 		expenseRepository.deleteById(id);
 
 		if(!expenseRepository.existsById(id)) {
@@ -355,6 +389,38 @@ public class ExpenseService {
 				.toList();
 
 		return list;
+	}
+	
+	/**
+	 * Retrieves the expense reports for each category based on the specified vault ID.
+	 * 
+	 * This method fetches the list of category expense reports from the repository, 
+	 * maps them into a list of {@link CategoryReportDTO}, and returns the result.
+	 * It handles multiple custom exceptions in case of issues during the process.
+	 * 
+	 * @param vaultId The ID of the vault for which the expense reports are retrieved.
+	 * @return A list of {@link CategoryReportDTO} containing the expense percentages for each category.
+	 * 
+	 * @throws BadRequestException If the request is malformed or contains invalid data.
+	 * @throws NotFoundException If the vault with the specified ID is not found.
+	 * @throws InvalidTokenException If the provided token is invalid or expired.
+	 * @throws NotAuthorizedException If the user is not authorized to access the vault's data.
+	 */
+	public List<CategoryReportDTO> getExpensesCategoryReports(Long vaultId) throws BadRequestException, NotFoundException, InvalidTokenException, NotAuthorizedException{
+		List<CategoryReport> listTmp = expenseRepository.getExpensesCategoryReports(vaultId);
+		
+		List<CategoryReportDTO> listReport = listTmp
+				.stream()
+				.map(wrapper -> new CategoryReportDTO(
+						categoryMapper.toDto(wrapper.getCategory()),
+						wrapper.getPercentage())
+						).toList();
+		
+		return listReport;
+	}
+	
+	public BigDecimal getTotalAmount() {
+		return BigDecimal.ZERO;
 	}
 
 

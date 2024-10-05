@@ -1,5 +1,6 @@
 package osiride.vitt_be.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,9 +21,12 @@ import osiride.vitt_be.error.InvalidTokenException;
 import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.error.OperationNotPermittedException;
+import osiride.vitt_be.mapper.CategoryMapper;
 import osiride.vitt_be.mapper.RevenueMapper;
 import osiride.vitt_be.mapper.VaultMapper;
 import osiride.vitt_be.repository.RevenueRepository;
+import osiride.vitt_be.utils.CategoryReport;
+import osiride.vitt_be.utils.CategoryReportDTO;
 
 @Slf4j
 @Service
@@ -30,6 +34,7 @@ public class RevenueService {
 
 	private final RevenueRepository revenueRepository;
 	private final RevenueMapper revenueMapper;
+	private final CategoryMapper categoryMapper; 
 	private final VaultService vaultService;
 	private final CategoryService categoryService;
 	private final ThirdPartyService thirdPartyService;
@@ -39,10 +44,13 @@ public class RevenueService {
 
 	public RevenueService(RevenueRepository revenueRepository, 
 			RevenueMapper revenueMapper,
-			VaultService vaultService, CategoryService categoryService,
+			VaultService vaultService, 
+			CategoryService categoryService,
 			ThirdPartyService thirdPartyService,
 			VaultMapper vaultMapper,
-			AuthService authService) {
+			AuthService authService,
+			CategoryMapper categoryMapper
+			) {
 		this.revenueRepository = revenueRepository;
 		this.revenueMapper = revenueMapper;
 		this.vaultService = vaultService;
@@ -50,6 +58,7 @@ public class RevenueService {
 		this.thirdPartyService = thirdPartyService;
 		this.vaultMapper = vaultMapper;
 		this.authService = authService;
+		this.categoryMapper = categoryMapper;
 	}
 
 
@@ -244,6 +253,7 @@ public class RevenueService {
 	 * @author Simone
 	 * @throws NotAuthorizedException 
 	 * @throws InvalidTokenException 
+	 * @throws DuplicatedValueException 
 	 */
 	public RevenueDTO update(RevenueDTO revenueDTO) throws BadRequestException, OperationNotPermittedException, NotFoundException, InvalidTokenException, NotAuthorizedException {
 		if(revenueDTO == null || revenueDTO.getId() == null || !isDataValid(revenueDTO) ) {
@@ -255,17 +265,28 @@ public class RevenueService {
 		RevenueDTO oldRevenue = findById(revenueDTO.getId());
 
 		if(oldRevenue.getVaultDTO().getId() != revenueDTO.getVaultDTO().getId()) {
-			log.error("SERVICE - Revenue data is invalid - UPDATE");
+			log.error("SERVICE - Revenue Vault Ref is invalid - UPDATE");
 			throw new OperationNotPermittedException();
-		} else if(!revenueDTO.getStartDate().isBefore(revenueDTO.getEndDate())) {
+		} else if(revenueDTO.getStartDate().isAfter(revenueDTO.getEndDate())) {
 			log.error("SERVICE - Revenue Date is invalid - UPDATE");
 			throw new BadRequestException();
 		}
+		
+		oldRevenue.setAmount(oldRevenue.getAmount().multiply(BigDecimal.valueOf(-1)));
+		Revenue toSubtract = revenueMapper.toEntity(oldRevenue);
+		Revenue toAdd = revenueMapper.toEntity(revenueDTO);
+		
+		try {
+			if(!(vaultService.updateCapital(toSubtract) && vaultService.updateCapital(toAdd))) {
+				throw new OperationNotPermittedException();
+			}
+		} catch (DuplicatedValueException e) {
+			throw new OperationNotPermittedException();
+		}
+		
+		toAdd = revenueRepository.save(toAdd);
 
-		Revenue revenue = revenueMapper.toEntity(revenueDTO);
-		revenue = revenueRepository.save(revenue);
-
-		return revenueMapper.toDto(revenue);
+		return revenueMapper.toDto(toAdd);
 	}
 
 
@@ -297,9 +318,22 @@ public class RevenueService {
 	 * @implNote Ensure the services and repositories are properly injected.
 	 * 
 	 * @author Simone
+	 * @throws OperationNotPermittedException 
+	 * @throws NotAuthorizedException 
+	 * @throws InvalidTokenException 
 	 */
-	public RevenueDTO deleteById(Long id) throws BadRequestException, NotFoundException, InternalServerException{
+	public RevenueDTO deleteById(Long id) throws BadRequestException, NotFoundException, InternalServerException, InvalidTokenException, NotAuthorizedException, OperationNotPermittedException{
 		RevenueDTO revenueDTO = findById(id);
+		revenueDTO.setAmount(revenueDTO.getAmount().multiply(BigDecimal.valueOf(-1)));
+
+		try {
+			if(!vaultService.updateCapital(revenueMapper.toEntity(revenueDTO))) {
+				throw new OperationNotPermittedException();
+			}
+		} catch (DuplicatedValueException e) {
+			throw new OperationNotPermittedException();
+		}
+		revenueDTO.setAmount(revenueDTO.getAmount().multiply(BigDecimal.valueOf(-1)));
 		revenueRepository.deleteById(id);
 
 		if(!revenueRepository.existsById(id)) {
@@ -346,7 +380,37 @@ public class RevenueService {
 
 		return list;
 	}
-
+	
+	
+	/**
+	 * Retrieves the revenue reports for each category based on the specified vault ID.
+	 * 
+	 * This method fetches the list of category revenue reports from the repository, 
+	 * maps them into a list of {@link CategoryReportDTO}, and returns the result. 
+	 * It handles multiple custom exceptions if any issues arise during the operation.
+	 * 
+	 * @param vaultId The ID of the vault for which the revenue reports are retrieved.
+	 * @return A list of {@link CategoryReportDTO} containing the revenue percentages for each category.
+	 * 
+	 * @throws BadRequestException If the request is malformed or contains invalid data.
+	 * @throws NotFoundException If the vault with the specified ID is not found.
+	 * @throws InvalidTokenException If the provided token is invalid or expired.
+	 * @throws NotAuthorizedException If the user is not authorized to access the vault's data.
+	 */
+	public List<CategoryReportDTO> getRevenuesCategoryReports(Long vaultId) throws BadRequestException, NotFoundException, InvalidTokenException, NotAuthorizedException{
+		List<CategoryReport> listTmp = revenueRepository.getRevenuesCategoryReports(vaultId);
+		
+		List<CategoryReportDTO> listReport = listTmp
+				.stream()
+				.map(wrapper -> new CategoryReportDTO(
+						categoryMapper.toDto(wrapper.getCategory()),
+						wrapper.getPercentage())
+						).toList();
+		
+		return listReport;
+	}
+	
+	
 
 	private boolean isDataValid(RevenueDTO object) {
 		if (object == null) {
