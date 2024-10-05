@@ -3,7 +3,7 @@ spring:
     name: Vitt
 
   datasource:
-    url: jdbc:mysql://localhost:3306/vitt_db_qa?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/vitt_db_dev?createDatabaseIfNotExist=true
  
     username: root
     password: root
@@ -12,7 +12,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update 
+      ddl-auto: create-drop
     show-sql: true
     properties:
       hibernate: 
