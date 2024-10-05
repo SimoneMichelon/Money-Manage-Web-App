@@ -34,8 +34,6 @@ export type ChartOptions = {
 export class DashboardComponent implements OnInit, OnDestroy {
 
   @ViewChild("chart") donutChart!: ChartComponent;
-  public revenueDonutChartOptions!: Partial<ChartOptions>;
-  public expenseDonutChartOptions!: Partial<ChartOptions>;
   private areaChart: ApexCharts | null = null;
 
   selected: VaultDto | null = null;
@@ -45,12 +43,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   operations?: Array<OperationDto>;
   report?: Array<VaultSummary> = [];
   reportSet?: Array<PriceHistoryObj>;
-  categoryReport?: {[key: string] : Array<CategoryReportDto>};
+  categoryReport?: { [key: string]: Array<CategoryReportDto> };
   priceData: { date: number, price: number }[] = [];
-  categoryList?: string[];
-  costList?: number[];
-  dummyOperationSeries = [100]
-  dummyOperationLabel= ["No Operation"]
   revenueData?: {
     name: string | undefined;
     percentage: number;
@@ -59,216 +53,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
     name: string | undefined;
     percentage: number;
   }[];
-  instoChoose : boolean = true;
-
+  categoryMagazine? : {
+    revenue: {
+      revCategory: string [],
+      revPercent: number [],
+    },
+    expense: {
+      expCategory: string [],
+      expPercent: number [],
+    },
+  };
 
   constructor(
     private vaultControllerService: VaultControllerService,
     private operationControllerService: OperationControllerService,
     private authService: AuthService,
   ) {
-    this.revenueDonutChartOptions = {
-      series: [0],
-      chart: {
-        type: "donut",
-        width: '300px',
-        height: '200px',
-      },
-      labels: [''],
-      colors: [
-        '#2E6F9E',
-        '#3C8CBB',
-        '#4DA3D7',
-        '#5BB7E3',
-        '#69C6E9',
-        '#77D6F0',
-        '#85E1F7',
-        '#93EBFF',
-        '#A1E6FF',
-        '#B3F1FF',
-        '#C4F5FF',
-        '#D1FAFF',
-        '#E0FDFF',
-        '#E8FFFF',
-        '#F0FFFF',
-        '#F6FFFF',
-        '#D8E6E6'
-      ],
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: '200px',
-            },
-            legend: {
-              position: "bottom"
-            }
-          }
-        }
-      ],
-      dataLabels: {
-        enabled: true,
-        formatter: (val: number, opts: any) => {
-          const total = opts.w.globals.seriesTotals.reduce((a: number, b: number) => a + b, 0);
-          const percentage = ((val / total) * 100).toFixed(2);
-          return `${percentage}%`;
-        },
-        dropShadow: {
-          enabled: true,
-          top: 1,
-          left: 1,
-          blur: 3,
-          opacity: 0.5
-        },
-        style: {
-          fontSize: '12px',
-          fontWeight: 'bold',
-          colors: ['#FFFFFF']
-        }
-      },
-      plotOptions: {
-        pie: {
-          donut: {
-            size: '70%',
-            labels: {
-              show: true,
-              name: {
-                show: true,
-                fontSize: '16px',
-                fontWeight: 800,
-                color: '#FFFFFF'
-              },
-              value: {
-                show: true,
-                fontSize: '16px',
-                fontWeight: 400,
-                color: '#FFFFFF'
-              }
-            }
-          }
-        }
-      },
-      stroke: {
-        show: true,
-        width: 5,
-        colors: ['']
-      },
-      legend: {
-        show: true,
-        position: 'right',
-        verticalAlign: 'middle',
-        floating: false,
-        fontSize: '14px',
-        labels: {
-          useSeriesColors: false,
-          colors:  '#FFFFFF',
-        }
-      }
-    };
-    
-    
-    this.expenseDonutChartOptions = {
-      series: [100],
-      chart: {
-        type: "donut",
-        width: '300px',
-        height: '300px'
-      },
-      labels: ['No Operations'],
-      colors: [
-        '#2E6F9E',
-        '#3C8CBB',
-        '#4DA3D7',
-        '#5BB7E3',
-        '#69C6E9',
-        '#77D6F0',
-        '#85E1F7',
-        '#93EBFF',
-        '#A1E6FF',
-        '#B3F1FF',
-        '#C4F5FF',
-        '#D1FAFF',
-        '#E0FDFF',
-        '#E8FFFF',
-        '#F0FFFF',
-        '#F6FFFF',
-        '#D8E6E6'
-      ],
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: '200px',
-            },
-            legend: {
-              position: "bottom"
-            }
-          }
-        }
-      ],
-      dataLabels: {
-        enabled: true,
-        formatter: (val: number, opts: any) => {
-          const total = opts.w.globals.seriesTotals.reduce((a: number, b: number) => a + b, 0);
-          const percentage = ((val / total) * 100).toFixed(2);
-          return `${percentage}%`;
-        },
-        dropShadow: {
-          enabled: true,
-          top: 1,
-          left: 1,
-          blur: 3,
-          opacity: 0.5
-        },
-        style: {
-          fontSize: '12px',
-          fontWeight: 'bold',
-          colors: ['#FFFFFF']
-        }
-      },
-      plotOptions: {
-        pie: {
-          donut: {
-            size: '70%',
-            labels: {
-              show: true,
-              name: {
-                show: true,
-                fontSize: '16px',
-                fontWeight: 800,
-                color: '#FFFFFF'
-              },
-              value: {
-                show: true,
-                fontSize: '16px',
-                fontWeight: 400,
-                color: '#FFFFFF'
-              }
-            }
-          }
-        }
-      },
-      stroke: {
-        show: true,
-        width: 5,
-        colors: ['']
-      },
-      legend: {
-        show: true,
-        position: 'right', // Position the legend to the right
-        verticalAlign: 'middle',
-        floating: false,
-        fontSize: '14px',
-        labels: {
-          useSeriesColors: false, // Use the colors specified above
-          colors:  '#FFFFFF',
-        }
-      }
-    };
-    
-  }    
+  }
 
   async ngOnInit(): Promise<void> {
     try {
@@ -286,33 +87,51 @@ export class DashboardComponent implements OnInit, OnDestroy {
     await this.getReportHistory();
     if (this.reportSet && this.reportSet.length > 0) {
       this.transformData(this.reportSet);
-  
+
       if (this.areaChart) {
         this.areaChart.destroy();
       }
-  
+
       this.initChart();
 
-      
+
     } else {
       console.error('No data available for the chart.');
     }
 
     await this.getOperationCategoryReportPerVault();
-    this.loadExpenseDonutChart();
-    this.loadRevenueDonutChart();
   }
 
   async getOperationCategoryReportPerVault() {
     try {
-      this.categoryReport = await firstValueFrom(this.operationControllerService.getOperationCategoryReportPerVault({ id : this.selected?.id!}));
-      this.loadRevenueDonutChart();
-      this.loadExpenseDonutChart();
+      this.categoryReport = await firstValueFrom(this.operationControllerService.getOperationCategoryReportPerVault({ id: this.selected?.id! }));
+
+      this.expenseData = this.categoryReport!['EXPENSE'].map(entry => ({
+        name: entry.categoryDTO?.categoryName,
+        percentage: entry.percentage!
+      }))
+
+      this.revenueData = this.categoryReport!['REVENUE'].map(entry => ({
+        name: entry.categoryDTO?.categoryName,
+        percentage: entry.percentage!
+      }));
+
+      this.categoryMagazine = {
+        revenue: {
+          revCategory: this.revenueData.map(entry => entry.name!),
+          revPercent: this.revenueData.map(entry => entry.percentage),
+        },
+        expense: {
+          expCategory: this.expenseData.map(entry => entry.name!),
+          expPercent: this.expenseData.map(entry => entry.percentage),
+        },
+      };
+
     } catch (error) {
       console.log("Operazioni Non Disponibili");
     }
   }
-  
+
   async getVaultsByPrincipal() {
     try {
       this.vaults = await firstValueFrom(this.vaultControllerService.getAllVaultsByPrincipal());
@@ -332,7 +151,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   async getOperationsByVault() {
     try {
-      this.operations = await firstValueFrom(this.operationControllerService.getAllOperationsByVaultId({ id : this.selected?.id!}));
+      this.operations = await firstValueFrom(this.operationControllerService.getAllOperationsByVaultId({ id: this.selected?.id! }));
     } catch (error) {
       console.log("Operazioni Non Disponibili");
     }
@@ -449,9 +268,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
 
     this.areaChart = new ApexCharts(document.querySelector("#areaChart") as HTMLElement, options);
-    try{
+    try {
       this.areaChart.render();
-    }catch(error){
+    } catch (error) {
       console.log
     }
   }
@@ -469,46 +288,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  isExpense(operation : OperationDto) : boolean{
+  isExpense(operation: OperationDto): boolean {
     return operation.type == 'EXPENSE'
   }
 
-  loadExpenseDonutChart(){
-    const expenseData = this.categoryReport!['EXPENSE'].map(entry => ({
-      name: entry.categoryDTO?.categoryName,
-      percentage: entry.percentage!
-    }));
-    
-    this.expenseDonutChartOptions.labels = expenseData.map(data => data.name);
-    this.expenseDonutChartOptions.series = expenseData.map(data => data.percentage);
 
-    // if(!this.expDonutChartUp()){
-    //   this.expenseDonutChartOptions.series = this.dummyOperationSeries;
-    //   this.expenseDonutChartOptions.labels = this.dummyOperationLabel;
-    // }
+  expDonutChartUp() {
+    return (this.categoryMagazine?.expense.expCategory.length! > 0 && this.categoryMagazine?.expense.expPercent.length! > 0);
   }
 
-  loadRevenueDonutChart(){
-    this.revenueData = this.categoryReport!['REVENUE'].map(entry => ({
-      name: entry.categoryDTO?.categoryName,
-      percentage: entry.percentage!
-    }));
-    
-    this.revenueDonutChartOptions.labels = this.revenueData.map(data => data.name);
-    this.revenueDonutChartOptions.series = this.revenueData.map(data => data.percentage);
-
-    // if(!this.revDonutChartUp()){
-    //   this.revenueDonutChartOptions.series = this.dummyOperationSeries;
-    //   this.revenueDonutChartOptions.labels = this.dummyOperationLabel;
-    // }
-  }
-
-  expDonutChartUp(){
-    return (this.expenseDonutChartOptions.labels.length > 0 && this.expenseDonutChartOptions.series!.length > 0);
-  }
-
-  revDonutChartUp(){
-    return (this.revenueDonutChartOptions!.labels.length > 0 && this.revenueDonutChartOptions.series!.length > 0);
+  revDonutChartUp() {
+    return (this.categoryMagazine?.revenue.revCategory.length! > 0 && this.categoryMagazine?.revenue.revPercent.length! > 0);
   }
 
 }
