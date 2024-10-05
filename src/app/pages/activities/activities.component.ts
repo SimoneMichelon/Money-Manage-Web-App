@@ -63,7 +63,7 @@ export class ActivitiesComponent implements OnInit {
          this.operations = response;
       },
       error: () => {
-        this.authService.logout();
+        // this.authService.logout();
       }
     });
   }
@@ -190,7 +190,7 @@ export class ActivitiesComponent implements OnInit {
       this.operations = await firstValueFrom(this.operationControllerService.getAllOperationsByVaultId({ id : this.selected?.id!}));
     } catch (error) {
       console.log("Operazioni Non Disponibili");
-      this.authService.logout();
+      // this.authService.logout();
     }
   }
 
