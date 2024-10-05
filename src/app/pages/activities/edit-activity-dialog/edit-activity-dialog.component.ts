@@ -1,8 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CategoryDto, ExpenseDto, OperationDto, RevenueDto, ThirdPartyDto, UserDto, VaultDto } from '../../../api/models';
 import { CategoryControllerService, ExpenseControllerService, RevenueControllerService, ThirdPartyControllerService, VaultControllerService } from '../../../api/services';
+import { CategoryDialogComponent } from '../../../components/category-dialog/category-dialog.component';
+import { ThirdPartyDialogComponent } from '../../../components/third-party-dialog/third-party-dialog.component';
 
 @Component({
   selector: 'app-edit-activity-dialog',
@@ -17,18 +19,18 @@ export class EditActivityDialogComponent implements OnInit {
     private vaultControllerService: VaultControllerService,
     private thirdPartyControllerService: ThirdPartyControllerService,
     private categoryControllerService: CategoryControllerService,
-    private dialogRef: MatDialogRef<EditActivityDialogComponent>
+    private dialogRef: MatDialogRef<EditActivityDialogComponent>,
+    private dialog: MatDialog
   ) { }
 
   activityForm!: FormGroup;
   principal!: UserDto;
   operation!: OperationDto;
-
   categories!: Array<CategoryDto>;
   thirdParties!: Array<ThirdPartyDto>;
   vaults!: Array<VaultDto>;
   operationTypes: Array<string> = ['REVENUE', 'EXPENSE'];
-
+  endDateCopy : boolean = false;
   data: any = inject<number>(MAT_DIALOG_DATA);
 
   ngOnInit(): void {
@@ -144,5 +146,49 @@ export class EditActivityDialogComponent implements OnInit {
         })
       }
     }
+  }
+
+  openCategoryDialog(){
+    this.dialog.open(CategoryDialogComponent, {
+      width : "auto",
+      height : "auto",
+    }).afterClosed().subscribe({
+      next : () => {
+        this.getCategories();
+      }
+    })
+  }
+
+  openThirdPartyDialog(){
+    this.dialog.open(ThirdPartyDialogComponent, {
+      width : "auto",
+      height : "auto"
+    }).afterClosed().subscribe({
+      next : () => {
+        this.getThirdParties();
+      }
+    })
+  }
+
+  copyStartDate(){
+    this.endDateCopy = !this.endDateCopy;
+
+    if(this.activityForm.value.startDate != this.activityForm.value.endDate || this.endDateCopy ){
+      this.endDateCopy = true;
+
+      this.activityForm.patchValue({
+        endDate: this.activityForm.value.startDate
+      });
+    }
+    else {
+      this.activityForm.patchValue({
+        endDate:''
+      });
+    }
+    
+  }
+
+  dateValid(){
+    return this.activityForm.value.startDate != '';
   }
 }

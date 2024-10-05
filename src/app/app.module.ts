@@ -1,9 +1,16 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { NgApexchartsModule } from "ng-apexcharts";
+
+
+
 
 
 import {
@@ -25,10 +32,15 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { RouterOutlet } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CategoryDialogComponent } from './components/category-dialog/category-dialog.component';
 import { LogoutDialogComponent } from './components/logout-dialog/logout-dialog.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { SideNavComponent } from './components/sidenav/sidenav.component';
+import { ThirdPartyDialogComponent } from './components/third-party-dialog/third-party-dialog.component';
 import { ActivitiesComponent } from './pages/activities/activities.component';
+import { ActivityDialogComponent } from './pages/activities/activity-dialog/activity-dialog.component';
+import { DeleteActivityDialogComponent } from './pages/activities/delete-activity-dialog/delete-activity-dialog.component';
+import { EditActivityDialogComponent } from './pages/activities/edit-activity-dialog/edit-activity-dialog.component';
 import { AuthenticationComponent } from './pages/authentication/authentication.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
@@ -39,9 +51,6 @@ import { EditVaultDialogComponent } from './pages/vaults/edit-vault-dialog/edit-
 import { VaultDialogComponent } from './pages/vaults/vault-dialog/vault-dialog.component';
 import { VaultsComponent } from './pages/vaults/vaults.component';
 import { headersInterceptor } from './security/headers.interceptor';
-import { DeleteActivityDialogComponent } from './pages/activities/delete-activity-dialog/delete-activity-dialog.component';
-import { EditActivityDialogComponent } from './pages/activities/edit-activity-dialog/edit-activity-dialog.component';
-import { ActivityDialogComponent } from './pages/activities/activity-dialog/activity-dialog.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +71,8 @@ import { ActivityDialogComponent } from './pages/activities/activity-dialog/acti
     DeleteActivityDialogComponent,
     EditActivityDialogComponent,
     ActivityDialogComponent,
+    CategoryDialogComponent,
+    ThirdPartyDialogComponent
     
   ],
   imports: [
@@ -81,9 +92,14 @@ import { ActivityDialogComponent } from './pages/activities/activity-dialog/acti
     MatTableModule,
     MatPaginatorModule,
     MatSort,
-    MatSortModule
+    MatSortModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    NgApexchartsModule
   ],
   providers: [provideHttpClient(withInterceptors([headersInterceptor])), provideAnimationsAsync()],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class AppModule {}

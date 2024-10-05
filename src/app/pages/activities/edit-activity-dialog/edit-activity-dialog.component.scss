@@ -127,6 +127,18 @@ input[type=number]::-webkit-outer-spin-button {
                     color: #ffffff; 
                 }
 
+                .header{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    i{
+                        color: #1B82DE;
+                        font-size: 20px;
+                        cursor: pointer;
+                    }
+                }
+
                 label{
                     color: #828B98;
                     font-size: 12px;

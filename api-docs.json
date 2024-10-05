@@ -794,6 +794,31 @@
         }
       }
     },
+    "/api/vault-management/vaults/report": {
+      "get": {
+        "tags": [
+          "vault-controller"
+        ],
+        "summary": "Get vaults Report",
+        "description": "Get vaults Report",
+        "operationId": "getVaultsReport",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VaultSummary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/user-management/users/{id}": {
       "get": {
         "tags": [
@@ -1036,6 +1061,81 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/RevenueDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/operation-management/report/vault/{id}": {
+      "get": {
+        "tags": [
+          "operation-controller"
+        ],
+        "summary": "Get the vault report",
+        "description": "Get the vault report",
+        "operationId": "getVaultHistoryReport",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PriceHistoryObj"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/operation-management/report/category/vault/{id}": {
+      "get": {
+        "tags": [
+          "operation-controller"
+        ],
+        "summary": "Get the category report on vault id",
+        "description": "Get the category report on vault id",
+        "operationId": "getOperationCategoryReportPerVault",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/CategoryReportDTO"
+                    }
                   }
                 }
               }
@@ -1500,6 +1600,47 @@
           },
           "password": {
             "type": "string"
+          }
+        }
+      },
+      "VaultSummary": {
+        "type": "object",
+        "properties": {
+          "vaultId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "balance": {
+            "type": "number"
+          },
+          "totalExpenses": {
+            "type": "number"
+          },
+          "totalRevenue": {
+            "type": "number"
+          }
+        }
+      },
+      "PriceHistoryObj": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "capital": {
+            "type": "number"
+          }
+        }
+      },
+      "CategoryReportDTO": {
+        "type": "object",
+        "properties": {
+          "categoryDTO": {
+            "$ref": "#/components/schemas/CategoryDTO"
+          },
+          "percentage": {
+            "type": "number"
           }
         }
       },

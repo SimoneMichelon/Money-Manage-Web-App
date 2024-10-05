@@ -1,4 +1,4 @@
-<div class="main" *ngIf="activityForm">
+<div class="main unselectable" *ngIf="activityForm">
     <form [formGroup]="activityForm" (submit)="editActivity()" class="form" autocomplete="off">
         <div class="body">
             <div class="first-column">
@@ -28,7 +28,10 @@
                 </div>
 
                 <div class="full-input end-date" for="dob">
-                  <label for="end-date" class="label">End Date</label>
+                  <div class="header">
+                    <label for="end-date" class="label">End Date</label>
+                    <i class="material-symbols-outlined active" (click)="copyStartDate()" *ngIf="dateValid()">place_item</i>
+                  </div>
                   <div class="inner-div">
                   <input class="input-style date-picker" id="end-date" matInput formControlName="endDate" type="date" >
                   </div>
@@ -43,14 +46,20 @@
               </div>
               
               <div class="category full-input">
-                <label for="category">Category</label>
+                <div class="header">
+                  <label for="category">Category</label>
+                  <i class="material-symbols-outlined" (click)="openCategoryDialog()">add</i>
+                </div>
                 <select id="category" class="input-style" formControlName="category">
                   <option *ngFor="let category of categories" [ngValue]="category">{{category.categoryName}}</option>
                 </select>
               </div>
               
               <div class="thirdPartys full-input">
-                <label for="thirdParty">Third Party</label>
+                <div class="header">
+                  <label for="thirdParty">Third Party</label>
+                  <i class="material-symbols-outlined" (click)="openThirdPartyDialog()">add</i>
+                </div>
                 <select id="thirdParty" class="input-style" formControlName="thirdParty">
                   <option *ngFor="let thirdParty of thirdParties" [ngValue]="thirdParty">{{thirdParty.thirdPartyName}}</option>
                 </select>
