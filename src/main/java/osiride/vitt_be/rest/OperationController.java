@@ -1,6 +1,7 @@
 package osiride.vitt_be.rest;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,10 @@ import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.service.AuthService;
 import osiride.vitt_be.service.OperationService;
+import osiride.vitt_be.utils.CategoryReportDTO;
 import osiride.vitt_be.utils.OperationDTO;
+import osiride.vitt_be.utils.PriceHistoryObj;
+import osiride.vitt_be.utils.TransactionType;
 
 @Slf4j
 @RestController
@@ -103,4 +107,50 @@ public class OperationController {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}
+	
+	@Operation(summary = "Get the vault report", description = "Get the vault report")
+	@GetMapping(value = "/report/vault/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<PriceHistoryObj>> getVaultHistoryReport(@PathVariable Long id){
+		try {
+			List<PriceHistoryObj> result = operationService.getOperationHistoryReport(id);
+			log.info("REST - Report list size : {} - REPORT", (result.size()));
+			return ResponseEntity.status(HttpStatus.OK).body(result);
+		} catch (BadRequestException e) {
+			log.error("REST - Bad information given - REPORT");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException e) {
+			log.error("REST - User NOT found - REPORT");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - REPORT");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch (NotAuthorizedException e) {
+			log.error("REST - Not Authorized  -  REPORT");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+	}
+	
+	
+	@Operation(summary = "Get the category report on vault id", description = "Get the category report on vault id")
+	@GetMapping(value = "/report/category/vault/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<TransactionType,List<CategoryReportDTO>>> getOperationCategoryReportPerVault(@PathVariable Long id){
+		try {
+			Map<TransactionType,List<CategoryReportDTO>> result = operationService.getOperationCategoryReportPerVault(id);
+			log.info("REST - Report list size : {} - CATEGORY REPORT", (result.size()));
+			return ResponseEntity.status(HttpStatus.OK).body(result);
+		} catch (BadRequestException e) {
+			log.error("REST - Bad information given - CATEGORY REPORT");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException e) {
+			log.error("REST - User NOT found - CATEGORY REPORT");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - CATEGORY REPORT");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch (NotAuthorizedException e) {
+			log.error("REST - Not Authorized  - CATEGORY REPORT");
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+	}
+	
 }

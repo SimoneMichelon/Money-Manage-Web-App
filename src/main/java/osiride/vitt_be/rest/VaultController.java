@@ -26,6 +26,7 @@ import osiride.vitt_be.error.NotAuthorizedException;
 import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.service.AuthService;
 import osiride.vitt_be.service.VaultService;
+import osiride.vitt_be.utils.VaultSummary;
 
 @Slf4j
 @RestController
@@ -107,6 +108,28 @@ public class VaultController {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
+	
+	
+	@Operation(summary = "Get vaults Report", description = "Get vaults Report")
+	@GetMapping(value = "/vaults/report" , produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<VaultSummary> > getVaultsReport(){
+		try {
+			List<VaultSummary>  result = vaultService.getPrincipalVaultReport();
+			log.info("REST - Vault's list size : {} - REPORT");
+			return ResponseEntity.status(HttpStatus.OK).body(result);
+		} catch (BadRequestException e) {
+			log.error("REST - Bad information given - REPORT");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException e) {
+			log.error("REST - User NOT found - REPORT");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (InvalidTokenException e) {
+			log.error("REST - Invalid Token - REPORT");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
+	
 
 
 	@Operation(summary = "Find vault by id - ADMIN / GUEST", description = "Find vault by id")

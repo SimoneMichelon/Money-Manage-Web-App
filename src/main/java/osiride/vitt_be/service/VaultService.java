@@ -1,6 +1,7 @@
 package osiride.vitt_be.service;
 
 import java.sql.SQLException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ import osiride.vitt_be.error.NotFoundException;
 import osiride.vitt_be.mapper.UserMapper;
 import osiride.vitt_be.mapper.VaultMapper;
 import osiride.vitt_be.repository.VaultRepository;
+import osiride.vitt_be.utils.VaultSummary;
 
 @Slf4j
 @Service
@@ -174,8 +176,7 @@ public class VaultService {
 			try {		
 				newVault= vaultRepository.save(newVault);
 			} catch (Exception e) {
-				e.printStackTrace();
-				log.error("SERVICE - Dupicated Vault Name - UPDATE");
+				log.error("SERVICE - Duplicated Vault Name - UPDATE");
 				throw new DuplicatedValueException();
 			}
 
@@ -265,7 +266,7 @@ public class VaultService {
 		}
 
 		List<VaultDTO> vaultList = 
-				vaultRepository.getAllByUser(userMapper.toEntity(user))
+				vaultRepository.getAllByUser(user.getId())
 				.stream()
 				.map(vault -> vaultMapper.toDto(vault))
 				.toList();
@@ -276,10 +277,15 @@ public class VaultService {
 		UserDTO user = authService.getPrincipal();
 
 		List<VaultDTO> vaultList = 
-				vaultRepository.getAllByUser(userMapper.toEntity(user))
+				vaultRepository.getAllByUser(user.getId())
 				.stream()
 				.map(vault -> vaultMapper.toDto(vault))
-				.toList();
+				.toList().stream()
+			    .sorted(Comparator.comparing(VaultDTO::getCapital).reversed())
+			    .toList();
+
+
+		
 		return vaultList;
 	}
 
@@ -326,7 +332,27 @@ public class VaultService {
 		}
 		return false;
 	}
-
+	
+	/**
+	 * Retrieves the vault report summary for the currently authenticated user.
+	 * 
+	 * This method interacts with the authentication service to fetch the principal (authenticated user),
+	 * then queries the vault repository to get the vault report associated with the user's ID.
+	 * 
+	 * @return VaultSummary - A summary report containing details about the user's vaults.
+	 * 
+	 * @throws BadRequestException if the request is malformed or contains invalid parameters.
+	 * @throws InvalidTokenException if the user's authentication token is invalid or expired.
+	 * @throws NotFoundException if no vault report is found for the given user.
+	 */
+	public List<VaultSummary>  getPrincipalVaultReport() throws BadRequestException, InvalidTokenException, NotFoundException {
+		
+		UserDTO principal = authService.getPrincipal();
+		
+		List<VaultSummary> summary =  vaultRepository.getVaultsReport(principal.getId());
+		return summary;
+	}
+	
 
 	/**
 	 * Retrieves all VaultDTO objects for the currently authenticated principal user.
@@ -346,6 +372,7 @@ public class VaultService {
 				? false 
 						: true;
 	}
+
 
 	/**
 	 * Checks if the given user is the owner of the given vault.
