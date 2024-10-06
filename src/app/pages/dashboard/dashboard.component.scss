@@ -490,24 +490,30 @@ h3 {
         }
 
         .cake {
-            padding: 20px 20px 50px 20px;
+            padding: 20px 20px 80px 20px;
             grid-area: 5 / 1 / 7 / 7;
             background-color: #282A37;
             border-radius: 8px;
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
-            width: auto;
+            // justify-content: space-between;
+            // width: auto;
             height: 100%;
 
+            .expense{
+                width: 70%;
+            }
+            .revenue{
+                width: 30%;
 
+            }
             .wrp {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
                 height: 100%;
-                width: 100%;
+                // width: 100%;
                 gap: 20px;
 
                 .title-graphs {
@@ -555,7 +561,8 @@ h3 {
                             width: 100%;
                             height: 100%;
                             display: flex;
-                            
+
+
                             .grid {
                                 position: relative;
                                 width: 100%;
@@ -567,7 +574,8 @@ h3 {
                                 
                                 padding: 0 10px;
                                 // border-bottom: 2px solid #ffffff8c;
-                                gap: 30px;
+                                // justify-content: space-between;
+                                gap: 3%;
                                 
 
                                 .item {
@@ -588,9 +596,14 @@ h3 {
 
                                     p {
                                         color: white;
+                                        font-size: 10px;
                                     }
                                 }
 
+                            }
+
+                            .rev-grid{
+                             gap:10%   ;
                             }
                         }
 

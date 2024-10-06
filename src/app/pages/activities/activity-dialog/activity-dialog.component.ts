@@ -130,7 +130,9 @@ export class ActivityDialogComponent implements OnInit{
       this.revenueControllerService.createRevenue({body : data}).subscribe({
         next : (response) => {
           console.log("Revenue Created !");
-          this.dialogRef.close();
+          this.activityForm.reset({
+            isProgrammed : false
+          });
         },
         error : (error) => {
           console.log("Error : ", error);
@@ -141,7 +143,9 @@ export class ActivityDialogComponent implements OnInit{
       this.expenseControllerService.createExpense({body : data}).subscribe({
         next : (response) => {
           console.log("Expense Created !");
-          this.dialogRef.close(); 
+          this.activityForm.reset({
+            isProgrammed : false
+          });
         },
         error : (error) => {
           console.log("Error : ", error);

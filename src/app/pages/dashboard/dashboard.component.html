@@ -122,22 +122,22 @@
         </div>
 
         <div class="cake unselectable">
-            <div class="wrp">
+            <div class="wrp revenue">
                 <div class="title-graphs">
                     <h1 >Incomes Categories</h1>
                 </div>
 
-                <div id="donutChart" class="revenue wrp-1">
+                <div id="donutChart" class="wrp-1">
                     <div class="columns" *ngIf="revDonutChartUp(); else no_data_rev">
                         <div class="wrp-2">
-                            <div class="grid">
+                            <div class="grid rev-grid">
                                 <div class="item" *ngFor="let item of revenueData" [ngStyle]="{
                                     'background': 'linear-gradient(to top, #146fbe ' + item.percentage + '%, transparent ' + item.percentage + '%)'
                                     }">
                                     <p class="label" [ngStyle]="{'bottom': 'calc(' + item.percentage + '%)'}">{{
                                         item.percentage + '%' }}</p>
 
-                                    <p class="label" [ngStyle]="{'bottom': '-40px'}">{{ item.name}}</p>
+                                    <p class="label" [ngStyle]="{'bottom': '-80px'}">{{ item.name}}</p>
                                 </div>    
                             </div>               
                             <div class="container">
@@ -166,12 +166,12 @@
 
             <div class="divider"></div>
 
-            <div class="wrp">
+            <div class="wrp expense">
                 <div class="title-graphs">
                     <h1>OutComes Categories</h1>
                 </div>
 
-                <div id="donutChart" class="revenue wrp-1">
+                <div id="donutChart" class="wrp-1">
                     <div class="columns" *ngIf="expDonutChartUp(); else no_data_exp">
                         <div class="wrp-2">
                             <div class="grid">
@@ -181,7 +181,7 @@
                                     <p class="label" [ngStyle]="{'bottom': 'calc(' + item.percentage + '%)'}">{{
                                         item.percentage + '%' }}</p>
 
-                                    <p class="label" [ngStyle]="{'bottom': '-40px'}">{{ item.name}}</p>
+                                    <p class="label" [ngStyle]="{'bottom': '-80px'}">{{ item.name}}</p>
                                 </div>    
                             </div>               
                             <div class="container">

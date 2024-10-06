@@ -132,6 +132,7 @@ export class ActivitiesComponent implements OnInit {
      next : () => {
       // this.getOperationsByPrincipal();
       this.getOperationsByVault();
+      this.getVaultsByPrincipal();
       }
     });
   }
@@ -145,6 +146,7 @@ export class ActivitiesComponent implements OnInit {
      next : () => {
       // this.getOperationsByPrincipal();
       this.getOperationsByVault();
+      this.getVaultsByPrincipal();
       }
     });
   }
@@ -157,6 +159,8 @@ export class ActivitiesComponent implements OnInit {
       next : () => {
         // this.getOperationsByPrincipal();
         this.getOperationsByVault();
+        this.getVaultsByPrincipal();
+
       }
     })
   }

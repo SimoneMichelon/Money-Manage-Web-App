@@ -212,7 +212,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         type: 'area',
         stacked: false,
         height: '100%',
-        zoom: { type: 'x', enabled: false, autoScaleYaxis: true },
+        zoom: { type: 'x', enabled: true, autoScaleYaxis: true },
         toolbar: { autoSelected: 'zoom' },
       },
       series: [{ name: "Capital", data: dates, color: '#2575BB' }],
