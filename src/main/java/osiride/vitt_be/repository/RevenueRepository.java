@@ -31,7 +31,8 @@ public interface RevenueRepository extends JpaRepository<Revenue, Long> {
 		     + "Round((Sum(r.amount) / (SELECT Sum(amount) FROM revenue WHERE vault.id = :vaultId)) * 100, 2)) "
 		     + "FROM revenue r "
 		     + "WHERE r.vault.id = :vaultId "
-		     + "GROUP BY r.category.id")
+		     + "GROUP BY r.category.id "
+		     + "ORDER BY Round((Sum(r.amount) / (SELECT Sum(amount) FROM revenue WHERE vault.id = :vaultId)) * 100, 2) DESC")
 	List<CategoryReport> getRevenuesCategoryReports(Long vaultId);
  
 }

@@ -26,7 +26,9 @@ public interface ExpenseRepository  extends JpaRepository<Expense, Long>{
 		     + "Round((Sum(e.amount) / (SELECT Sum(amount) FROM expense WHERE vault.id = :vaultId)) * 100, 2)) "
 		     + "FROM expense e "
 		     + "WHERE e.vault.id = :vaultId "
-		     + "GROUP BY e.category.id")
+		     + "GROUP BY e.category.id "
+		     + "ORDER BY Round((Sum(e.amount) / (SELECT Sum(amount) FROM expense WHERE vault.id = :vaultId)) * 100, 2) DESC")
+
 	List<CategoryReport> getExpensesCategoryReports(Long vaultId);
 
 }
