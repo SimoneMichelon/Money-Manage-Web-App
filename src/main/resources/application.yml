@@ -23,4 +23,3 @@ logging:
     root: INFO
     osiride.vitt-be: DEBUG
     org.springframework.web: ERROR
-    

@@ -39,7 +39,7 @@ public class InitialDataLoader implements CommandLineRunner {
             user.setDob(LocalDate.now());
             user.setFirstName("Andrew");
             user.setLastName("Tate");
-            user.setImgProfile("https://helios-i.mashable.com/imagery/articles/05FGedh5lrTEqieVV4BAD6W/hero-image.fill.size_1200x1200.v1670677576.jpg");
+            user.setImgProfile("https://img.favpng.com/10/24/6/user-profile-instagram-computer-icons-png-favpng-rzQf3Y9u65VmEgArYxVb3Dd7H.jpg");
             user.setRole(Role.ADMIN);
             credential.setUser(user);
             userRepository.save(user);
