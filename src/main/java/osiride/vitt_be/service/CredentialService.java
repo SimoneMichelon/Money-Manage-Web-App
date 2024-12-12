@@ -49,7 +49,7 @@ public class CredentialService {
 			throw new BadRequestException();
 		}
 		
-		if(credentialRepository.existsByEmail(email)) {
+		if(credentialRepository.existsByEmail(email) == 1) {
 			return true;
 		}
 		return false;

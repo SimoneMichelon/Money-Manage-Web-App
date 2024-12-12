@@ -138,7 +138,7 @@ public class UserService {
 		}
 
 		User user = userMapper.toEntity(userDTO);
-		user.setImgProfile("https://www.svgrepo.com/show/408476/user-person-profile-block-account-circle.svg");
+		user.setImgProfile("https://img.favpng.com/10/24/6/user-profile-instagram-computer-icons-png-favpng-rzQf3Y9u65VmEgArYxVb3Dd7H.jpg");
 		user.setId(null);
 		user.setRole(Role.GUEST);
 		return userMapper.toDto(userRepository.save(user));

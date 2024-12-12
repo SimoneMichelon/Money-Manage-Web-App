@@ -17,5 +17,5 @@ public interface CredentialRepository extends JpaRepository<Credential,Long>{
 	@Query(value = "Select count(*)"
 			+ "FROM credential c "
 			+ "where email LIKE :email ")
-	boolean existsByEmail(String email);
+	int existsByEmail(String email);
 }
