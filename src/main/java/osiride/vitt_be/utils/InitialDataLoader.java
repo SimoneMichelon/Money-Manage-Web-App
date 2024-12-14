@@ -1,7 +1,8 @@
 package osiride.vitt_be.utils;
 
-import java.time.LocalDate;
-
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,41 +11,86 @@ import org.springframework.stereotype.Component;
 import lombok.extern.slf4j.Slf4j;
 import osiride.vitt_be.constant.Role;
 import osiride.vitt_be.domain.Credential;
+import osiride.vitt_be.domain.Expense;
+import osiride.vitt_be.domain.Revenue;
 import osiride.vitt_be.domain.User;
+import osiride.vitt_be.domain.Vault;
 import osiride.vitt_be.repository.CredentialRepository;
+import osiride.vitt_be.repository.ExpenseRepository;
+import osiride.vitt_be.repository.RevenueRepository;
 import osiride.vitt_be.repository.UserRepository;
+import osiride.vitt_be.repository.VaultRepository;
 
 @Slf4j
 @Component
 public class InitialDataLoader implements CommandLineRunner {
 
-    @Autowired
-    private CredentialRepository credentialRepository;
+	@Autowired
+	private PasswordEncoder passwordEncoder; 
 
-    @Autowired
-    private PasswordEncoder passwordEncoder; 
-    
-    @Autowired
-    private UserRepository userRepository;
+	@Autowired
+	private CredentialRepository credentialRepository;
 
-    @Override
-    public void run(String... args) throws Exception {
-        if (!userRepository.existsByRole(Role.ADMIN)) {
-        	
-            Credential credential = new Credential();
-            credential.setEmail("admin@admin.com");
-            credential.setPassword(passwordEncoder.encode("admin1234"));
-            
-            User user = new User();
-            user.setDob(LocalDate.now());
-            user.setFirstName("Andrew");
-            user.setLastName("Tate");
-            user.setImgProfile("https://img.favpng.com/10/24/6/user-profile-instagram-computer-icons-png-favpng-rzQf3Y9u65VmEgArYxVb3Dd7H.jpg");
-            user.setRole(Role.ADMIN);
-            credential.setUser(user);
-            userRepository.save(user);
-            credentialRepository.save(credential);
-            log.info("COMPONENT - Admin load complete !!! ");
-        }
-    }
+	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired 
+	private RevenueRepository revenueRepository;
+
+	@Autowired 
+	private ExpenseRepository expenseRepository;
+
+	@Autowired
+	private VaultRepository vaultRepository;
+
+
+	@Override
+	public void run(String... args) throws Exception {
+		loadDefaultUserAdmin();
+	}
+
+	public void loadDefaultUserAdmin() {
+		if (userRepository.existsByRole(Role.ADMIN)) {
+			Credential credential = new Credential();
+			String password = "admin1234";
+
+			credential.setEmail("admin@admin.com");
+			credential.setPassword(passwordEncoder.encode(password));
+
+			Optional<User> maybeUser = userRepository.findById(1L);
+			if(maybeUser.isPresent()) {
+				credential.setUser(maybeUser.get());
+				credential = credentialRepository.save(credential);
+				
+				loadDefaultVaultsData(credential.getId());
+
+				log.info("INITIAL DATA LOADER - Admin Data load complete");
+			}
+			else {
+				log.error("INITIAL DATA LOADER - Admin load not completed");
+			}
+		}
+	}
+
+	private void loadDefaultVaultsData(Long userId) {
+		List<Vault> vaults = vaultRepository.getAllByUser(userId);
+		
+		for (Vault vault : vaults) {
+			int vaultAmount = 0;
+			
+			List<Revenue> revList = revenueRepository.findByVault(vaultRepository.getReferenceById(vault.getId()));
+			for (Revenue revenue : revList) {
+				vaultAmount += revenue.getAmount().intValue();
+			}
+
+			List<Expense> expList = expenseRepository.findByVault(vaultRepository.getReferenceById(vault.getId()));
+			for (Expense expense : expList) {
+				vaultAmount -= expense.getAmount().intValue();
+			}
+			
+			vault.setCapital(new BigDecimal(vaultAmount));
+			vaultRepository.save(vault);
+		}
+		
+	}
 }
