@@ -112,10 +112,10 @@ const sideNavData = [
     label: 'Profile', 
     iconName: 'account_circle'
   },
-  {
-    routeLink: 'settings',
-    icon: 'material-symbols-outlined',
-    label: 'Settings',
-    iconName: 'settings'
-  }
+  // {
+  //   routeLink: 'settings',
+  //   icon: 'material-symbols-outlined',
+  //   label: 'Settings',
+  //   iconName: 'settings'
+  // }
 ];
