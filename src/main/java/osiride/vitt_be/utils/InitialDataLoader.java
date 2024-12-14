@@ -50,7 +50,7 @@ public class InitialDataLoader implements CommandLineRunner {
 	}
 
 	public void loadDefaultUserAdmin() {
-		if (userRepository.existsByRole(Role.ADMIN)) {
+		if (!userRepository.existsByRole(Role.ADMIN)) {
 			Credential credential = new Credential();
 			String password = "admin1234";
 
@@ -67,7 +67,7 @@ public class InitialDataLoader implements CommandLineRunner {
 				log.info("INITIAL DATA LOADER - Admin Data load complete");
 			}
 			else {
-				log.error("INITIAL DATA LOADER - Admin load not completed");
+				log.error("INITIAL DATA LOADER - Admin already exists");
 			}
 		}
 	}
