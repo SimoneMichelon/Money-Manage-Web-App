@@ -5,6 +5,7 @@ import java.util.Collections;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,16 +20,20 @@ import osiride.vitt_be.service.JwtValidatorService;
 @Configuration
 public class AppConfig {
 	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-		http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-		.authorizeHttpRequests(Authorize -> Authorize.requestMatchers("/api/**")
-				.authenticated()
-				.anyRequest() 
-				.permitAll())
-					.addFilterBefore(new JwtValidatorService(), BasicAuthenticationFilter.class)
-					.csrf(csrf -> csrf.disable())
-					.cors(cors -> cors.configurationSource(corsConfigurationSource()));
-		return http.build();
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	    http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+	        .authorizeHttpRequests(authorize -> authorize
+	                .requestMatchers("/h2-console/**").permitAll()
+	                .requestMatchers("/member/**").permitAll()
+	                .requestMatchers("/api/**").authenticated()
+	                .anyRequest().permitAll()
+	        )
+	        .addFilterBefore(new JwtValidatorService(), BasicAuthenticationFilter.class)
+	        .csrf(csrf -> csrf.disable())
+	        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+	        .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+
+	    return http.build();
 	}
 
 	private CorsConfigurationSource corsConfigurationSource() {
@@ -46,9 +51,9 @@ public class AppConfig {
 			}
 		};
 	}
-	
-	@Bean
-	public PasswordEncoder passwordEncoder() {
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 }

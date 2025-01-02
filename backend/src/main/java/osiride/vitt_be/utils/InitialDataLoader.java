@@ -50,14 +50,14 @@ public class InitialDataLoader implements CommandLineRunner {
 	}
 
 	public void loadDefaultUserAdmin() {
-		if (!userRepository.existsByRole(Role.ADMIN)) {
+		if (userRepository.existsByRole(Role.ADMIN)) {
 			Credential credential = new Credential();
 			String password = "admin1234";
 
 			credential.setEmail("admin@admin.com");
 			credential.setPassword(passwordEncoder.encode(password));
 
-			Optional<User> maybeUser = userRepository.findById(1L);
+			Optional<User> maybeUser = userRepository.findById(99L);
 			if(maybeUser.isPresent()) {
 				credential.setUser(maybeUser.get());
 				credential = credentialRepository.save(credential);

@@ -1,8 +1,8 @@
 -- ADMIN USER
-INSERT INTO user (usr_dob,created_date,last_modified_date,usr_id,usr_frt_name,usr_img_prf,usr_lst_name,usr_role) VALUES ('2000-01-01',NOW(),NOW(),1,'Enrico','https://img.favpng.com/10/24/6/user-profile-instagram-computer-icons-png-favpng-rzQf3Y9u65VmEgArYxVb3Dd7H.jpg','Stucchi','ADMIN');
+INSERT INTO "user" (usr_dob,created_date,last_modified_date,usr_id,usr_frt_name,usr_img_prf,usr_lst_name,usr_role) VALUES ('2000-01-01',NOW(),NOW(),99,'Enrico','https://img.favpng.com/10/24/6/user-profile-instagram-computer-icons-png-favpng-rzQf3Y9u65VmEgArYxVb3Dd7H.jpg','Stucchi','ADMIN');
 -- ADMIN VAULTS
-INSERT INTO vault (vlt_cpt, created_date, last_modified_date, vlt_id, vlt_usr_id, vlt_img, vlt_name) VALUES (0, NOW(), NOW(), 1, 1, 'https://public.bnbstatic.com/20190405/eb2349c3-b2f8-4a93-a286-8f86a62ea9d8.png', 'Binance');
-INSERT INTO vault (vlt_cpt, created_date, last_modified_date, vlt_id, vlt_usr_id, vlt_img, vlt_name) VALUES (0, NOW(), NOW(), 2, 1, 'https://play-lh.googleusercontent.com/aFNf3nI0e4QWdjpIzmLcoBaQesFdV5nigTa1oOdA0ZnsG7F5IM6FRKKRbqXzd7Cxe2df', 'CTrader');
+INSERT INTO vault (vlt_cpt, created_date, last_modified_date, vlt_id, vlt_usr_id, vlt_img, vlt_name) VALUES (0, NOW(), NOW(), 1, 99, 'https://public.bnbstatic.com/20190405/eb2349c3-b2f8-4a93-a286-8f86a62ea9d8.png', 'Binance');
+INSERT INTO vault (vlt_cpt, created_date, last_modified_date, vlt_id, vlt_usr_id, vlt_img, vlt_name) VALUES (0, NOW(), NOW(), 2, 99, 'https://play-lh.googleusercontent.com/aFNf3nI0e4QWdjpIzmLcoBaQesFdV5nigTa1oOdA0ZnsG7F5IM6FRKKRbqXzd7Cxe2df', 'CTrader');
 
 -- CATEGORIES
 INSERT INTO CATEGORY (ctg_id, created_date, last_modified_date, ctg_name) VALUES ('1', NOW(), NOW(), 'Salary');
