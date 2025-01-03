@@ -57,7 +57,7 @@ public class InitialDataLoader implements CommandLineRunner {
 			credential.setEmail("admin@admin.com");
 			credential.setPassword(passwordEncoder.encode(password));
 
-			Optional<User> maybeUser = userRepository.findById(99L);
+			Optional<User> maybeUser = userRepository.findById(1L);
 			if(maybeUser.isPresent()) {
 				credential.setUser(maybeUser.get());
 				credential = credentialRepository.save(credential);
@@ -67,7 +67,7 @@ public class InitialDataLoader implements CommandLineRunner {
 				log.info("INITIAL DATA LOADER - Admin Data load complete");
 			}
 			else {
-				log.error("INITIAL DATA LOADER - Admin already exists");
+				log.error("INITIAL DATA LOADER - Admin does not exists");
 			}
 		}
 	}

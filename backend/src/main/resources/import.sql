@@ -1,8 +1,8 @@
 -- ADMIN USER
-INSERT INTO "user" (usr_dob,created_date,last_modified_date,usr_id,usr_frt_name,usr_img_prf,usr_lst_name,usr_role) VALUES ('2000-01-01',NOW(),NOW(),99,'Enrico','https://img.favpng.com/10/24/6/user-profile-instagram-computer-icons-png-favpng-rzQf3Y9u65VmEgArYxVb3Dd7H.jpg','Stucchi','ADMIN');
+INSERT INTO "user" (usr_dob,created_date,last_modified_date,usr_id,usr_frt_name,usr_img_prf,usr_lst_name,usr_role) VALUES ('2000-01-01',NOW(),NOW(),1,'Enrico','https://img.favpng.com/10/24/6/user-profile-instagram-computer-icons-png-favpng-rzQf3Y9u65VmEgArYxVb3Dd7H.jpg','Stucchi','ADMIN');
 -- ADMIN VAULTS
-INSERT INTO vault (vlt_cpt, created_date, last_modified_date, vlt_id, vlt_usr_id, vlt_img, vlt_name) VALUES (0, NOW(), NOW(), 1, 99, 'https://public.bnbstatic.com/20190405/eb2349c3-b2f8-4a93-a286-8f86a62ea9d8.png', 'Binance');
-INSERT INTO vault (vlt_cpt, created_date, last_modified_date, vlt_id, vlt_usr_id, vlt_img, vlt_name) VALUES (0, NOW(), NOW(), 2, 99, 'https://play-lh.googleusercontent.com/aFNf3nI0e4QWdjpIzmLcoBaQesFdV5nigTa1oOdA0ZnsG7F5IM6FRKKRbqXzd7Cxe2df', 'CTrader');
+INSERT INTO vault (vlt_cpt, created_date, last_modified_date, vlt_id, vlt_usr_id, vlt_img, vlt_name) VALUES (0, NOW(), NOW(), 1, 1, 'https://public.bnbstatic.com/20190405/eb2349c3-b2f8-4a93-a286-8f86a62ea9d8.png', 'Binance');
+INSERT INTO vault (vlt_cpt, created_date, last_modified_date, vlt_id, vlt_usr_id, vlt_img, vlt_name) VALUES (0, NOW(), NOW(), 2, 1, 'https://play-lh.googleusercontent.com/aFNf3nI0e4QWdjpIzmLcoBaQesFdV5nigTa1oOdA0ZnsG7F5IM6FRKKRbqXzd7Cxe2df', 'CTrader');
 
 -- CATEGORIES
 INSERT INTO CATEGORY (ctg_id, created_date, last_modified_date, ctg_name) VALUES ('1', NOW(), NOW(), 'Salary');
@@ -107,3 +107,12 @@ INSERT INTO EXPENSE (opr_amount, opr_end, opr_prg, opr_start, created_date, exp_
 INSERT INTO EXPENSE (opr_amount, opr_end, opr_prg, opr_start, created_date, exp_opr_id, last_modified_date, opr_ctg_id, opr_thp_id, opr_vlt_id, opr_causal) VALUES (60, '2024-10-20', 0, '2024-10-20', NOW(), 43, NOW(), 11, 2, 2, 'Home decor');
 INSERT INTO EXPENSE (opr_amount, opr_end, opr_prg, opr_start, created_date, exp_opr_id, last_modified_date, opr_ctg_id, opr_thp_id, opr_vlt_id, opr_causal) VALUES (35, '2024-11-05', 0, '2024-11-05', NOW(), 44, NOW(), 6, 4, 2, 'Fast food');
 INSERT INTO EXPENSE (opr_amount, opr_end, opr_prg, opr_start, created_date, exp_opr_id, last_modified_date, opr_ctg_id, opr_thp_id, opr_vlt_id, opr_causal) VALUES (95, '2024-11-20', 0, '2024-11-20', NOW(), 45, NOW(), 12, 5, 2, 'Appliance repair');
+
+--RESET AUTO-INCREMENT
+ALTER TABLE "user" 		ALTER COLUMN usr_id 	RESTART WITH (SELECT COUNT(*)+1 FROM "user");
+ALTER TABLE CREDENTIAL 	ALTER COLUMN crd_id 	RESTART WITH (SELECT COUNT(*)+1 FROM CREDENTIAL);
+ALTER TABLE vault 		ALTER COLUMN vlt_id 	RESTART WITH (SELECT COUNT(*)+1 FROM vault);
+ALTER TABLE CATEGORY 	ALTER COLUMN ctg_id 	RESTART WITH (SELECT COUNT(*)+1 FROM CATEGORY);
+ALTER TABLE THIRD_PARTY ALTER COLUMN thp_id 	RESTART WITH (SELECT COUNT(*)+1 FROM THIRD_PARTY);
+ALTER TABLE REVENUE 	ALTER COLUMN rev_opr_id RESTART WITH (SELECT COUNT(*)+1 FROM REVENUE);
+ALTER TABLE EXPENSE 	ALTER COLUMN exp_opr_id RESTART WITH (SELECT COUNT(*)+1 FROM EXPENSE);
