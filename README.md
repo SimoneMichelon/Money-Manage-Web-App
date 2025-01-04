@@ -1,53 +1,53 @@
 # Money Manager Application
 
-**Money Manager Application** è un'applicazione full-stack per la gestione delle finanze personali, sviluppata utilizzando **Spring Boot** per il backend e **Angular** per il frontend. Offre un'interfaccia utente intuitiva per tracciare entrate, spese e gestire categorie personalizzate.
+**Money Manager Application** is a full-stack application for personal finance management, developed using **Spring Boot** for the backend and **Angular** for the frontend. It offers an intuitive user interface to track income, expenses, and manage custom categories. This project is for learning purposes only.
 
 ---
 
-## 🚀 Avvio dell'Applicazione
+## 🚀 Application Startup
 
 ### Backend
-1. Assicurati di avere **Java 17+** e **Maven** installati.
-2. Clona il repository e accedi alla directory del progetto backend:
+1. Make sure you have **Java 17+** and **Maven** installed.
+2. Clone the repository and navigate to the backend project directory:
    ```bash
    git clone https://github.com/SimoneMichelon/Money-Manage-Web-App.git
    cd backend
    ```
-3. Compila ed esegui il progetto Spring Boot:
+3. Build and run the Spring Boot project:
    ```bash
    mvn clean install
    mvn spring-boot:run
    ```
 
 ### Frontend
-1. Accedi alla directory del progetto Angular:
+1. Navigate to the Angular project directory:
    ```bash
    cd frontend
    ```
-2. Installa le dipendenze necessarie:
+2. Install the required dependencies:
    ```bash
    npm install
    npm install ng-apexcharts --legacy-peer-deps
    ```
-3. Avvia il server di sviluppo Angular:
+3. Start the Angular development server:
    ```bash
    ng serve
    ```
-4. Apri il browser all'indirizzo [http://localhost:4200](http://localhost:4200).
+4. Open your browser at [http://localhost:4200](http://localhost:4200).
 
 ---
 
-## 📁 Struttura del Progetto
+## 📁 Project Structure
 
 ```plaintext
 Money Manager Application/
-├── backend/      # Progetto Spring Boot
-└── frontend/     # Progetto Angular
+├── backend/      # Spring Boot project
+└── frontend/     # Angular project
 ```
 
 ---
 
-## ⚙️ Prerequisiti
+## ⚙️ Prerequisites
 
 ### Backend
 - **Java 17+**
@@ -59,32 +59,20 @@ Money Manager Application/
 
 ---
 
-## 📦 Tecnologie Utilizzate
+## 📦 Technologies Used
 
 ### Backend
 - **Spring Boot**
 - **Spring Data JPA**
 - **Spring Security**
-- **MySQL**
+- **Lombok**
+- **H2**
 
 ### Frontend
 - **Angular**
 - **ApexCharts**
 - **TypeScript**
-
+  
 ---
-
-## 🛠️ Contribuzione
-
-Se vuoi contribuire, apri una Pull Request o segnala un problema nella sezione [Issues](<repository-issues-url>).
-
----
-
-## 📄 Licenza
-
-Questo progetto è distribuito sotto la licenza [MIT](<license-url>).
-
----
-
-Buona gestione delle tue finanze! 💸
+Happy managing your finances! 💸
 
