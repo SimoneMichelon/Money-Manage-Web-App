@@ -10,7 +10,7 @@
 1. Assicurati di avere **Java 17+** e **Maven** installati.
 2. Clona il repository e accedi alla directory del progetto backend:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/SimoneMichelon/Money-Manage-Web-App.git
    cd backend
    ```
 3. Compila ed esegui il progetto Spring Boot:
