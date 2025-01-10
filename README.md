@@ -1,6 +1,6 @@
 # Money Manager Application
 
-**Money Manager Application** is a full-stack application for personal finance management, developed using **Spring Boot** for the backend and **Angular** for the frontend. It offers an intuitive user interface to track income, expenses, and manage custom categories. This project is for learning purposes only.
+**Money Manager Application** is a web application for personal finance management, developed using **Spring Boot** for the backend and **Angular** for the frontend. It offers an intuitive user interface to track incomes, expenses, and manage custom categories. **This project is for learning purposes only.**
 
 ---
 
